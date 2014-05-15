@@ -1,0 +1,293 @@
+{% extends 'base-new.html' %}
+{% load thumbnail %}
+{% load queryset %}
+{% block title %}{% if community.name %}{{ community.name|capfirst }} Events{% else %} Events{% endif %}{% endblock %}
+{% block head %}
+    <meta name="robots" content="index, follow">
+    {% if community.name %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    {% else %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    {% endif %}
+
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/events_by_community.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 180px;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        !important;
+        }
+
+        .overmenu {
+            z-index: 10000;
+        }
+    </style>
+{% endblock %}
+
+{% block general-header %}
+    {% if not community %}
+    <header class="tbar"
+            style="height: 60px;background: #414042; border-bottom: 1px solid #ffffff; position: relative;">
+        <a class="logo" href="{% url 'render' "about-us" %}"><img src="{{ STATIC_URL }}community/img/detour_logo.png" alt="detourMaps"/></a>
+
+        <div class="tmenu communities">
+            <h1>Neighborhoods</h1>
+            {% list_community_active %}
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'render' "deals" %}">Deals</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+                <li><a href="http://blog.detourmaps.com" target="_blank">Blog</a></li>
+                <li><a href="{% url 'render' "about-us" %}">About Detour Maps</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-set" name="perfiles">
+            {% if request.session.user %}
+                <a href="" class="overLogin" name="perfiles"><span
+                        class="newLog">{{ request.session.user.username }}</span></a>
+                <ul class="perfiles" id="">
+                    <li><a href="{% url 'accountSettings' %}">Profile</a></li>
+                    <li><a href="{% url 'goodbye' %}">Log Out</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li>
+                        <a class="plus-orange"><img src="{{ STATIC_URL }}community/evolution/icon-orange.png"/> <div>Orange Deals</div><i>+</i></a>
+                    </li>
+                    <li>
+                        <input type="email" placeholder="Enter email and suscribe" class="suscribe-field"/>
+                    </li>
+                    <li>
+                        <a href="{% url 'loginUser' %}" class="account">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'loginUser' %}" class="account">Sign Up</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </header>
+    {% else %}
+    <header class="tbar"
+            style="height: 60px;background: #f5f6f7 url('/static/community/img/fondoDetour.jpg'); border-bottom: 1px solid #bababa; position: relative;">
+        <a class="logo" href="{% url "render" "about-us" %}"><img src="{{ STATIC_URL }}community/img/detourOrange.png" alt="detourMaps"/></a>
+
+        <div class="tmenu communities">
+            <h1>{{ community.name }}</h1>
+            <ul class="menu">
+                {% for c in communities %}
+                    <li><a href="{% url "map" c.url_name %}">{{ c.name }}</a></li>
+                {% endfor %}
+                <li><a href="{% url "bring" %}">Bring Detourmaps to your Neighborhood</a></li>
+            </ul>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'discover' community.url_name %}">Discover</a></li>
+                <li><a id="a_overSavings" href="{% url "deals" community.url_name %}">Deals</a></li>
+                <!--<li><a href="#coupons_box">Coupons</a></li>-->
+                <li>
+                    <a href="{% url "events" community.url_name %}">
+                        <!--<div id="events_icon" style="margin-top: 25px;display: none;">
+                            <svg x="0px" y="0px" width="20px" height="20px" viewBox="0 0 30 30"
+                                 enable-background="new 0 0 30 30" xml:space="preserve">
+                                <circle fill="#F15A29" cx="14.761" cy="15.101" r="14.289"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" fill="#F8F4F6" d="M15.221,3.717c0.108,0.537-0.261,0.601-0.308,0.986c0.444-0.127,1.899-1.011,2.144,0c0.45-0.147,0.936-0.373,1.529-0.272c0.073,0.132,0.24,0.168,0.205,0.405c0.594-0.233,1.642-0.315,2.311-0.099c-0.259,0.227-0.652,0.32-0.951,0.509c0.278,0.244,0.682,0.362,0.749,0.816c-1.059-0.283-2.356,0.793-2.822,0.067c-0.502,0.15-1.68,1.304-1.835,0.103c-0.445,0.114-0.789,0.465-1.362,0.338c0,0.274,0,0.545,0,0.817c0.37,0.413,0.896,0.631,1.326,0.987c0.847,0.698,1.866,1.13,2.891,1.699c0.245,0.138,0.495,0.276,0.749,0.409c0.242,0.129,0.442,0.32,0.68,0.442c0.641,0.33,1.369,0.526,1.938,0.985c0.032,1.056-0.069,1.973-0.815,2.245c-0.059,2.155,0.015,3.9,0.51,5.439c0.229,0.724,0.48,1.408,0.713,2.076c-0.874,0.533-2.611,1.052-4.25,1.056c-0.641,0-1.768,0.104-2.21-0.105c-0.249-0.114-0.397-0.503-0.51-0.78c-0.656-0.138-1.551-0.038-2.312-0.067c-0.24,0.385-0.279,0.969-0.649,1.225c-0.67-0.163-1.361,0.151-2.041,0.101c-0.125-0.009-0.248-0.089-0.37-0.101c-0.778-0.085-1.563-0.074-2.279-0.205c-0.277-0.051-0.604-0.156-0.883-0.237c-0.295-0.086-0.627-0.168-0.854-0.273c-0.214-0.098-0.349-0.34-0.61-0.34c0.282-1.148,0.984-2.281,1.155-3.705c0.135-1.116,0.213-2.313,0.203-3.64c-1.052-0.251-0.927-1.584-0.814-2.79c2.813-1.258,5.428-2.708,7.722-4.488c0.052-0.932,0.055-1.912,0.134-2.822C13.254,4.08,14.735,2.802,15.221,3.717z M8.588,14.496"/>
+                            </svg>
+                        </div>-->
+                        Events
+                    </a>
+                </li>
+                <li id="partners">
+                    <a href="#">
+                        Community Partners
+                    </a>
+                    <ul class="menuJoin">
+                        {% list_partners community.id %}
+                    </ul>
+        </nav>
+
+        <div class="login detourmaps" name="perfiles">
+            {% if request.session.user %}
+                <a href=""><img src="{{ STATIC_URL }}community/elementos/ico-detour.png"
+                                alt="Logout"/><span
+                        class="newLog">{{ request.session.user.username }}</span></a>
+                <ul class="perfiles" id="">
+                    <li><a href="{% url "accountSettings" %}">Profile</a></li>
+                    <li><a href="{% url "goodbye" %}">Log Out</a></li>
+                </ul>
+            {% else %}
+                <a href="{% url "loginUser" %}"><img src="{{ STATIC_URL }}community/elementos/ico-detour.png"
+                                                   alt="Login"/><span
+                        class="newLog">Log in</span></a>
+            {% endif %}
+            <!--<ul class="menu">
+                <li><a href="{#% url render "free-business-listing" %#}">Register your Business</a></li>
+                <li><a href="{#% url render 'careers' %#}">Careers</a></li>
+                <li><a>Profile</a></li>
+                <li><a href="">Log Out</a></li>
+            </ul>-->
+        </div>
+    </header>
+    {% endif %}
+{% endblock %}
+
+{% block bar-container %}{% endblock %}
+{% block content %}
+    {% if community %}
+        <div class="container">
+        <div class="row">
+            <div class="twocol"></div>
+            <div class="eightcol">
+                <h1 class="h1">Events coming up in {{ community.name|capfirst }}</h1>
+
+                <div>
+                    {% for event in events.object_list %}
+                        <div class="eventContent">
+                            <div class="imgEvent"><img
+                                    src="{% thumbnail event.imagebusinessevents_set.all.0.img 200x125 crop %}"></div>
+                            <div class="descEvent">
+                                <h3>{{ event.title }}</h3>
+                                <span class="dateEvent">{{ event.date_begin|date }}</span>
+
+                                <p>
+                                    {{ event.description|safe }}
+                                </p>
+                                <ul class="shareEvents">
+                                    <li><a href="" idb="{{ event.pk }}" class="sendFriend">Send to a friend</a></li>
+                                    <li><a href="{{ event.get_absolute_url }}" idb="{{ event.id }}" class="goto">Go to
+                                        Map</a></li>
+                                    <li><a href="" idb="{{ event.pk }}" class="getDir" ida="{{ event.address }}">Get
+                                        directions</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(function () {
+                        $("a.sendFriend").click(function (e) {
+                            var fEmail = prompt("Please enter an email friend:", "email Friend");
+                            var tag = $(this).attr("idb");
+                            $.getJSON('{% url "share_event_by_email" %}', {'tag': tag, 'emailShared': fEmail}, function (data) {
+                                new Messi(data.msg, {title: 'DetourMaps - Share System', modal: true});
+                            });
+                            e.returnValue = false;
+                            return false;
+                        });
+                        $("a.getDir").click(function (e) {
+                            var fDAddress = prompt("Please enter your address", "Your Surce Address");
+                            var fDEmail = prompt("Please enter an email friend:", "Email Friend");
+                            var tag = $(this).attr("idb");
+                            $.getJSON('{% url "share_event_direction_by_email" %}', {'tag': tag, 'saddr': fDAddress, 'daddr': $(this).attr("ida"), 'emailShared': fDEmail}, function (data) {
+                                new Messi(data.msg, {title: 'DetourMaps - Share System', modal: true});
+                            });
+                            e.returnValue = false;
+                            return false;
+                        })
+                    })
+                </script>
+                <div class="pagination">
+                <span class="step-links">
+                    {% if events.has_previous %}
+                        <a href="?page={{ events.previous_page_number }}" class="icon-arrow-left">Prev</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ events.number }} of {{ events.paginator.num_pages }}.
+                    </span>
+
+                    {% if events.has_next %}
+                        <a href="?page={{ events.next_page_number }}" class="icon-arrow-right">Next</a>
+                    {% endif %}
+                </span>
+                </div>
+            </div>
+            <div class="twocol last"></div>
+        </div>
+    </div>
+    {% else %}
+        <div class="pure-u-1-1 firstPanel">
+            <div class="pure-u-1-1">
+                <div style="width: 80%; margin: auto; position: relative; display: block;">
+                    <h1 class="h1-angular">Whats going on in <span> your Community</span></h1>
+                    <div>
+                        {% for event in events.object_list %}
+                            <div class="eventContent">
+                                <div class="imgEvent"><img
+                                        src="{% thumbnail event.imagebusinessevents_set.all.0.img 200x125 crop %}"></div>
+                                <div class="descEvent">
+                                    <h3>{{ event.title }}</h3>
+                                    <span class="dateEvent">{{ event.date_begin|date }}</span>
+
+                                    <p>
+                                        {{ event.description|safe }}
+                                    </p>
+                                    <ul class="shareEvents">
+                                        <li><a href="" idb="{{ event.pk }}" class="sendFriend">Send to a friend</a></li>
+                                        <li><a href="{{ event.get_absolute_url }}" idb="{{ event.id }}" class="goto">Go to
+                                            Map</a></li>
+                                        <li><a href="" idb="{{ event.pk }}" class="getDir" ida="{{ event.address }}">Get
+                                            directions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $("a.sendFriend").click(function (e) {
+                                var fEmail = prompt("Please enter an email friend:", "email Friend");
+                                var tag = $(this).attr("idb");
+                                $.getJSON('{% url "share_event_by_email" %}', {'tag': tag, 'emailShared': fEmail}, function (data) {
+                                    new Messi(data.msg, {title: 'DetourMaps - Share System', modal: true});
+                                });
+                                e.returnValue = false;
+                                return false;
+                            });
+                            $("a.getDir").click(function (e) {
+                                var fDAddress = prompt("Please enter your address", "Your Surce Address");
+                                var fDEmail = prompt("Please enter an email friend:", "Email Friend");
+                                var tag = $(this).attr("idb");
+                                $.getJSON('{% url "share_event_direction_by_email" %}', {'tag': tag, 'saddr': fDAddress, 'daddr': $(this).attr("ida"), 'emailShared': fDEmail}, function (data) {
+                                    new Messi(data.msg, {title: 'DetourMaps - Share System', modal: true});
+                                });
+                                e.returnValue = false;
+                                return false;
+                            })
+                        })
+                    </script>
+                    <div class="pagination">
+                    <span class="step-links">
+                        {% if events.has_previous %}
+                            <a href="?page={{ events.previous_page_number }}" class="icon-arrow-left">Prev</a>
+                        {% endif %}
+
+                        <span class="current">
+                            Page {{ events.number }} of {{ events.paginator.num_pages }}.
+                        </span>
+
+                        {% if events.has_next %}
+                            <a href="?page={{ events.next_page_number }}" class="icon-arrow-right">Next</a>
+                        {% endif %}
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <style>
+        h4{
+            width: 100%;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            color: #F48031;
+            border-bottom: 1px dashed #F48031;
+        }
+        ul{
+            list-style: none;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            display: block;
+        }
+        li{
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            width: 60%;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+            border-bottom: 1px solid #666666;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ biz.name|capfirst }}'s Menu</h1>
+    {{ menu|safe }}
+</body>
+</html>

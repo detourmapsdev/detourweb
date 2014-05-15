@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}web/css/1140.css" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.css"/>
+    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/demos/js/jquery.js"></script>
+    <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
+    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.min.js"></script>
+</head>
+<body>
+<div data-role="page">
+    <div data-role="header"><h1>Business Card</h1></div>
+    <div data-role="content">
+        <img src="http://www.detourmaps.com/static/business-card/{{ name }}.jpg"/>
+    </div>
+    <div data-role="footer"><h4>Detour Maps</h4></div>
+</div>
+</body>
+</html>

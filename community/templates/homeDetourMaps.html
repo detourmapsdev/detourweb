@@ -1,0 +1,232 @@
+{% extends 'communityHomeB.html' %}
+{% block title %}Community maps{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css.gz">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css.gz">
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js.gz"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js.gz"></script>
+    <script defer type="text/javascript">
+        var varDetourmaps={
+            {% if user.is_authenticated %}
+            user:{
+                username:'{{user.username}}',
+                login: {{'true'}}
+            }
+            {% else %}
+            user:{
+                username:null,
+                login: {{'false'}}
+            }
+            {% endif %}
+        };
+        window['varDetourmaps'] = varDetourmaps;
+    </script>
+    <script src="{{ STATIC_URL }}community/js/layout.js.gz"></script>
+    <script>
+        var detourmaps = {
+            user: {
+                email: {}
+            }
+        };
+        var dtmStyle = [
+            {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [
+                    { hue: "#00ccff" },
+                    { saturation: -55 },
+                    { lightness: -35 },
+                    { gamma: 2 },
+                    { visibility: "simplified" }
+                ]
+            },
+            {
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                    { hue: "#00ccff" },
+                    { saturation: -55 },
+                    { lightness: -5 },
+                    { gamma: 1 }
+                ]
+            },
+            {
+                featureType: "landscape",
+                stylers: [
+                    { lightness: 50 }
+                ]
+            },
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "poi.park",
+                stylers: [
+                    { lightness: 10 },
+                    { saturation: 0 },
+                    { gamma: 1.5 }
+                ]
+            },
+            {
+                featureType: "poi.place_of_worship",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "landscape.man_made",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "administrative.neighborhood",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "administrative.locality",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            }
+        ];
+        var cmData = $("li.allData");
+        $("#load-categories, #load-bar").hide();
+        $(document).ready(function () {
+            //$("#user_menu_login").hide();
+            var _hoverride = $(window).height();
+            var _realHOverride = _hoverride - (131+(340*0.2));
+            $("div#map").css({
+                height: _realHOverride,
+                top: '131'
+            });
+            var _footerTop = _realHOverride + 131;
+            $("footer#homeFooter_cnt").css("top",_footerTop);
+            var mapConstructorURL = '{% url "map" "replace" %}';
+            var communities = [
+                {% for c in community %}
+                    {
+                        name: '{{ c.name }}',
+                        url_name: '{{ c.url_name }}',
+                        geojson: {{ c.borders.geojson|safe }}
+                    },
+                {% endfor %}
+            ];
+            var bounds = new google.maps.LatLngBounds();
+            var polygons = [];
+            var markers = [];
+            for (var j = 0; j < communities.length; j++) {
+                var pcoords = [];
+                var tmpBounds = new google.maps.LatLngBounds();
+                for (var k = 0; k < communities[j].geojson.coordinates[0][0].length; k++) {
+                    var coord = communities[j].geojson.coordinates[0][0][k];
+                    var latlng = new google.maps.LatLng(coord[1], coord[0]);
+                    pcoords.push(latlng);
+                    bounds.extend(latlng);
+                    tmpBounds.extend(latlng);
+                }
+                polygons.push(new google.maps.Polygon({
+                    paths: pcoords,
+                    strokeColor: "#f48131",
+                    strokeOpacity: 1,
+                    strokeWeight: 2,
+                    fillColor: "#f48131",
+                    fillOpacity: 0.1,
+                    url: communities[j].url_name
+                }));
+                latlng = tmpBounds.getCenter();
+                markers.push(new RichMarker({
+                    position: latlng,
+                    map: null,
+                    title: communities[j].name,
+                    content: '<h3 class="cmm-title" style="color #F48031 !important;">' + communities[j].name + '</h3>',
+                    flat: true,
+                    url: communities[j].url_name
+                }));
+            }
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 13,
+                center: latlng,
+                disableDefaultUI: false,
+                scrollwheel: false,
+                scaleControl: true,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: google.maps.ZoomControlStyle.SMALL
+                },
+                navigationControl: true,
+                navigationControlOptions: {
+                    style: google.maps.NavigationControlStyle.SMALL,
+                    position: google.maps.ControlPosition.RIGHT_CENTER
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM,
+                    mapTypeIds: [
+                        google.maps.MapTypeId.SATELLITE,
+                        google.maps.MapTypeId.HYBRID,
+                        google.maps.MapTypeId.TERRAIN,
+                        'dtm']
+                },
+                mapTypeId: 'dtm'
+            });
+            var dtmMapType = new google.maps.StyledMapType(dtmStyle, {
+                map: map,
+                name: "Map"
+            });
+            map.mapTypes.set('dtm', dtmMapType);
+            map.setMapTypeId('dtm');
+            map.fitBounds(bounds);
+            for (var n = 0; n < polygons.length; n++) {
+                polygons[n].setMap(map);
+                markers[n].setMap(map);
+                google.maps.event.addListener(polygons[n], 'click', function () {
+                    window.location.href = mapConstructorURL.replace('replace', this.url);
+                });
+                google.maps.event.addListener(polygons[n], 'mouseover', function () {
+                    this.setOptions({
+                        fillColor: "#ffffff",
+                        fillOpacity: 0.5
+                    });
+                });
+                google.maps.event.addListener(polygons[n], 'mouseout', function () {
+                    this.setOptions({
+                        fillColor: "#f48131",
+                        fillOpacity: 0.1
+                    });
+                });
+            }
+        });
+    </script>
+    <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="{{ STATIC_URL }}community/js/search-home.js"></script>
+    <style type="text/css">
+        .overmenu {
+            z-index: 10000;
+        }
+
+            /* Bootstrap Css Map Fix*/
+        #map img {
+            max-width: none;
+        }
+
+            /* Bootstrap Css Map Fix*/
+        #map label {
+            width: auto;
+            display: inline;
+        }
+    </style>
+{% endblock %}

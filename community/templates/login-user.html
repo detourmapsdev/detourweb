@@ -1,0 +1,274 @@
+{% extends 'base-new.html' %}
+{% block title %}Login User{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="/static/community/js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            var po = document.createElement('script');
+            po.type = 'text/javascript';
+            po.async = true;
+            po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(po, s);
+        })();
+
+        function render() {
+            gapi.signin.render('customBtn', {
+                'callback': "signinGoogle",
+                'clientid': "{{ settings.GOOGLE_CLIENT_ID }}",
+                'cookiepolicy': "single_host_origin",
+                'requestvisibleactions': "http://schemas.google.com/AddActivity",
+                'scope': "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+            });
+        }
+
+        {#funcion callback para la autenticacion con google+ #}
+        function signinGoogle(authResult) {
+            if (authResult['access_token']) {
+                gapi.client.load('oauth2', 'v2', function () {
+                    var pedido = gapi.client.oauth2.userinfo.get();
+                    pedido.execute(function (respuesta) {
+                        gapi.client.load('plus', 'v1', function () {
+                            var request = gapi.client.plus.people.get({'userId': 'me'});
+                            request.execute(function (resp) {
+                                var usuario = {
+                                    access_token: authResult['access_token'],
+                                    expires: authResult['expires_in'],
+                                    user_id: respuesta.id,
+                                    username: respuesta.email,
+                                    first_name: resp.name.givenName,
+                                    last_name: resp.name.familyName,
+                                    user_type: 'G'
+                                };
+                                $.post('{% url 'loginUser' %}', usuario,
+                                        function (data, status) {
+                                            if (status == "success") {
+                                                //Luego del login exitoso redirige a la pagina anterior
+                                                //window.history.back();
+                                            } else {
+                                                //Si falla el login carga el template de login con un alert
+                                                document.location.href = "{% url 'loginUser' %}";
+                                                alert('There was an error in LOGIN. Try Again');
+                                            }
+                                        });
+                            });
+                        });
+                    });
+                });
+            } else if (authResult['error']) {
+                // Hubo un error
+                // Possible error codes:
+                //   "access_denied" - User denied access to your app
+                //   "immediate_failed" - Could not automatically log in the user
+                //console.log('There was an error: ' + authResult['error']);
+            }
+        }
+
+
+        $(document).ready(function () {
+
+            {#funcion callback para la autenticacion con twitter #}
+            $(".twitter_btn").click(function (e) {
+                var a = $(this);
+                a.append("<i class='icon-spinner spin'></i>");
+                $.getJSON(
+                        '{% url 'getSessionT' %}',
+                        function (json) {
+                            if (!json.session) {
+                                href = "https://api.twitter.com/oauth/authenticate?oauth_token=" + json.datos
+                                document.location.href = href;
+                            } else {
+                                document.location.href = "/";
+                            }
+                        }
+                );
+                e.returnValue = false;
+                return false;
+            });
+
+            $(".facebook_btn").click(function (e) {
+                var a = $(this);
+                a.append("<i class='icon-spinner spin'></i>");
+                $.getJSON(
+                        '{% url 'getSessionF' %}',
+                        function (json) {
+                            if (!json.session) {
+                                href = json.datos;
+                                document.location.href = href;
+                            } else {
+                                document.location.href = '/';
+                            }
+                        }
+                );
+                e.returnValue = false;
+                return false;
+            });
+
+            {#login nativo DetourMaps#}
+            $('#frmlogin').validate({
+                rules: {"user_email": {required: true, email: true}, "user_password": {required: true, minlength: 6, maxlength: 16}},
+                messages: {"user_email": "Not a valid email address", "user_password": "Not a valid password"}
+            });
+
+            $("#frmlogin").submit(function (e) {
+                e.preventDefault();
+                if ($("#frmlogin").valid()) {
+                    $.post('{% url 'loginUser' %}', $('#frmlogin').serialize(),
+                            function (data, status) {
+                                if (data.state) {
+                                    //window.history.back();
+                                    href = 'http://{{ request.META.HTTP_HOST }}/communities/accountSettings/';
+                                    document.location.href = '/';
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }, "json"
+                    );
+                }
+            });
+        });
+    </script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        }
+        .wrap-form{
+            position: relative;
+            width: 70%;
+            margin: auto;
+            padding: 2% 0;
+        }
+    </style>
+{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div class="pure-g-r details content">
+        <div class="wrap-form">
+            <div id="benefits" class="pure-u-1-2">
+            <h2 id="title-benefits">Stay Connected to your neighborhood with Detourmaps</h2>
+
+            <div class="row">
+                <div class="twocol" style="text-align: right;">
+                    </br>
+                    <img src="/static/community/img/icons/iconoDolar.png">
+                </div>
+                </br>
+                <div class="fivecol last">
+                    <div id="text-benefits">
+                        <p>Save with $10 Savings Card, coupons, and other deals available directly from our side.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twocol" style="text-align: right;">
+
+                    <img src="/static/community/img/icons/local.png">
+                </div>
+                <div class="fivecol last">
+                    <div id="text-benefits">
+
+                        <p>Stay local and be part of community events like festivals, town meetings, and more.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twocol" style="text-align: right;">
+
+                    <img src="/static/community/img/icons/direcciones.png">
+                </div>
+                <div class="fivecol last">
+                    <div id="text-benefits">
+
+
+                        <p>Share directions, deals, reviews and more local with information with friends and
+                                neighbors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginAccounts" class="pure-u-1-2">
+            </br>
+            <form id="frmlogin" action="/user/login" method="POST" style="padding: 0 35px;">
+                <div style="display: block;">
+                    <div class="pure-u-1-1">
+                        Email
+                    </div>
+                    <div class="pure-u-1-1">
+                        <input class="inputLogin" id="frmlogin_email" type="email" name="user_email">
+                    </div>
+                </div>
+                </br>
+                <div style="display: block;">
+                    <div class="pure-u-1-1">
+                        Password:
+                    </div>
+                    <div class="pure-u-1-1">
+                        <input class="inputLogin" id="frmlogin_password" type="password" name="user_password">
+                    </div>
+                </div>
+                </br>
+                <div style="display: block;">
+                    <div style="display: inline-block;">
+                        <div style="display: block;">
+                            <a id="userRegister" href="{% url 'registerUser' %}">Create account</a>
+                        </div>
+                        <div style="display: block;">
+                            <a id="new_passw" href="{% url 'reset_password' %}">Forgot your Password?</a>
+                        </div>
+                    </div>
+
+                    <div style="display: inline-block;text-align: right;">
+                        <button id='nativeLogin' style="width: 140px;padding-left:2px ">
+                            Login
+                        </button>
+                    </div>
+                </div>
+                </br>
+                <hr width=%50 align="center">
+                <p>Don't want to create account? No problem,</br>
+                    Log in by using your social media account</p>
+            </form>
+            <div class="botones-redes">
+                <div class="facebook_btn">
+                    <div class="iconoF">
+                        <div class="f1"></div>
+                        <div class="f2"></div>
+                        <div class="f3"></div>
+                        <div class="f4"></div>
+                    </div>
+                    &nbsp &nbsp Login with Facebook
+                </div>
+                <br/>
+
+                <div class="sign_in_with_twitter">
+                    <div class="twitter_btn" style="cursor: pointer">
+                        <div class="iconT"></div>
+                        Login with Twitter
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <br/>
+                <span id="signinButtonGoogle">
+                    <div id="customBtn" class="customGPlusSignIn" style="cursor: pointer">
+                        <span class="iconG"></span>
+                        <span class="buttonText">&nbsp Login with Google+</span>
+                    </div>
+                </span>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,450 @@
+{% extends 'communityHomeB.html' %}
+{% block title %}Terms & Conditions{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 180px;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        }
+
+        .overmenu {
+            z-index: 10000;
+        }
+
+        .menuJoin li {
+            width: 100%;
+        }
+
+        .menuJoin li a {
+            text-align: left !important;
+        }
+    </style>
+{% endblock %}
+{% block bodyname %}terms-conditions-page{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="twelvecol last faq">
+                <h1><img src="{{ STATIC_URL }}community/elementos/privacy.png"/> Terms & Conditions</h1>
+
+                <p>
+                    These Terms of Service ("Terms") are a contract entered into between Detour Community Maps division
+                    of Entire Marketing Group LLC., with its principal place of business at 6900 W. Cermak Rd. Berwyn IL
+                    60402, ("Detour Maps"), and the individual and/or entity or agent ("User" or "you") identified in
+                    the service application submitted during the enrollment registration process. These Terms are the
+                    general terms and conditions governing User's use of the electronic/ Digital communication, document
+                    generation, data sharing/collection, storage, and hosting services (collectively the "Service") made
+                    available by Detour Maps through the Detour Maps web site currently published at www.detourmaps.com
+                    and detourmaps.com mobile site ("Site"), and/or made available in whole or in part through any
+                    embedded application mobile or third party partner web site or landing page portal. These Terms of
+                    Service are posted and made available for review from the Detour Maps Sites. Detour Maps may make
+                    changes to these Terms, and continued use of the Service constitutes User's acceptance of any such
+                    changes. In addition, when using particular Detour Maps services, User and Detour Maps shall be
+                    subject to any posted guidelines or rules applicable to such Services that may be posted from time
+                    to time.
+                </p>
+
+                <p>
+                    <b>
+                        READ THESE TERMS CAREFULLY BEFORE SUBMITTING AN APPLICATION FOR REGISTRATION TO USE THE SERVICE.
+                        IF YOU DO NOT AGREE TO THESE TERMS OF SERVICE OR ANY PART THEREOF, YOUR ONLY REMEDY IS TO NOT
+                        ACCESS THE SERVICE AND NOT USE THE SERVICE. BY USING THE SERVICE, YOU INDICATE YOUR
+                        ACKNOWLEDGEMENT THAT YOU HAVE READ AND ACCEPTED THESE TERMS.
+                    </b>
+                </p>
+                <article>
+                    <ol>
+                        <li>
+                            Registration
+                            <ol>
+                                <li>The Service requires a provisioned "Account" through which the Service may be
+                                    accessed and used. In order to obtain a provisioned Account from Detour Maps, you
+                                    must (i) acknowledge that you have read and accepted these Terms of Service, (ii)
+                                    provide a valid e-mail address to which you have right and permission to access and
+                                    read e-mail communications, and (iii) provide any other information required by
+                                    Detour Maps during the enrollment registration process.
+                                </li>
+                                <li>You represent and warrant to Detour Maps that the information provided by you in the
+                                    enrollment registration process is accurate and complete and that you will promptly
+                                    update your Account and profile information during the term of this Service.
+                                </li>
+                                <li>If you are registering on behalf of an entity, you represent and warrant to Detour
+                                    Maps that you have full right, power, and authority to bind such entity as the User
+                                    to these Terms, including without limitation the use of the Site, collection,
+                                    storage, and use of hosted data.
+                                </li>
+                                <li>You are responsible for maintaining the security of your Account and password
+                                    necessary to access your Account. Detour Maps cannot and will not be liable for any
+                                    loss or damage from your failure to comply with this security obligation.
+                                </li>
+                                <li>You are responsible for all data, information, and content (collectively "Content")
+                                    you may post on the Site, or use in conjunction with this Service, including
+                                    activity that occurs under your Account (even when Content is posted, provided, or
+                                    submitted by others who have separate user login access under your Account).
+                                    Personally identifiable information (PII) submitted by you shall be subject to the
+                                    Detour Maps Privacy Policy published at the Detour Maps Site or otherwise offered to
+                                    the User.
+                                </li>
+                                <li>Detour Maps reserves the right to refuse registration of, or cancel, accounts it
+                                    deems inappropriate.
+                                </li>
+                                <li>One person or entity may not maintain more than one free Detour Maps Service
+                                    Account. Accounts registered by automated methods, agents or "bots" are not
+                                    permitted and represent a violation of these Terms of Service.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Use, Restrictions, and Responsibilities
+                            <ol>
+                                <li>User must use the Service at all times strictly in accordance with all policies,
+                                    laws and regulations, including without limitation those relating to the use of the
+                                    Internet, electronic communications, anti-spam, privacy, obscenity, defamation and
+                                    applicable export laws. Your use of the Service at all times is subject to Detour
+                                    Maps’ Acceptable Use Policy published at the Detour Maps Site or otherwise furnished
+                                    to the User and is incorporated in these Terms by reference. Detour Maps reserves
+                                    the right, but assumes no responsibility or obligation to monitor your conduct and
+                                    use of the Service. Detour Maps may, at its own discretion, take action to remediate
+                                    any problems caused by violations (or alleged violations) of the Acceptable Use
+                                    Policy, including but not limited to suspension to access (in part or in whole) the
+                                    Service and/or suspension or termination of the User's Account.
+                                </li>
+                                <li>These Terms of Service are an agreement for use of the Service made available
+                                    through the Site, and User is not granted a license to any software by these Terms.
+                                    User will not, directly or indirectly: reverse engineer, decompile, disassemble, or
+                                    otherwise attempt to discover the source code, object code, or underlying structure,
+                                    ideas, or algorithms of the Service or any software, documentation, or data related
+                                    to the Service ("Software"); modify, translate, or create derivative works based on
+                                    the Service or any Software; or copy (except for archival purposes), distribute,
+                                    pledge, assign, or otherwise transfer or encumber rights to the Service or any
+                                    Software; use the Service or any Software for timesharing or service bureau purposes
+                                    or otherwise for the benefit of a third party; or remove any proprietary notices or
+                                    labels, or build a competitive product or service.
+                                </li>
+                                <li>In the course of navigating the Site and using the Service, User may provide Detour
+                                    Maps with feedback, including but not limited to suggestions, observations, errors,
+                                    problems, and issues regarding the Service and Site (collectively "Feedback"). You
+                                    hereby grant to Detour Maps a worldwide, irrevocable, perpetual, royalty-free,
+                                    transferable, and sub-licensable, non-exclusive right to use, copy, modify,
+                                    distribute, display, perform, create derivative works from, and otherwise exploit
+                                    all such Feedback.
+                                </li>
+                                <li>You must obtain, at your own expense, the appropriate Internet connections and
+                                    equipment needed to access and use the Service. You also must use reasonable
+                                    security precautions in connection with your use of the Service.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Modifications
+                            <ol>
+                                <li>Detour Maps may, without notice to User, update and otherwise modify the Site or
+                                    Service in its sole discretion, including but not limited to providing updates or
+                                    modifying features or functionality, or removing features or functionality
+                                    (collectively "Updates"). These Terms apply to all such Updates.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Termination
+                            <ol>
+                                <li>User may terminate these Terms of Service at any time by sending an e-mail message
+                                    to info@detourmaps.com or by sending written notice to, Detour Maps, 6900 W Cermak
+                                    Rd. Berwyn IL. 60402.
+                                </li>
+                                <li>Detour Maps may terminate these Terms of Service, the Service, and the User's access
+                                    to the User's Account at any time with or without cause, and with or without notice.
+                                    Detour Maps shall have no liability to User or any third party because of such
+                                    termination.
+                                </li>
+                                <li>Upon termination for any reason, Detour Maps may delete any User archived data
+                                    within 30 days after the date of termination. All sections of these Terms which by
+                                    their nature should survive termination will survive termination, including, without
+                                    limitation, warranty disclaimers and limitations of liability.
+                                </li>
+                                <li>If User does not log into its account for more than 90 days, the Account may become
+                                    inactive. When an Account is classified (at Detour Maps’ sole discretion) as
+                                    inactive, Detour Maps will notify User by e-mail. INACTIVE ACCOUNTS HAVE 30 DAYS TO
+                                    BECOME ACTIVE OR THE ACCOUNT AND ITS DATA, INCLUDING TRACKING RESULTS, MAY BE
+                                    PERMANENTLY REMOVED FROM THE ACTON DATA STORE.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Warranty Disclaimer
+                            <ol>
+                                <li>
+                                    YOU USE THE SERVICE AT USER'S OWN RISK. ACTON DOES NOT WARRANT THAT THE SERVICES
+                                    WILL BE UNINTERRUPTED OR ERROR FREE; NOR DOES IT MAKE ANY WARRANTY AS TO THE RESULTS
+                                    THAT MAY BE OBTAINED FROM USE OF THE SERVICE. THE SERVICE IS PROVIDED ON AN "AS IS",
+                                    "AS AVAILABLE" BASIS AND ACTON DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED,
+                                    INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+                                    A PARTICULAR PURPOSE AND NONINFRINGEMENT. ACTON MAKES NO WARRANTY THAT (i) THE SITE
+                                    OR THE SERVICE WILL MEET YOUR EXPECTATIONS, (ii) THE SITE AND SERVICE WILL BE
+                                    UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE, OR (iii) ANY ERRORS IN THE SITE OR
+                                    SERVICE WILL BE CORRECTED.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Exports of Services or Technical Data
+                            <ol>
+                                <li>User may not remove or export from the United States or allow the export or
+                                    re-export of the Site and Service, or any direct product thereof, including
+                                    technical data, in violation of any restrictions, laws, or regulations of the United
+                                    States or any other applicable country.
+                                </li>
+                            </ol>
+                        </li>
+                        <li>
+                            Miscellaneous
+                            <ol>
+                                <li>If any provision of these Terms is found to be unenforceable or invalid, that
+                                    provision will be limited or eliminated to the minimum extent necessary so that
+                                    these Terms will otherwise remain in full force and effect and enforceable.
+                                </li>
+                                <li>Both parties agree that these Terms are the complete and exclusive statement of the
+                                    mutual understanding of the parties and supersedes and cancels all previous written
+                                    and oral agreements, communications, and other understandings relating to the
+                                    subject matter of these Terms, and that all waivers and modifications must be in a
+                                    writing signed by both parties, except as otherwise provided herein.
+                                </li>
+                                <li>No agency, partnership, joint venture, or employment is created as a result of these
+                                    Terms, and User does not have any authority of any kind to bind Detour Maps in any
+                                    respect whatsoever.
+                                </li>
+                                <li>In any action or proceeding to enforce rights under these Terms, the prevailing
+                                    party will be entitled to recover its costs and attorneys fees.
+                                </li>
+                                <li>We reserve the right to modify our pricing or promotions.</li>
+                                <li>Your clicking on "I agree" or otherwise using the Service constitutes your
+                                    electronic signature to these Terms of Service and your consent to enter into
+                                    agreements with Detour Maps division of Entire Marketing Group LLC electronically
+                                    along with other branches of EMG (qmoqui.com, detourmaps mobile,). User agrees that
+                                    Detour Maps and branches may send in electronic form any notices or other
+                                    communications relating to the Service ("Notices") to you, at Detour Maps’/ EMG
+                                    option, to the e-mail address that you provided during registration (or such other
+                                    e-mail address of which you notify Detour Maps as provided in paragraph (1.1) above
+                                    or by posting the Notice on the applicable Service or otherwise on the Site. The
+                                    delivery of any Notice from Detour Maps is effective when sent, regardless of
+                                    whether or when you read the Notice or whether you actually receive the delivery.
+                                    All agreements completed electronically will be deemed for all legal purposes to be
+                                    in writing and legally enforceable as a signed writing.
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                    <h2>
+                        Cancellation or Termination of the Account
+                    </h2>
+
+                    <p>
+                        If you choose to cancel your account and leave the Detour Maps Service or your Account is
+                        terminated because of your breach of the Terms of Service, please contact us at
+                        info@detourmaps.com. Please be aware that Detour Maps may for a time retain residual information
+                        in our backup and/or archival copies of our data stores and databases. We will make reasonable
+                        commercial efforts to delete your information as soon as reasonably practical.
+                    </p>
+
+                    <p>
+                        Compliance with Children's Online Privacy Protection Act
+                    </p>
+
+                    <p>
+                        As a business service, Detour Maps does not target its offerings toward, and does not knowingly
+                        collect any personal information from users under 13 years of age.
+                    </p>
+
+                    <h2>Changes to this Policy</h2>
+
+                    <p>We may update this privacy policy to reflect changes to our information practices. If we make any
+                        material changes we will notify you by email (sent to the e-mail address specified in your
+                        account) or by means of a notice on this Site prior to the change becoming effective. We
+                        encourage you to periodically review this page for the latest information on our privacy
+                        practices.</p>
+                    <b>Questions</b>
+
+                    <p>Any questions about this Privacy Policy should be addressed to <a
+                            href="mailto:info@detourmaps.com">info@detourmaps.com</a> or by postal mail at:</p>
+
+                    <p>
+                        Detour Community Maps,<br>
+                        6900 W Cermak Rd.<br>
+                        Berwyn, IL 60402<br>
+                        Updated: February, 2013
+                    </p>
+
+                    <h2>Acceptable Use Policy</h2>
+
+                    <p>
+                        This Acceptable Use Policy ("Policy") is incorporated by reference in the Terms of Service
+                        ("Terms") with Detour Community Maps Software, Inc. ("Detour Maps") and your service may be
+                        suspended or terminated for violation of this Policy in accordance with the Terms. Inquiries
+                        regarding this Policy should be directed to Detour Maps by e-mail at <a
+                            href="mailto:info@detourmaps.com">info@detourmaps.com</a>.
+                    </p>
+
+                    <p>
+                        <b>
+                            READ THIS POLICY CAREFULLY BEFORE SUBMITTING AN APPLICATION FOR REGISTRATION TO USE THE
+                            SERVICE. IF YOU DO NOT AGREE TO ACT IN ACCORDANCE WITH THIS POLICY OR ANY PART THEREOF, YOUR
+                            ONLY REMEDY IS TO NOT ACCESS THE SERVICE AND NOT USE THE SERVICE. BY USING THE SERVICE, YOU
+                            INDICATE YOUR ACKNOWLEDGEMENT THAT YOU HAVE READ AND ACCEPTED THIS POLICY.
+                        </b>
+                    </p>
+
+                    <p>
+                        The terms "you" and "User" below refers collectively to the Customer identified during the
+                        registration enrollment process and all persons who use the Service under the Customer's
+                        Account.
+                    </p>
+
+                    <h2>Abuse</h2>
+
+                    <p>
+                        You may not use, operate, or otherwise access the Service of Entire Marketing Group LLC, Detour
+                        Maps’ QMOQUI, and Detour Maps mobile (or its service provider's) networks to engage in, foster,
+                        or promote illegal harassing or offensive activities, including but not limited to:
+                    </p>
+
+                    <p>upload, post, e-mail, transmit, or otherwise make available any information, materials, or other
+                        content that is illegal, harmful, threatening, abusive, harassing, defamatory, obscene,
+                        pornographic, offensive, invasive of another's privacy, or promotes bigotry, racism, hatred for
+                        harm against any individual or group; or
+                        impersonate any person or entity or falsely state or otherwise misrepresent your affiliation
+                        with a person or entity; or
+                        engage in practices that are considered to be unfair or deceptive under the consumer protection
+                        laws of any jurisdiction, including chain letters and pyramid schemes; or
+                        Forge headers or otherwise manipulate identifiers in order to disguise the origin of any content
+                        transmitted through the Detour Maps Site; or
+                        upload, post, e-mail, transmit, or otherwise make available any information, materials, or other
+                        content that infringes another's rights, including any intellectual property rights; or
+                        use an Internet account, e-mail address, or computer without the owner's express authorization,
+                        including but not limited to Internet scamming (tricking other people into releasing their
+                        passwords, tax-payer, or banking information), phishing, and security hole scanning; or
+                        forge any TCP-IP packet header or any part of the header information in an e-mail; or
+                        upload, post, e-mail, transmit, or otherwise make available any material that contains software
+                        viruses, Trojan horses, or any other computer code, files, scripts, or programs designed to
+                        interrupt, destroy, or limit functionality of any computer software or hardware or
+                        telecommunications equipment; or
+                        use the Service for distribution of advertisement delivery software unless: (i) the user
+                        affirmatively consents to the download and installation of such software based on a clear and
+                        conspicuous notice of the nature of the software, and (ii) the software is easily removable by
+                        use of standard tools for such purpose included on major operating systems (such as Microsoft's
+                        "add/remove" tool); or
+                        use any manual or automated software, devices, or other process to "crawl" or "screen scrape" or
+                        record any web pages or Service screens contained in or displayed by the Detour Maps Site; or
+                        interfere with or disrupt the Detour Maps Site or Service, or any computers, servers, data
+                        storage devices, networks, or telecommunications equipment connected to or associated with the
+                        Detour Maps Site or Service; or
+                        any conduct that is likely to result in retaliation against Detour Maps, the Service, or the
+                        Site, or Detour Maps' employees, agents, customers, or service providers, including but not
+                        limited to engaging in behavior that results in any server being the target of a denial of
+                        service attack (DoS); or
+                        Obtain, collect, or otherwise access or modify the personal information, documents, or data of
+                        another Detour Maps Service User; or
+                        Modify, adapt, or "hack" the Detour Maps Site or falsely imply that some other site or service
+                        is associated with the Entire Marketing Group LLC, and divisions Detour Maps (web / mobile) or
+                        QMOQUI Sites. Further, you shall not attept to: (i) gain unauthorized access to or use the
+                        Service or Detour Maps’ or a third party's data, systems, or networks; or (ii) interface or
+                        disrupt the integrity or performance of the Service or the data hosted by the Service.</p>
+
+                    <h2>Security</h2>
+
+                    <p>You must take reasonable security precautions in light of your use of the Service. You are solely
+                        responsible for any breaches of security affecting your network or the servers under your
+                        control. You must protect the confidentiality of your password(s). You are encouraged to change
+                        your password(s) periodically, which you may do by accessing the "forgot your password" in the
+                        tab under the "Log In" portion of the Service. You should notify Detour Maps via e-mail at
+                        info@detourmaps.com immediately of any unauthorized use of your password or Account or other
+                        security breach affecting the Service.</p>
+
+                    <h2>Copyrighted Material</h2>
+
+                    <p>
+                        You may not use the Service, Site, or Detour Maps’ (or its service provider's) network or
+                        equipment to publish, distribute, or otherwise copy in any manner any work protected by
+                        copyright law unless:
+                        you have been expressly authorized by the owner of the copyright for the work to copy the work
+                        in that manner; or
+                        you are otherwise permitted by established United States copyright law to copy the work in that
+                        manner.
+                        Detour Maps may terminate the Service Account of copyright infringers.
+                    </p>
+
+                    <h2>Copyrights and Trademarks</h2>
+
+                    <p>Detour Community Maps, Detour Maps, and the Detour Maps logo are registered or pending registered
+                        trademarks of Entire Marketing Group LLC (including QMOQUI). All other names and logos may be
+                        trademarks or registered trademarks of their respective owners. Cooperation with Investigations
+                        and Legal Proceedings
+                        Detour Maps may, without notice to you:
+                        Report to the appropriate authorities any conduct by you that it believes violates applicable
+                        criminal law, and
+                        Provide any information it has about you in response to a formal or informal request from a law
+                        enforcement or government agency, or in response to a formal request in a civil action that on
+                        its face meets the requirements for such a request.</p>
+
+                    <h2>Consequences of Violation</h2>
+
+                    <p>Detour Maps may without notice to you, suspend or terminate your Account, or remove any content
+                        transmitted via the Service if Detour Maps discovers facts that lead it to reasonably believe
+                        you are in violation of this Policy, or if your Account is being used in violation of this
+                        Policy. You must cooperate with Detour Maps’ reasonable investigation of any suspected or
+                        alleged violation of the Policy. Detour Maps will attempt to contact the primary User of the
+                        Account by e-mail prior to suspension of access to the User's Account, however, prior
+                        notification is not assured and Detour Maps has no obligation of prior notification. You are
+                        strictly responsible for the use of the Service by you or by means of your Account in violation
+                        of this Policy, including use by your employees, customers and agents, and including
+                        unauthorized use (but not including unauthorized use that results from Detour Maps’ material
+                        failure to perform its obligations under the Terms of Service). Detour Maps will charge you its
+                        reasonable hourly rate for recovery resulting from breach of this Policy plus the cost of
+                        equipment and material needed to (i) investigate or otherwise respond to any suspected violation
+                        of this Policy, (ii) remedy any harm caused to Detour Maps, its service provider, or any of its
+                        customers by your violation of this Policy or the use of your Account in violation of this
+                        Policy, (iii) respond to complaints (iv) respond to subpoenas and other third party requests for
+                        information as described in the Terms of Service, and (v) have Detour Maps’ (or its service
+                        provider's) Internet Protocol numbers removed from any "blacklist" or other abuse databases or
+                        other service providers e-mail blocking systems.</p>
+
+                    <h2>Amendment</h2>
+
+                    <p>This Policy may be amended or updated
+                        This Policy is posted and made available for review from the Detour Maps Site (web / mobile).
+                        Detour Maps may make changes to this Policy, and continued use of the Service constitutes User's
+                        acceptance of any such changes.</p>
+
+                    <h2>Disclaimer</h2>
+
+                    <p>
+                        Detour Maps is under no obligation, and does not by this Policy undertake an obligation, to
+                        monitor or police our User's activities and disclaims any responsibility for any misuse of the
+                        Service, Site, or Detour Maps' (or its service provider's). Detour Maps disclaims any obligation
+                        to any person or entity that has not entered into an agreement with Detour Maps for services.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </div>
+{% endblock %}

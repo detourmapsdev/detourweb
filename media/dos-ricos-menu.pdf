@@ -1,0 +1,200 @@
+%PDF-1.4
+%“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
+% 'BasicFonts': class PDFDictionary 
+1 0 obj
+% The standard fonts dictionary
+<< /F1 2 0 R
+ /F2 3 0 R >>
+endobj
+% 'F1': class PDFType1Font 
+2 0 obj
+% Font Helvetica
+<< /BaseFont /Helvetica
+ /Encoding /WinAnsiEncoding
+ /Name /F1
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'F2': class PDFType1Font 
+3 0 obj
+% Font Helvetica-Bold
+<< /BaseFont /Helvetica-Bold
+ /Encoding /WinAnsiEncoding
+ /Name /F2
+ /Subtype /Type1
+ /Type /Font >>
+endobj
+% 'Page1': class PDFPage 
+4 0 obj
+% Page dictionary
+<< /Contents 18 0 R
+ /MediaBox [ 0
+ 0
+ 595.2756
+ 841.8898 ]
+ /Parent 17 0 R
+ /Resources << /Font 1 0 R
+ /ProcSet [ /PDF
+ /Text
+ /ImageB
+ /ImageC
+ /ImageI ] >>
+ /Rotate 0
+ /Trans <<  >>
+ /Type /Page >>
+endobj
+% 'R5': class PDFCatalog 
+5 0 obj
+% Document Root
+<< /Outlines 7 0 R
+ /PageMode /UseNone
+ /Pages 17 0 R
+ /Type /Catalog >>
+endobj
+% 'R6': class PDFInfo 
+6 0 obj
+<< /Author ()
+ /CreationDate (D:20130806230347+06'00')
+ /Creator (\(unspecified\))
+ /Keywords ()
+ /Producer (pisa HTML to PDF <http://www.htmltopdf.org>)
+ /Subject ()
+ /Title () >>
+endobj
+% 'R7': class PDFOutlines 
+7 0 obj
+<< /Count 4
+ /First 8 0 R
+ /Last 8 0 R
+ /Type /Outlines >>
+endobj
+% 'Outline.0': class OutlineEntryObject 
+8 0 obj
+<< /Count -1
+ /Dest [ 4 0 R
+ /Fit ]
+ /First 9 0 R
+ /Last 9 0 R
+ /Parent 7 0 R
+ /Title (Dos Riccos 's Menu) >>
+endobj
+% 'Outline.2.0': class OutlineEntryObject 
+9 0 obj
+<< /Count -1
+ /Dest [ 4 0 R
+ /Fit ]
+ /First 10 0 R
+ /Last 10 0 R
+ /Parent 8 0 R
+ /Title (Mexican Grill) >>
+endobj
+% 'Outline.3.0': class OutlineEntryObject 
+10 0 obj
+<< /Count -6
+ /Dest [ 4 0 R
+ /Fit ]
+ /First 11 0 R
+ /Last 16 0 R
+ /Parent 9 0 R
+ /Title (Mexican Grill) >>
+endobj
+% 'Outline.4.0': class OutlineEntryObject 
+11 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Next 12 0 R
+ /Parent 10 0 R
+ /Title (Mexican Grill) >>
+endobj
+% 'Outline.4.1': class OutlineEntryObject 
+12 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Next 13 0 R
+ /Parent 10 0 R
+ /Prev 11 0 R
+ /Title (Tacos) >>
+endobj
+% 'Outline.4.2': class OutlineEntryObject 
+13 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Next 14 0 R
+ /Parent 10 0 R
+ /Prev 12 0 R
+ /Title (Tortas) >>
+endobj
+% 'Outline.4.3': class OutlineEntryObject 
+14 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Next 15 0 R
+ /Parent 10 0 R
+ /Prev 13 0 R
+ /Title (Asian Influence) >>
+endobj
+% 'Outline.4.4': class OutlineEntryObject 
+15 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Next 16 0 R
+ /Parent 10 0 R
+ /Prev 14 0 R
+ /Title (Asian) >>
+endobj
+% 'Outline.4.5': class OutlineEntryObject 
+16 0 obj
+<< /Dest [ 4 0 R
+ /Fit ]
+ /Parent 10 0 R
+ /Prev 15 0 R
+ /Title (Kids Menu) >>
+endobj
+% 'R17': class PDFPages 
+17 0 obj
+% page tree
+<< /Count 1
+ /Kids [ 4 0 R ]
+ /Type /Pages >>
+endobj
+% 'R18': class PDFStream 
+18 0 obj
+% page stream
+<< /Filter [ /ASCII85Decode
+ /FlateDecode ]
+ /Length 880 >>
+stream
+Gb!ks>u03/'Rd17s)?l8-I'JP55.NtU5cu;NPs"H9]DpU?+Y0HZ2OP[!NHnNiX4D+.8lnYkK)i_*rFf%nEbjuHSu*GUi8<3J-i"b^cq<4r<fH:^\>(l)`;j;^`YA+IcuOu,lpV)Jh;HSJDoPR)bM:mP8N`a4Z`aP9o;)e$2#^BF2.e`@SDB"`krt!a(QFr[1KOP9E>AG\qFj]AbPYsKF=r_pQ5B)oKsjDoI+b0Xu>p6hk:f1&dG%0nk:Z%e;J(H`'\<4.;ECf,REFl!X_&[KGY7q#S*Rup]^[L18a!R#V#eQ\W)#cB#gW8N,"U$+eZ)G.h^MO$0)i>V%cA..ljk1USlLK>XoW52K#gQ;;fJ*+lbUD:GR"8Iu/!aS'Yn<F:U?]eX&eO_6oTW-8=V%<)bDY9./::bGP$8@l@sh.i6X!^6MB+(f[BjAfJb[<+Ief@*Bn>T+\Ufgj00.0OYS=dZLA3Qni5r,ONg9@>$`:hV4E;]]<nkP3n#U]0HUk:Z,IsDKkVY0QNkGVaelHN]Ir%.64a@g;7eJX5&H'h.QFV%&_@5mF-&]d^cX^"359=T(Nh6_$!VZ;;$YMN_3_]ij5)pMQ;^)cUNI-3j^kb@A=4-Eb9uVDhb7.W@jcDWdlUs?*IsHEPnS8AZF1X;N$KdPm!FWkE;0NX7)hte(WTKAp&qh[p$Yq#bKY=Ro;jbCs?8Tmkhu:7[?D&A`=GrhFLum#'\[rSU#O2:A/1I:]94:2D[<E$E1R"-d1:ljJ84tUelaYV)H>n;nI$\h.X4Gl5=[O7r9ee)oh?L4hG[_\]A.Q1YRhh#h`-d\*D,&7P%09Ig#ENV'ka=<_'&GOE)TFYaL$)<He<.E+l>`?Bt'R&1n+_]tZ8d5SO~>endstream
+endobj
+xref
+0 19
+0000000000 65535 f
+0000000113 00000 n
+0000000221 00000 n
+0000000386 00000 n
+0000000559 00000 n
+0000000838 00000 n
+0000000973 00000 n
+0000001206 00000 n
+0000001328 00000 n
+0000001506 00000 n
+0000001681 00000 n
+0000001857 00000 n
+0000002006 00000 n
+0000002162 00000 n
+0000002319 00000 n
+0000002485 00000 n
+0000002641 00000 n
+0000002768 00000 n
+0000002875 00000 n
+trailer
+<< /ID 
+ % ReportLab generated PDF document -- digest (http://www.reportlab.com) 
+ [(\032\346\3020,.\250Y\233\330\306\003\273-\004\273) (\032\346\3020,.\250Y\233\330\306\003\273-\004\273)] 
+
+ /Info 6 0 R
+ /Root 5 0 R
+ /Size 19 >>
+startxref
+3870
+%%EOF

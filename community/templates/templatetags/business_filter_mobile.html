@@ -1,0 +1,5 @@
+<ul data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search businesses..." data-inset="true" data-theme="d">
+    {% for biz in businesses %}
+        <li><a href="{{ biz.get_absolute_url }}" rel="external">{{ biz.name }}</a></li>
+    {% endfor %}
+</ul>

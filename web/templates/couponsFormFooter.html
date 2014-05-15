@@ -1,0 +1,91 @@
+<footer class="container coupon">
+    <div class="row">
+        <div class="fivecol">
+            <h2>What is this Savings Card?</h2>
+            <p>With our color coded Savings Card you can save $10 on your next purchase (*minimum amount required
+                $30-$40-$50). GRAB A MAP available all throughout participating neighborhoods.</p>
+            <p>Our FREE Map has a Savings Card attached to be redeemed at participant businesses or fill this form to sign up for a FREE
+                card as well. The print map will tell you who the participant businesses are and what their minimum
+                purchase amounts are based on their color code.</p>
+            <p> SHOP LOCAL, save and help your community development.</p>
+        </div>
+        <div class="sevencol last">
+            <h2>Already have a card?</h2>
+            <div class="sevencol colincol">
+                <form accept-charset="UTF-8" action="#" id="couponRequestForm">
+                    {% csrf_token %}
+                    <p>
+                        <label class="hidden" for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Name *" class="required" maxlength="60"/>
+                    </p>
+                    <p>
+                        <label class="hidden" for="cellphone">Cell Phone</label>
+                        <input type="tel" id="cellphone" name="cellphone" placeholder="Cell Phone *" class="required phoneUS"/>
+                    </p>
+                    <p>
+                        <label class="hidden" for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Email *" class="required email"/>
+                    </p>
+                    <p>
+                        <label class="hidden" for="{{ coupons_form.community.name }}">{{ coupons_form.community.label }}</label>
+                        <select id="{{ coupons_form.community.name }}" name="community" class="required">
+                            <option value="" selected>Choose community *</option>
+                            {% for choice in coupons_form.community.field.choices %}
+                                {% if choice.0 %}
+                                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </p>
+                    <p>
+                        <input id="subscribe" type="checkbox" name="subscribe" checked="checked"/>
+                        <label for="subscribe">Hear from us!</label>
+                    </p>
+                    <p class="submit">
+                        <span class="msg"></span>
+                        <button id="mailCouponRequest" class="submit">Send to E-mail</button>
+                    </p>
+                </form>
+            </div>
+            <div class="fivecol last card">
+                <img src="{{ STATIC_URL }}web/img/tarjeta.png" alt="Savings Card"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelvecol">
+            <small>
+                <a href="{% url "render" 'us' %}" target="_blank"> Detour Community Maps</a>
+                &copy; 2012 powered by
+                <a href="http://www.entiremarketinggroup.com/" target="_blank">Entire Marketing Group LLC</a>
+            </small>
+        </div>
+    </div>
+</footer>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // US Phone Validation
+        $.validator.addMethod("phoneUS", function(phone_number, element) {
+            phone_number = phone_number.replace(/\s+/g, "");
+            return this.optional(element) || phone_number.length > 9 &&
+                    phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+        }, "Please specify a valid phone number");
+        // Coupons Form
+        $('#couponRequestForm').validate();
+        $('#couponRequestForm').submit(function(e) {
+            if($('#couponRequestForm').valid() && !$('#mailCouponRequest').hasClass('disabled')) {
+                $('#mailCouponRequest').prop('disabled', true).addClass('disabled').css('opacity', 0.5);
+                $('#couponRequestForm p.submit .msg').html($('<img/>').attr('src', '{{ STATIC_URL }}web/img/loading.gif'));
+                $.post('{% url "web.views.couponsForm" %}', $('#couponRequestForm').serialize(), function(data) {
+                    if(data='Thanks') {
+                        $('#couponRequestForm p.submit .msg').text('Success! Check your email inbox.');
+                    } else {
+                        $('#mailCouponRequest').prop('disabled', false).removeClass('disabled').css('opacity', 1);
+                        $('#couponRequestForm p.submit .msg').text('Error! Try again or call-us to 708 484 1119. We will be happy to help you!');
+                    }
+                });
+            }
+            e.preventDefault();
+        });
+    });
+</script>

@@ -1,0 +1,3 @@
+{% for community in communities %}
+    <li class="ui-icon-nodisc" data-iconshadow="false" data-icon="arrow"><a href="{% url "landing" community.url_name %}">{{ community.name }}</a></li>
+{% endfor %}

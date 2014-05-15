@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}{{ page.name|capfirst }}{% endblock %}
+{% block bodyname %}printedmaps-page{% endblock %}
+{% block content %}
+    <div class="container main">
+        <div class="row">
+            <div class="twelvecol">
+                <div class="slides">
+                    {% for head in header %}
+                        <div class="slide">
+                            {% if head.caption %}
+                            <div class="caption">
+                                <div>
+                                    {{ head.caption|safe }}
+                                </div>
+                            </div>
+                            {% endif %}
+                            <img src="{% thumbnail head.image 1110x424 crop %}" alt="Printed maps">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="row internal">
+            <div class="sixcol text">
+                {{ text.text|safe }}
+            </div>
+            <div class="sixcol last fill"></div>
+        </div>
+    </div>
+{% endblock %}

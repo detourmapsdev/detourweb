@@ -1,0 +1,40 @@
+<div id="overSavings_30">
+    <ul style="list-style: none;">
+    {% for biz in businesses %}
+        {% if biz.local_deals == "T" %}
+            <li style="padding: 2px;" onclick="showBubble('{{ biz.url }}')">{{ biz.name }} </li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>
+<div id="overSavings_40">
+    <ul style="list-style: none;">
+        {% for biz in businesses %}
+            {% if biz.local_deals == "F" %}
+                <li style="padding: 2px;" onclick="showBubble('{{ biz.url }}')">{{ biz.name }} </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+<div id="overSavings_50">
+    <ul style="list-style: none;">
+        {% for biz in businesses %}
+            {% if biz.local_deals == "Q" %}
+                <li style="padding: 2px;" onclick="showBubble('{{ biz.url }}')">{{ biz.name }} </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+<script type="text/javascript">
+    function showBubble(_lhash){
+        var a = searchUrl(_lhash);
+        $(a.marker.content).trigger('click');
+        $("#overSavings").removeClass("display");
+    }
+</script>
+<img src="/static/community/img/30.png" style="position: absolute;top: 88px; left: 145px;">
+<img src="/static/community/img/40.png" style="position: absolute;top: 88px; left: 342px;">
+<img src="/static/community/img/50.png" style="position: absolute;top: 88px; left: 542px;">
+<div style="position: absolute;top:10px;left: 200px;width: 258px;height: 70px;font-size: 1.2em;">Save $10 at these locations width your saving card when you spend 30, 40 or 50.</div>
+<img src="/static/community/img/deals-banner.png" style="position: absolute;top: 5px; right: 506px;">
+<img src="/static/community/img/plane.png" style="position: absolute;top: 5px; left: 480px;">

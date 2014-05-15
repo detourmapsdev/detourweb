@@ -1,0 +1,59 @@
+{% extends 'communityHomeB.html' %}
+    <title>{% block title %}DetourMaps - Media Kit File{% endblock %}</title>
+    {% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.media.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.metadata.js"></script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 180px;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        }
+
+        .overmenu {
+            z-index: 10000;
+        }
+
+        .menuJoin li {
+            width: 100%;
+        }
+
+        .menuJoin li a {
+            text-align: left !important;
+        }
+        .media{
+            position: relative;
+            margin: auto;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('a.media').media({width:1200, height:780});
+        });
+    </script>
+{% endblock %}
+{% block bodyname %}media-kit-file{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <a class="media" href="http://detourmaps.com/media/media-kit.pdf" style="position: relative; margin: auto; display: block;">Media Kit</a>
+    <!--<iframe src="http://docs.google.com/viewer?url=http%3A%2F%2Fdetourmaps.com%2Fmedia%2Fmedia-kit.pdf&embedded=true" width="100%" height="780" style="border: none;"></iframe>-->
+{% endblock %}

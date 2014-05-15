@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DetourMaps - Media Kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href="{{ STATIC_URL }}web/css/onepcssgrid.css" type="text/css" rel="stylesheet"/>
+    <link href="{{ STATIC_URL }}web/css/media-kit.css" type="text/css" rel="stylesheet"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/easing.js"></script>
+    <script src="http://www.youtube.com/player_api"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            function loading(){
+                $("h1#title-intro").fadeIn(2000);
+                $("p#changing").fadeIn(4500);
+                $("table#fast-navigation").fadeIn(5500);
+            };
+            $("<img/>").attr("src", "{{ STATIC_URL }}web/img/home-background.jpg").load(function(){
+                $(this).remove();
+                $("#load-ajax").fadeOut();
+                loading();
+            });
+            var windowHeight = $(window).height();
+            var stepPage = 1;
+            $("#intro,#find,section#banner-print,section#banner-loyalty,section#banner-interactive,section#banner-qr,section#banner-tv,section#banner-extra,section#banner-entire, div#load-videos, div#load-videos-print, div#load-videos-interactiv").css("height", windowHeight);
+            $("section#benefits").css("background-size", "100% "+ windowHeight + "px");
+            $("a.fast, a.jump").click(function(e){
+                e.preventDefault();
+                var target = this.hash,
+                        $target = $(target);
+                var indice = parseInt($target.attr("idb"));
+                stepPage = indice;
+                $("li.pager").html(stepPage + " of 12");
+                $('html, body').stop().animate({
+                    'scrollTop': $target.offset().top
+                }, 900, 'swing', function () {
+                    window.location.hash = target;
+                });
+            });
+            $("a.control").click(function(e){
+                var slidesList = $(".slides");
+                if($(this).hasClass("left")){
+                    if(stepPage == 1){
+                        stepPage = slidesList.length
+                        $("html, body").stop().animate({
+                            "scrollTop": $(slidesList[stepPage-1]).offset().top
+                        }, 1000, 'swing', function () {
+                            window.location.hash = $(slidesList[stepPage-1]).attr("id");
+                        });
+                        $("li.pager").html(stepPage + " of 12");
+                    }else{
+                        --stepPage;
+                        $("html, body").stop().animate({
+                            "scrollTop": $(slidesList[stepPage-1]).offset().top
+                        }, 1000, 'swing', function () {
+                            window.location.hash = $(slidesList[stepPage-1]).attr("id");
+                        });
+                        $("li.pager").html(stepPage + " of 12");
+                    }
+                }else{
+                    if(stepPage==slidesList.length){
+                        stepPage = 1;
+                        $("html, body").stop().animate({
+                            "scrollTop": $(slidesList[stepPage-1]).offset().top
+                        }, 1000, 'swing', function () {
+                            window.location.hash = $(slidesList[stepPage-1]).attr("id");
+                        });
+                        $("li.pager").html(stepPage + " of 12");
+                    }else{
+                        $("html, body").stop().animate({
+                            "scrollTop": $(slidesList[stepPage]).offset().top
+                        }, 1000, 'swing', function () {
+                            window.location.hash = $(slidesList[stepPage-1]).attr("id");
+                        });
+                        stepPage++;
+                        $("li.pager").html(stepPage + " of 12");
+                    }
+
+                }
+                e.returnValue = false;
+                return false;
+            });
+            $("section#menu a").hover(function(){
+                $(this).next().show();
+            }, function(){
+                $(this).next().hover(function(){
+                    $(this).show();
+                }, function(){
+                    $(this).hide();
+                });
+            });
+            $("a.handy").bind('click.smoothscroll',function (e) {
+                e.preventDefault();
+
+                var target = this.hash,
+                        $target = $(target);
+                var indice = parseInt($target.attr("idb"));
+                stepPage = indice;
+                $("li.pager").html(stepPage + " of 12");
+                $('html, body').stop().animate({
+                    'scrollTop': $target.offset().top
+                }, 900, 'swing', function () {
+                    window.location.hash = target;
+                });
+            });
+            $("a#show-first-video").click(function(e){
+                {% comment %}var video = "\
+                <iframe id='ytplayer' type='text/html' width='100%' height='" + windowHeight + "'\
+                src='https://www.youtube.com/embed/Ms0Z8DFYHxg?autoplay=1&autohide=1&color=white&theme=light'\
+                frameborder='0' allowfullscreen>\
+                ";{% endcomment %}
+                $("div#load-videos").show();
+                initVideo();
+                e.returnValue = false;
+                return false;
+            });
+            $("a#show-second-video").click(function(e){
+                {% comment %}var video = "\
+                <iframe id='ytplayer' type='text/html' width='100%' height='" + windowHeight + "'\
+                src='https://www.youtube.com/embed/Ms0Z8DFYHxg?autoplay=1&autohide=1&color=white&theme=light'\
+                frameborder='0' allowfullscreen>\
+                ";{% endcomment %}
+                $("div#load-videos-print").show();
+                initVideoPrint();
+                e.returnValue = false;
+                return false;
+            });
+            $("a#show-third-video").click(function(e){
+                {% comment %}var video = "\
+                <iframe id='ytplayer' type='text/html' width='100%' height='" + windowHeight + "'\
+                src='https://www.youtube.com/embed/Ms0Z8DFYHxg?autoplay=1&autohide=1&color=white&theme=light'\
+                frameborder='0' allowfullscreen>\
+                ";{% endcomment %}
+                $("div#load-videos-interactive").show();
+                initVideoInteractive();
+                e.returnValue = false;
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div id="superScroll">
+<section id="intro" class="slides" idb="1">
+    <h1 id="title-intro" style="display: none;">A <span>LOCAL</span> EVOLUTION</h1>
+    <p id="changing" style="display: none;">CHANGING THE WAY RESIDENTS CONNECT TO THEIR COMMUNITY</p>
+    <table id="fast-navigation" style="display: none;">
+        <tr>
+            <td><a href="#print-page" class="fast"><img src="{{ STATIC_URL }}web/img/print.png"/></a></td>
+            <td><a href="#loyalty-page" class="fast"><img src="{{ STATIC_URL }}web/img/loyalty.png"/></a></td>
+            <td><a href="#interactive-page" class="fast"><img src="{{ STATIC_URL }}web/img/interactive.png"/></a></td>
+            <td><a href="#qr-page" class="fast"><img src="{{ STATIC_URL }}web/img/qr.png"/></a></td>
+            <td><a href="#tv-page" class="fast"><img src="{{ STATIC_URL }}web/img/visual.png"/></a></td>
+        </tr>
+        <tr>
+            <td>Print</td>
+            <td>Loyalty</td>
+            <td>Interactive</td>
+            <td>QR</td>
+            <td>Visual</td>
+        </tr>
+    </table>
+    <section id="load-ajax" style="position: absolute; width: 300px; text-align: center; height: 40px; left: 50%; margin-left: -150px; top: 50%; margin-top: -20px;"><h2 style="font-family: 'Myriad Pro Bold', sans-serif; font-size: 36px; color: #fff;">Loading ...</h2></section>
+</section>
+
+<section id="find" class="slides" idb="2">
+    <div id="load-videos">
+        <div id="player"></div>
+        <script>
+            // create youtube player
+            var player;
+            var initVideo = function onYouTubePlayerAPIReady() {
+                player = new YT.Player('player', {
+                  height: $(window).height(),
+                  width: '100%',
+                  videoId: 'Ms0Z8DFYHxg',
+                  playerVars: {'controls': 0,'autohide':1,'color': 'white', 'theme': 'light', 'showinfo': 0, 'rel': 0},
+                  events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                  }
+                });
+            }
+
+            // autoplay video
+            function onPlayerReady(event) {
+                event.target.playVideo();
+            }
+
+            // when video ends
+            function onPlayerStateChange(event) {
+                if(event.data === 0) {
+                    $("div#load-videos").hide();
+                }
+            }
+
+        </script>
+    </div>
+    <h2>Find out how <br/>we do it</h2>
+    <a href="" class="watch-video" id="show-first-video">
+        <i><img src="{{ STATIC_URL }}web/img/arrow-video.png"/></i>
+        Watch Video
+    </a>
+</section>
+
+<section id="tools" class="slides" idb="3">
+    <h2>Our<br><span>Tools</span></h2>
+    <img src="{{ STATIC_URL }}web/img/tools-cog.png" class="tool-cog"/>
+    <section class="content" id="toolContent">
+        <section class="tools-desc">
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/print-tools.png"/>
+                <figcaption class="print">PRINT</figcaption>
+            </figure>
+            <article class="desc">
+                <header><h1 class="print">20, 000 MAPS</h1></header>
+                <section class="body">
+                    <div class="info">Production per edition with distribution at high traffic <br/>locationss</div>
+                </section>
+                <div class="bar70"></div>
+                <div class="bar60"></div>
+                <div class="bar50"></div>
+                <section class="footer print">
+                    <b>Print</b> Our printed maps are highly detailed community <br/> tool created to.. <a href="#print-page" class="jump">Learn More</a>
+                </section>
+            </article>
+        </section>
+        <section class="tools-desc">
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/loyalti-tools.png"/>
+                <figcaption class="loyalty">Loyalty</figcaption>
+            </figure>
+            <article class="desc">
+                <div class="bar70"></div>
+                <header><h1 class="loyalty">NOW DIGITAL</h1></header>
+                <section class="body">
+                    <div class="info">Our savings card is available for direct download to monile <br/>devices and to print out</div>
+                </section>
+                <div class="bar60"></div>
+                <div class="bar50"></div>
+                <section class="footer loyalty">
+                    <b>Savings Card Program</b> Our signature savings card pro-<br/> gram has been helping residents save locally by offering <br/> discounts on locally made purchase... <a href="#loyalty-page" class="jump">Learn More</a>
+                </section>
+            </article>
+        </section>
+        <section class="tools-desc">
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-tools.png"/>
+                <figcaption class="interactive">Interactive</figcaption>
+            </figure>
+            <article class="desc">
+                <div class="bar70"></div>
+                <header><h1 class="interactive">FOR ALL MOBILE DEVICES</h1></header>
+                <section class="body">
+                    <div class="info"></div>
+                </section>
+                <div class="bar60"></div>
+                <div class="bar50"></div>
+                <section class="footer interactive">
+                    <b>Online Presence</b> We've established an interactive feature <br/> rich online directory with business profiles and community <br/> resources...  <a href="#interactive-page" class="jump">Learn More</a>
+                </section>
+            </article>
+        </section>
+        <section class="tools-desc">
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/scan-tools.png"/>
+                <figcaption class="scan">SCAN</figcaption>
+            </figure>
+            <article class="desc">
+                <div class="bar70"></div>
+                <div class="bar60"></div>
+                <header><h1 class="scan">MORE THAN A QR CODE</h1></header>
+                <section class="body">
+                    <div class="info"></div>
+                </section>
+                <div class="bar50"></div>
+                <section class="footer scan">
+                    <b>QR Codes</b> With a partnership qith QMOQUI detour maps is <br/> enabling residents and business owners to connect with a <br/> multi-functional QR+ Code...  <a href="#qr-page" class="jump">Learn More</a>
+                </section>
+            </article>
+        </section>
+        <section class="tools-desc">
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/visual-tools.png"/>
+                <figcaption class="visual">Visual</figcaption>
+            </figure>
+            <article class="desc">
+                <div class="bar70"></div>
+                <div class="bar60"></div>
+                <div class="bar50"></div>
+                <header><h1 class="visual">CAPTURING</h1></header>
+                <section class="body">
+                    <div class="info"></div>
+                </section>
+                <section class="footer visual">
+                    <b>Detourmaps TV</b> Watch how Detour Maps is capturing a <br/> local evolution...  <a href="#tv-page" class="jump">Learn More</a>
+                </section>
+            </article>
+        </section>
+    </section>
+</section>
+
+<section id="benefits" class="slides"  idb="4">
+    <h2><span>Benefits</span></h2>
+    <section class="content" id="benefitsContent">
+        <section class="content-benefits">
+            <hr>
+            <section class="benefits-desc">
+                <h3>Community</h3>
+                <section class="benefits-content">
+                    <p>
+                        Our services create a sense of identity and build a community image that attracts shop
+                        pers, residents, visitors and businesses. Shopping locally returns more revenue to the
+                        local community. This not only benefits local businesses, but it enriches local public
+                        parks, schools, and community services.
+                    </p>
+                    <section class="list-benefits">
+                        <ul class="left-ul">
+                            <li>Promote communities</li>
+                            <li>Keep money in your community</li>
+                            <li>Promote public assets</li>
+                            <li>Encourage residents to shop local
+                            leaving money in their community</li>
+                            <li>Encourage residents to care about
+                            community</li>
+                            <li>Encourage residents to promote their
+                            community</li>
+                            <li>Business and residents invest in their
+                            communities</li>
+                            <li>Increase visibility in the community</li>
+                        </ul>
+                        <ul class="right-ul">
+                            <li>
+                                Detour offers a number of distinc-
+                                tive products and services that work
+                                together to create full circle direct
+                                marketing support, regardless of how
+                                dispersed your audience might be.
+                                (Solutions would be print and digital
+                                etc.)
+                            </li>
+                        </ul>
+                    </section>
+                </section>
+                <figure>
+                    <img src="{{ STATIC_URL }}web/img/woman-shop.jpg"/>
+                </figure>
+            </section>
+        </section>
+        <section class="content-benefits">
+            <hr>
+            <section class="benefits-desc">
+                <h3>Residents</h3>
+                <section class="benefits-content">
+                    <p>
+                        Detour Maps distributes a free, $10 discount card, which is valid at participating
+                        businesses, with a minimum purchase. Our savings card program gives back to
+                        the consumers after they shop with our local businesses.
+                    </p>
+                    <section class="list-benefits">
+                        <ul class="left-ul">
+                            <li>
+                                Our online directory is available 24/7 to download<br/>
+                                our $10 savings card
+                            </li>
+                            <li>
+                                With our platform you can avoid traveling<br/>
+                                outside your neighborhood plus you save<br/>
+                                time
+                            </li>
+                            <li>
+                                Detour consumers are engaged with the
+                                $10 savings card on every map not only to
+                                look for the savings, but also to participate
+                                in the community and support local
+                                business, use local resources, know bus routes,
+                                useful numbers, and enjoy local entertainment.
+                            </li>
+                        </ul>
+                    </section>
+
+                </section>
+                <figure>
+                    <img src="{{ STATIC_URL }}web/img/woman-shop2.jpg"/>
+                </figure>
+            </section>
+        </section>
+        <section class="content-benefits">
+            <hr>
+            <section class="benefits-desc">
+                <h3>Organizations</h3>
+                <section class="benefits-content">
+                    <section class="list-benefits">
+                        <ul class="left-ul">
+                            <li>Shop local campaign</li>
+                            <li>Helping your business gain new customers</li>
+                            <li>By signing up your business, we will provide you
+                            with the tools and resources you need to continu-
+                            ally improve your marketing program.</li>
+                            <li>Detour offers a number of distinctive products
+                            and services that work together to create full
+                            circle direct marketing support, regardless of how
+                            dispersed your audience might be. (solutions
+                            include print, digital, and other medias)</li>
+                            <li>Detour Maps has a thorough understanding of,
+                            and presence in, local community markets and a
+                            strong success rate in targeting “qualified” mem-
+                            bers of our audience. We can design a compre-
+                            hensive proposal that hits home for your
+                            business every time.</li>
+                        </ul>
+                        <ul class="right-ul">
+                            <li>Connect residents with local businesses:
+                            Detour Maps offers advertisers multiple
+                            ways to speak to qualified consumers, who
+                            are most likely to want or need your busi-
+                            ness’ products and services. And whether
+                            you want to reach busy families, profession-
+                            als, or active retirees, businesses and orga-
+                            nizations can trust Detour Maps to treat con-
+                            sumers as smart, sophisticated shoppers,
+                            who want offers that are relevant to their
+                            lifestyle.</li>
+                            <a href="">View more on Organization Benefits
+</a>
+                        </ul>
+                    </section>
+                </section>
+                <figure>
+                    <img src="{{ STATIC_URL }}web/img/man.jpg"/>
+                </figure>
+            </section>
+        </section>
+    </section>
+</section>
+
+<section id="print-page" class="slides" idb="5">
+    <div id="load-videos-print">
+        <div id="player-print"></div>
+        <script>
+            // create youtube player
+            var playerPrint;
+            var initVideoPrint = function onYouTubePlayerAPIReady() {
+                playerPrint = new YT.Player('player-print', {
+                  height: $(window).height(),
+                  width: '100%',
+                  videoId: 'pZO0iUVmOHE',
+                  playerVars: {'controls': 0,'autohide':1,'color': 'white', 'theme': 'light', 'showinfo': 0, 'rel': 0},
+                  events: {
+                    'onReady': onPlayerReadyPrint,
+                    'onStateChange': onPlayerStateChangePrint
+                  }
+                });
+            }
+
+            // autoplay video
+            function onPlayerReadyPrint(event) {
+                event.target.playVideo();
+            }
+
+            // when video ends
+            function onPlayerStateChangePrint(event) {
+                if(event.data === 0) {
+                    $("div#load-videos-print").hide();
+                }
+            }
+
+        </script>
+    </div>
+    <section id="banner-print">
+        <section id="print-ico">
+            Print
+        </section>
+        <h2><i>Highly</i><br/><span>DETAILED</span><br/>Maps for every scale</h2>
+        <a href="" class="watch-video" id="show-second-video">
+            <i><img src="{{ STATIC_URL }}web/img/arrow-video.png"/></i>
+            Watch Video
+        </a>
+    </section>
+    <section id="print-section">
+        <section class="print-section">
+            <hr>
+            <p>
+                <span>Print Maps</span> Our printed maps are a highly detalled community tools<br/>
+                created to help residents and non-residents discover the best of the community around<br/>
+                them. Our maps help consumers navigate, shop and save by utilizing the $10 savings card<br/>
+                attached to the printed maps. With this tool, Detour Maps encourages residents to become<br/>
+                familiar with their community and local business
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/print-maps.jpg"/>
+            </figure>
+            <section class="print-small">
+                We´ve had the pleasure of creating outstanding maps with numerous communities and local organization including;
+                Berwyn, Cicero, Archer Heights / West Lawn and SSA#10 (Back of the Yards), SSA#39 Greater Southwest Development Cor
+                poration, SSA#45 (Far South development Corporation).
+            </section>
+        </section>
+        <section class="print-section">
+            <hr>
+            <p>
+                <span>For all scales</span> We create our print maps for a variety of<br/>
+                groups including park districts, malls and shoping centers, special service<br/>
+                areas, chambers of commerce, comercial districts and neighborhoods.<br/>
+                Small to large areas and everywhere in between.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/scale-benefits.png"/>
+            </figure>
+        </section>
+        <section class="print-section">
+            <hr>
+            <p>
+                <span>Product Info Specs</span>
+            </p>
+            <h3>Info</h3>
+            <p>
+                Issues: Detour Community Map is published 2 times per year, the artwork/ad deadline is
+                two weeks inadvance prior to publication date.
+            </p>
+            <p>
+                A functional tool and easy to use navigation map is broken into various sections featuring:<br/>
+                Business | Services Nightlife | Dining | Civic Services | Recreational | Compact map of your town or area
+            </p>
+            <p>
+                Detour Map’s periodical distribution is at high traic locations:
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/print-specs.png"/>
+            </figure>
+        </section>
+        <section class="print-section">
+            <hr>
+            <h3>Specs</h3>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/specs.jpg"/>
+            </figure>
+        </section>
+        <section class="print-section">
+            <hr>
+            <p>
+                <span>Savings Card</span>
+            </p>
+            <p style="position: relative; display: inline-block; vertical-align: top; width: 40% !important;">
+                As an addition to our community map and to make
+                it a more valuable tool, we offer a $10 Savings Card
+                that comes attached to the map’s front cover. Map
+                users can use our unique savings card to recieve a
+                $10 discount at particiapating locations.This$10
+                SavingsCard is free,and encouragesusers to stay
+                local. <a href="">Learn More</a>
+            </p>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 40% !important;">
+                <img src="{{ STATIC_URL }}web/img/berwyn-card.jpg"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="loyalty-page" class="slides" idb="6">
+    <section id="banner-loyalty">
+        <section id="loyalty-ico">
+            Loyalty
+        </section>
+        <h2>BUILDING<br/>CUSTOMERS</h2>
+    </section>
+    <section id="loyalty-section">
+        <section class="loyalty-section">
+            <hr>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/loyalty-cards.jpg"/>
+            </figure>
+            <p>
+                <span>Savings Card Program</span>With our color coded
+                Savings Card, Residentscan save $10 on their next purchase (minimumpurchase
+                required of $30, $40, or $50). Our Free Printed maps have savings cards attached to
+                be redeemed atparticipating businesses.<br/>
+                The savings card is available throughoutparticipating neighborhoods, from supermar-kets and restaurants, to public locations, including libraries. Saving cardsare free.
+                Using the Detourprinted map, you can see which businesses are participating through
+                color code, depending on the minimumpurchase required ($30 is yellow, $40 is red,
+                $50 isblue).
+            </p>
+        </section>
+        <section class="loyalty-section">
+            <hr>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 34% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/loyalty-icon.png"/>
+            </figure>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 60% !important;">
+                <p>
+                    Once a residenthas located a deal, they would simply
+                    need to fill out the back of the cardfor it to be valid
+                    and present it at the time of purchase to save $10.
+                </p>
+                <p>
+                    Because the customerprovided their information on
+                    the back, businesses or communities can <i>build a
+                    data base</i> of resident information.
+                </p>
+                <p class="smaller">
+                    The savings card is worth$10 when applicable amount isspent before sales tax.
+                    The savings card will be accepted at all participating businesses. The savings card
+                    is valid for one time use only, and cannotbe combined with other coupons, dis-counts, orpromotions. One savings card per customer must be used at the time
+                    of purchase, and willnot be valid with pastpurchases.
+                </p>
+            </section>
+
+        </section>
+        <section class="loyalty-section back">
+            <hr>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 60% !important;">
+                <p>
+                    <span>
+                        Here’s how to find a participating business,
+                        minimum purchase of $30 (yellow),$40 (red),
+                        or $50 (blue).
+                    </span>
+                </p>
+                <p>
+                    Our color codedprinted maps highlight the businessesparticipating in
+                    the savings card. The $30 minimum purchase requiredishighlighted in
+                    yellow, $40 minimum requirement is red, and the $50 minimum re-quirement is blue. Fill out the information on the back of the savings
+                    card to be redeemed. Show this card to the merchantwhen it’s time to
+                    pay, and received $10 off your bill
+                </p>
+                <figure>
+                    <img src="{{ STATIC_URL }}web/img/fill-card.png"/>
+                </figure>
+            </section>
+
+        </section>
+        <section class="loyalty-section">
+            <hr>
+            <p>
+                <span>
+                    Now Available Online for Direct Download
+                </span>
+            </p>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 60% !important;">
+
+                <p>
+                    By visiting our web page at www.detourmaps.com, click
+                    on the deals tab, and fill out the form to receive afree digi-tal savings card. Choose the community andsubmit.
+                </p>
+                <p>
+                    You havethe choice to either printor download the
+                    savings card. Our onlinebusiness directorylets you
+                    know of the participating retailers, and of the minimum
+                    purchase required for the $10 savings card. <i>You can also
+                    requestanother savings card ifyou have a print card that
+                    is no longer valid.</i>
+                </p>
+                <p>
+                    The digital savings card will have a codeon it. Show this
+                    code to themerchantwhen itis time to pay, and receive
+                    $10 off your bill
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 34% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/loyalty_card.png"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="interactive-page" class="slides" idb="7">
+    <div id="load-videos-interactive">
+        <div id="player-interactive"></div>
+        <script>
+            // create youtube player
+            var playerInteractive;
+            var initVideoInteractive = function onYouTubePlayerAPIReady() {
+                playerInteractive = new YT.Player('player-interactive', {
+                  height: $(window).height(),
+                  width: '100%',
+                  videoId: 'IMDtBPCk17c',
+                  playerVars: {'controls': 0,'autohide':1,'color': 'white', 'theme': 'light', 'showinfo': 0, 'rel': 0},
+                  events: {
+                    'onReady': onPlayerReadyInteractive,
+                    'onStateChange': onPlayerStateChangeInteractive
+                  }
+                });
+            }
+
+            // autoplay video
+            function onPlayerReadyInteractive(event) {
+                event.target.playVideo();
+            }
+
+            // when video ends
+            function onPlayerStateChangeInteractive(event) {
+                if(event.data === 0) {
+                    $("div#load-videos-interactive").hide();
+                }
+            }
+
+        </script>
+    </div>
+    <section id="banner-interactive">
+        <section id="interactive-ico">
+            Interactive
+        </section>
+        <h2>Easily <b>Accesible</b></h2>
+        <br/><br/>
+        <a href="" class="watch-video" id="show-third-video" style="margin-top: 40px; right: 60% !important;">
+            <i><img src="{{ STATIC_URL }}web/img/arrow-video.png"/></i>
+            Watch Video
+        </a>
+    </section>
+    <section id="interactive-section">
+        <section class="interactive-section">
+            <hr>
+            <p>
+                <span>Online Presence</span>
+                We use different resources, both print and digital, to introduce small business and organizations to their local residents.
+                We created a printed map that pin point locations of different local business, restaurants, retail shops, and even public assets.
+                 With this printed map, you can navigate through your community ease and explore different areas you probably never knew were there!
+                This concept became so popular and useful throughout the community, that we created our digital platform <a href="http://detourmaps.com">www.detourmaps.com</a>
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-online.png"/>
+            </figure>
+            <p>
+                Our online directory platform is available 24/7 so everyone will have access to it from the com-fort of their own home. With this online tool residents can avoid traveling outside the neighbor-hood to explore, which saves them energy, money, and time and stay within the community.
+                We renovated our printedmap, which is accessible to everyone, even if youdo not live in the
+                community.
+            </p>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p>
+                <span>Extend your business reach with extraexposure online</span>
+            </p>
+            <p>
+                We are excited to share that our team has been working and updating our interactive online directory. Over
+                the past months, we've worked passionately to build our dream. From the start, we had a goal to deliver
+                innovative and shop local messages through outstanding design, creativity products and engineering. As a
+                result, we are helping create local evolution by supporting the shop local movement. Detour Maps helps
+                residents understand that shopping locally keeps revenue within the community, which results in better
+                parks, schools, security, businesses, and an overall better environment.
+            </p>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 34% !important; padding: 5% 0;">
+                <section style="margin-left: 25%;">
+                    <h3 style="color: #ED1C24 !important; font-size: 1.45em !important;">
+                        Select a Chicagoland
+                        neighborhood.
+                    </h3>
+                    <p style="font-size: 0.78em !important;">
+                        Detourmaps is currently active in the West
+                        and Southside of the city and eagerly
+                        anticiapating working with more
+                        communities in the near future.
+                    </p>
+                </section>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 60% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/interactive-neighborhood.jpg"/>
+            </figure>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p style="text-align: center;">
+                <span>Discover the best the area hat to offer</span>
+            </p>
+            <p style="text-align: center;">
+                Communities have a custom Discover page that gives residents useful information about
+                the community, including events, community partners, and their public assets
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-area.jpg"/>
+            </figure>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p style="text-align: center;">
+                <span>Finding the best local deals and saving made easy</span>
+            </p>
+            <p style="text-align: center;">
+                Gives users the list of what businesses in the community are participating in the $10 savings
+                card, and their minimum purchase requirement.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-deals.jpg"/>
+            </figure>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <figure style="margin-bottom: 120px;">
+                <img src="{{ STATIC_URL }}web/img/interactive-events.png" style="width: 20% !important;"/>
+            </figure>
+            <p style="text-align: center;">
+                <span>Be active and experience community events.</span>
+            </p>
+            <p style="text-align: center;">
+                From yearly summer festivals to networking luncheons. Findevents and town
+                meetings taking place inthe community. Become up to date onevents coming
+                soon andget all the info your need; time, day, and location
+            </p>
+
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p style="text-align: center;">
+                <span>Your business page across all devices</span>
+            </p>
+            <p style="text-align: center;">
+                A page customized for businesses in the community, where residents can check out a business,
+                leave a review, get directions, view the menuor products, download a coupon, share with a
+                friend and much more. All their futures at their fingertips.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-devices.jpg"/>
+            </figure>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p style="text-align: center;">
+                <span>A page for our community partners, get to know them</span>
+            </p>
+            <p style="text-align: center;">
+                Lists organizations active inthe community, their events, and local businesses that participate
+                with them. It is a web page with all of the organization’s information
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/interactive-partners.jpg"/>
+            </figure>
+        </section>
+        <section class="interactive-section">
+            <hr>
+            <p>
+                <span>Have an account with us</span>
+            </p>
+            <p>
+                Your business can benefit from our interactive online marketing features, which
+                help reach additional customers. Remember, with Detour Maps you advertise your
+                business, but it isimportant that residents recognize your business as a supporter
+                of theirneighborhood, as well.
+            </p>
+            <figure style="text-align: left !important; width: 30% !important; margin-top: 150px; padding-left: 8% !important;">
+                <img src="{{ STATIC_URL }}web/img/interactive-buildings.png"/>
+            </figure>
+        </section>
+    </section>
+
+</section>
+
+<section id="qr-page" class="slides" idb="8">
+    <section id="banner-qr">
+        <section id="qr-ico">
+            QR
+        </section>
+
+    </section>
+    <section id="qr-section">
+        <section class="qr-section">
+            <hr>
+            <p>
+                <span>What is QMOQUI?</span>
+            </p>
+            <p>
+                Our partnering company, under Entire Marketing Group LLC,QMOQUI, has partnered with Detour
+                Maps to create custom, quick response codes (QR), for personal, organization, or business use.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/qr-scan.jpg"/>
+            </figure>
+            <p class="smaller">
+                Why have QR codes? Quick Response Codes allow your on-the-go residents to connect with you
+                through their mobile phone.All they would need to do is scan the QR code, which canbe located
+                anywhere, and it will take them to where you want them to go
+            </p>
+        </section>
+        <section class="qr-section">
+            <hr>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 50% !important; padding: 5% 0;">
+                <p>
+                    <span>
+                        Simple QR codes are free and
+                        easy to use.
+                    </span>
+                </p>
+                <p>
+                    A simple QR code can reveal your
+                    business’ website, a video, or even
+                    connect to social media.
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/qr-free.png"/>
+            </figure>
+        </section>
+        <section class="qr-section">
+            <hr>
+            <p>
+                <span>Need something more advanced?</span>
+            </p>
+            <p>
+                Custom QR code using QR+ allows you to connect all of your business or personal information in one spot. Think of it
+                this way, what if your customers could click on your promotional items like a business card or flyer and instantly in-teract with you? QR+ technology makes that possible by using Detour Mobile Pages.
+            </p>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 54% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/qr-plus.png"/>
+            </figure>
+            <section  style="position: relative; display: inline-block; vertical-align: middle; width: 30% !important; padding: 5% 0; margin-left: -18%;">
+                <p class="smaller">
+                    Unlike basic QR codes that normally have one function,
+                    QR+ gives users a wide range of options to interact.
+                    Send an email, call a number, watch videos,
+                    share on social media and more.
+                </p>
+            </section>
+        </section>
+        <section class="qr-section">
+            <hr>
+            <section  style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    <span>
+                        Detour Mobile Pages
+                    </span>
+                </p>
+                <p>
+                    Has all of your business information such as
+                    phone number,address, social media and
+                    more in one location. By using QR+ by
+                    QMOQUI,you can place a QR code any-where,from flyers to window decals.
+                </p>
+                <p>
+                    QR+ has the ability to go beyond QR codes.
+                    Digitized images can be scanned to reveal
+                    any information you would like to share.It’s
+                    a fun way to interact with your customers.
+                    With one scan, a resident can have all of
+                    your information available to them on their
+                    mobile device.
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/qr-mobile.jpg"/>
+            </figure>
+        </section>
+        <section class="qr-section">
+            <hr>
+            <p>
+                <span>
+                    QR+ is offered to companies, and organizations, and businesses
+                </span>
+            </p>
+            <p>
+                Detour Maps also serves entrepreneurs with MyQR. This service offers the same features as QR+, but for per
+                sonal use. Promote yourself by placing a QR code on business cards, flyers, banners, website, etc.
+            </p>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    Connect features to your MyQR or QR+ codes,
+                    such as:
+                </p>
+                <p>
+                    Phone number<br/>
+                    Address<br/>
+                    Social media<br/>
+                    Videos<br/>
+                    Service list<br/>
+                    Ability to share your information withothers<br/>
+                    The possibilities are endless!
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/qr-organizations.jpg"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="tv-page" class="slides" idb="9">
+    <section id="banner-tv">
+        <section id="tv-ico">
+            Visual
+        </section>
+        <h2><img src="{{ STATIC_URL }}web/img/tv-logo.png" style="width: 85%;"/></h2>
+    </section>
+    <section id="tv-section">
+        <section class="tv-section">
+            <hr>
+            <p style="text-align: center;">
+                Detour Maps is evolving the way we advertise by taking advantage of visual and social media. We have the capability,
+                knowledge, and tools to create promotional and informative videos, which are available through social media. Our
+                Youtube page has been expanding, as we have been producing and editing videos for small, local businesses.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/tv-videos.jpg"/>
+            </figure>
+        </section>
+        <section class="tv-section">
+            <hr>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <div class="stats">
+                    <span>600</span><br/>
+                    views a month
+                </div>
+                <div class="stats">
+                    <span>44,000+</span><br/>
+                    views worlwide
+                </div>
+                <div class="stats">
+                    <span>60%</span><br/>
+                    views from mobile devices
+                </div>
+            </section>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    In a short time, our Youtube page has reached over 44,000
+                    viewers worldwide. We average about 600 viewers a
+                    month. Over 60% of our video views are received through
+                    mobile devices, which illustrate how consumers access
+                    information while they are on the move. We also make
+                    these videos accessible through our businesses’ page on
+                    detourmaps.com, through customized QR codes, and
+                    social media outlets, such as Facebook.
+                </p>
+            </section>
+        </section>
+        <section class="tv-section">
+            <hr>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/tv-testimonial.jpg"/>
+            </figure>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    <span>
+                        Testimonials
+                    </span>
+                </p>
+                <p>
+                    Check out how we capture the
+                    spirit and personality of communities during local events and an
+                    inside look at local restuarants
+                    with business owners introducing
+                    their location and describing
+                    customer favorites.
+                </p>
+            </section>
+        </section>
+    </section>
+</section>
+
+<section id="extra-page" class="slides" idb="10">
+    <section id="banner-extra">
+
+    </section>
+    <section id="extra-section">
+        <section class="extra-section">
+            <hr>
+            <p>
+                Detour Maps provides you with all of the tools you need to reach your residents or customers.
+                Big and small. We help with print collateral, web, and even quick response. But we also help
+                with the little details that most people don’t think about:
+            </p>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/extra-eblast.png"/>
+            </figure>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    <span>Newsletter / Eblasts</span>
+                </p>
+                <p>
+                    Detour Maps Newsletters and eblasts are direct marketing strategies
+                    to help you keep in touch with your existing customers or introduce
+                    yourself to new customers quickly and easily. We send a weekly
+                    newsletter to communicate with events, community information,
+                    business information, community deals and more.
+                </p>
+            </section>
+        </section>
+        <section class="extra-section">
+            <hr>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    <span>
+                        Text Message Promotions
+                    </span>
+                </p>
+                <p>
+                    Our text message service allows you to target on
+                    the go customers using their phones. You can
+                    communicate deals or information
+                </p>
+                <p>
+                    Example:
+                    <ul>
+                        <li>
+                            Participating businesses will be able to text cus-tomers to receive discounts. Ex: Text the business
+                            name to #####, receive a code, present
+                            to participating business and get a % discount.<br/>
+                            *restrictions may apply
+                        </li>
+                    </ul>
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/extra-sms.png"/>
+            </figure>
+        </section>
+        <section class="extra-section">
+            <hr>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/extra-media.png"/>
+            </figure>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p>
+                    <span>
+                        Social Media
+                    </span>
+                </p>
+                <p>
+                    Stay connected to current and future
+                    customers by being accessible through
+                    social media. If you do not currently
+                    have a social media page, Detour Maps
+                    can help you set one up.
+                </p>
+            </section>
+        </section>
+        <section class="extra-section">
+            <hr>
+            <section style="position: relative; display: inline-block; vertical-align: middle; width: 55% !important; padding: 5% 0;">
+                <p style="margin: -120px 0 90px 0;">
+                    <span style="color: #F15A24 !important; font-size: 3.5em !important;">Coming Soon</span>
+                </p>
+                <p>
+                    <span style="color: #F15A24 !important;">
+                        Detourmaps Rewards
+                    </span>
+                </p>
+                <p>
+                    A Detourmaps Reward
+                    program that rewards
+                    customers for shopping
+                    with our local businesses
+                </p>
+            </section>
+            <figure style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/extra-rewards.png"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="entire-page" class="slides" idb="11">
+    <section id="banner-entire">
+        <section id="entire-ico">
+
+        </section>
+    </section>
+    <section id="entire-section">
+        <section class="entire-section">
+            <hr>
+            <p>
+                Since 2007, we have helped many small businesses, especially communities as a whole to get
+                the most out of interactive marketing through a combination of products and services we pro-vide with our Neighborhood Platform. This combination is what sets us apart from the rest.
+            </p>
+            <figure>
+                <img src="{{ STATIC_URL }}web/img/entire-buildings.png"/>
+            </figure>
+            <p>
+                We provide the industry's best community marketing plans and deals, using our sub divi-sions Detour Maps and QMOQUI. Together, we provide a complete interactive marketing
+                platform which helps community based organizations connect and promote their neighbor-hoods, while helping the local businesses in the community.
+            </p>
+        </section>
+        <section class="entire-section" style="background-color: #58595B;">
+            <hr>
+            <p style="color: #ffffff !important;">
+                EMG is the only creative company today to offer a complete interactive marketing
+                Neighborhood Platform that provides users with community asset information, deals,
+                and more. This is all presented through outstanding graphic design and a great delivery
+                of useful information to the residents in the community.
+            </p>
+            <figure style="padding: 5% 10% !important; width: 80% !important;">
+                <img src="{{ STATIC_URL }}web/img/entire-logo.png"/>
+            </figure>
+        </section>
+        <section class="entire-section">
+            <hr>
+            <figure style="padding: 2% 6%; margin-bottom: 120px; width: 88% !important;">
+                <img src="{{ STATIC_URL }}web/img/entire-logos.png"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="contact-page" class="slides" idb="12">
+    <section id="banner-contact">
+        <section id="contact-ico">
+
+        </section>
+        <section style="width: 100%; background-color: #F15A29; height: 50%;">
+            <section  style="position: relative; display: inline-block; vertical-align: middle; width: 45% !important; padding: 5% 0; margin-left: 100px;">
+                <p>
+                    <span style="color: #ffffff !important;">
+                        Contact Detour Maps
+                    </span>
+                </p>
+                <p style="color: #ffffff !important;">
+                    Have a project in mind?
+                    We’d love to hear about it.
+                </p>
+            </section>
+            <figure  style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/contact-chat.png"/>
+            </figure>
+        </section>
+        <section style="width: 100%; background-color: #ffffff; height: 50%;">
+            <section  style="position: relative; display: inline-block; vertical-align: middle; width: 45% !important; padding: 5% 0; margin-left: 100px;">
+                <p>
+                    <span style="color: #F15A24 !important;">
+                        Address
+                    </span>
+                </p>
+                <p>
+                    6428 S Pulaski Rd, Chicago IL 60629<br/>
+                    6900 W Cermak Rd, Berwyn IL 60402.
+                </p>
+                <p>
+                    <span style="color: #F15A24 !important;">
+                        Phone
+                    </span>
+                </p>
+                <p>
+                    708-393-6070<br/>
+                    708-484-1119
+                </p>
+                <p>
+                    <span style="color: #F15A24 !important;">
+                        Email
+                    </span>
+                </p>
+                <p>
+                    info@detourmaps.com
+                </p>
+            </section>
+            <figure  style="position: relative; display: inline-block; vertical-align: middle; width: 44% !important; padding: 5% 0;">
+                <img src="{{ STATIC_URL }}web/img/contact-map.png"/>
+            </figure>
+        </section>
+    </section>
+</section>
+
+<section id="bbar">
+    <section id="menu">
+        <a href="">
+            <i></i>
+            <img src="{{ STATIC_URL }}web/img/logo-media-kit.png"/>
+        </a>
+        <ul>
+            <li><a href="#intro" class="handy">Home</a></li>
+            <li><a href="#find" class="handy">Find</a></li>
+            <li><a href="#tools" class="handy">Tools</a></li>
+            <li><a href="#benefits" class="handy">Benefits</a></li>
+            <li><a href="#print-page" class="handy">Print</a></li>
+            <li><a href="#loyalty-page" class="handy">Loyalty</a></li>
+            <li><a href="#interactive-page" class="handy">Interactive</a></li>
+            <li><a href="#qr-page" class="handy">Scan</a></li>
+            <li><a href="#tv-page" class="handy">Visual</a></li>
+            <li><a href="#extra-page" class="handy">Extra Services</a></li>
+            <li><a href="#entire-page" class="handy">Entire Marketing</a></li>
+            <li><a href="#contact-page" class="handy">Contact</a></li>
+        </ul>
+    </section>
+    <section id="navbar">
+        <nav>
+            <ul>
+                <li>
+                    <a href="" class="control left"><img src="{{ STATIC_URL }}web/img/icon-left-media.png"></a>
+                </li>
+                <li class="pager">1 of 12</li>
+                <li><a href="" class="control right"><img src="{{ STATIC_URL }}web/img/icon-right-media.png"></a></li>
+            </ul>
+        </nav>
+    </section>
+    <section id="socialbar">
+        <ul>
+            <li><a href="https://twitter.com/detourmaps" target="_blank"><img src="{{ STATIC_URL }}web/img/twitter.png"/></a></li>
+            <li><a href="https://www.facebook.com/detourmaps" target="_blank"><img src="{{ STATIC_URL }}web/img/facebook.png"/></a></li>
+            <li><a href="" target="_blank"><img src="{{ STATIC_URL }}web/img/linked_in.png"/></a></li>
+            <li><a href="https://plus.google.com/u/0/110711942916610437143/videos" target="_blank"><img src="{{ STATIC_URL }}web/img/google_plus.png"/></a></li>
+        </ul>
+    </section>
+</section>
+</div>
+</body>
+</html>

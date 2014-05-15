@@ -1,0 +1,90 @@
+{% extends 'communityHomeB.html' %}
+{% block title %}Printed Maps{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type='text/css' href="{{ STATIC_URL }}community/css/detourmaps-printedmaps.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}aFarkas-html5shiv-67bff28/dist/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        body {
+            background: #fff !important;
+        }
+
+        .overmenu {
+            z-index: 1000;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block bodyname %}printed-maps-page{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div id="container">
+        <div id="body">
+            <h1>Our printed community maps</h1>
+            <aside id="maps">
+                <!--map is in here-->
+            </aside>
+
+            <p class="paragraph1">Where it all started, our printed maps are detail rich with full color ads and a
+                community map
+                including locations of parks, schools, city services and markets. This easy to use
+                navigation tool folds down into a compact brochure that can be carried around for repeated use.</p>
+
+            <h3>Key Features</h3>
+
+            <p>- Circulation of each map is 20,000</p>
+
+            <p>- Detour Community Maps are published 4 times per year. </p>
+
+            <p class="key_features1">- Savings Card Program: savings card included with map, encourages residents to
+                shop
+                and dine locally while savings $10 at participating locations. </p>
+
+            <p class="key_features2">- Door-to-door distribution at high traffic areas that include: banks, super
+                markets, restuarants,
+                gas stations, community events and more.</p>
+
+            <p>- An effective, unique, and affordable way to advertise your business. </p>
+
+            <div id="line">
+            </div>
+
+            <h3>Download PDF Map</h3>
+
+            <p>Berwyn l Cicero l Archer Height l Back of the Yards (SSA 10)</p>
+
+            <p>Greater Southwest (SSA 3) l Far South (SSA 45)</p>
+
+            <div id="line2">
+            </div>
+            <h3>Interested in an upcoming issue?</h3>
+
+            <p class="interested">We’ll be happy to answer any questions you may have about advertising or being
+                involved in your neighborhoods next commmunity map.</p>
+
+            <p class="interested2">We also specialize in creating maps for commerical/service areas, and chambers of
+                commerce. If your organization is looking to promote their services and local business.</p>
+
+            <div id="gray_button">
+                <a href="http://www.detourmaps.com/contact"><img src="{{ STATIC_URL }}community/css/images/button.png"
+                                                                 alt="request info for community maps button"></a>
+            </div>
+
+        </div>
+        <!--body div-->
+    </div>
+{% endblock %}

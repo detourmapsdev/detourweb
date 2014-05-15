@@ -1,0 +1,88 @@
+{% extends 'base-mobile.html' %}
+{% block title %}DetourMaps - Deals{% endblock %}
+{% block extrahead %}
+    <style>
+        #slideMenu{
+            display: none !important;
+        }
+        #nav{
+            display: block !important;
+        }
+        #chat{
+            /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+            background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzgwODI4NSIgc3RvcC1vcGFjaXR5PSIwLjc1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjElIiBzdG9wLWNvbG9yPSIjODE4Mzg2IiBzdG9wLW9wYWNpdHk9IjAuNzUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+            background: -moz-linear-gradient(top,  rgba(128,130,133,0.75) 0%, rgba(129,131,134,0.75) 1%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(128,130,133,0.75)), color-stop(1%,rgba(129,131,134,0.75)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(128,130,133,0.75) 0%,rgba(129,131,134,0.75) 1%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(128,130,133,0.75) 0%,rgba(129,131,134,0.75) 1%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(128,130,133,0.75) 0%,rgba(129,131,134,0.75) 1%,rgba(255,255,255,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(128,130,133,0.75) 0%,rgba(129,131,134,0.75) 1%,rgba(255,255,255,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf808285', endColorstr='#ffffff',GradientType=0 ); /* IE6-8 */
+        }
+        .ui-listview{
+            margin: 0 !important;
+        }
+        ul.listDeals{
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).bind("pageinit", function(){
+            $("h2.dealsDown").click(function(e){
+                var next = $(this).next().css("display");
+                if(next == "block"){
+                    $("ul.listDeals").slideUp();
+                    $(this).find("i").removeClass("icon-caret-down").addClass("icon-caret-right");
+                }
+                else{
+                    $("ul.listDeals").slideUp();
+                    $(this).next().slideDown();
+                    $(this).find("i").removeClass("icon-caret-right").addClass("icon-caret-down");
+                }
+                e.returnValue = false;
+                return false;
+            });
+        })
+    </script>
+{% endblock %}
+{% block body %}
+    <section id="dealsMobilePanel">
+        <h1>
+            <a href="/" rel="external" data-transition="flip"><i class="icon-caret-left"></i>{{ community.name }} Savings Card</a>
+        </h1>
+        <h2 class="yellow dealsDown">$30 minimum purchase<i class="icon-caret-right"></i></h2>
+            <ul class="listDeals" data-role='listview'>
+            {% for i in businesses %}
+                {% if i.local_deals == 'T' %}
+                    <li><a href="{{ i.get_absolute_url }}" class="bizDeal">{{ i.name|capfirst }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <h2 class="red dealsDown">$40 minimum purchase<i class="icon-caret-right"></i></h2>
+        <ul class="listDeals" data-role='listview'>
+            {% for i in businesses %}
+                {% if i.local_deals == 'Q' %}
+                    <li><a href="{{ i.get_absolute_url }}" class="bizDeal">{{ i.name|capfirst }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <h2 class="blue dealsDown">$50 minimum purchase<i class="icon-caret-right"></i></h2>
+        <ul class="listDeals" data-role='listview'>
+            {% for i in businesses %}
+                {% if i.local_deals == 'F' %}
+                    <li><a href="{{ i.get_absolute_url }}" class="bizDeal">{{ i.name|capfirst }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+    <section id="chat">
+        <section id="big-orange">
+            <img src="{{ STATIC_URL }}community/elementos/smart-join.png" style="position: relative; display: inline-block; vertical-align: middle;"/>
+            <div class="textChat" style="width: 55%;position: relative; display: inline-block; vertical-align: middle;">
+                <div class="join" style="color: #fff; font-family: 'Myriad Pro', sans-serif; font-size: 1.5em; margin-bottom: 8px">Download Savings Card</div>
+                <div class="miss" style="color: #FDD93F; font-family: 'Myriad Pro', sans-serif; font-size: 1.25em;">Now available for mobile devices,
+start saving now!</div>
+            </div>
+        </section>
+    </section>
+{% endblock %}

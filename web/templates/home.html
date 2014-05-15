@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block extrahead %}
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/slides.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.slide').height(($('.slides').width() - 30) * 0.382165 );
+            $('.slides').height(($('.slides').width() - 30) * 0.382165 + 30);
+            $('.slides').css({
+                background: "url('{{ STATIC_URL }}web/img/loading.gif') no-repeat 50% 50%"
+            });
+        });
+        $(window).load(function() {
+            $('.slides').height(($('.slides').width() - 30) * 0.382165 + 30);
+            $('.container.main .slides').slides({
+                preload: true,
+
+                effect: 'fade',
+                crossfade: true,
+                autoHeight: true,
+                play: 4000,
+                pause: 2500,
+                hoverPause: true,
+                animationStart: function(current){
+                    $('.slide .caption').animate({
+                        bottom:-130
+                    },100);
+                },
+                animationComplete: function(current){
+                    $('.slide .caption').animate({
+                        bottom:0
+                    },200);
+                },
+                slidesLoaded: function() {
+                    $('.slide .caption').animate({
+                        bottom:0
+                    },200);
+                }
+            });
+            $('.slides_control').width('auto');
+        });
+
+        $(window).resize(function(){
+            //$('.slides_control').height($('.slides_control img').height());
+            //$('.slide').height(($('.slides_container').width() - 30) * 0.38216 );
+            $('.slide').height(($('.slides').width() - 30) * 0.382165 );
+            $('.slides').height(($('.slides').width() - 30) * 0.382165 + 30);
+        });
+    </script>
+{% endblock %}
+
+{% block bodyname %}home-page{% endblock %}
+
+{% block content %}
+    <div class="container main">
+        <div class="row">
+            <div class="twelvecol">
+                <div class="slides">
+                    <div class="slides_container">
+                        {% for header in headers %}
+                            <div class="slide">
+                                <img src="{% thumbnail header.image 1200x462 crop %}" alt="{{ header.image }}"/>
+                                {% if header.caption %}
+                                <div class="caption">
+                                    <div>
+                                        {{ header.caption|safe }}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container panels">
+        <div class="row">
+            <div class="panelsMargin">
+                {% for block in blocks %}
+                    {% if not forloop.last %}
+                        <div class="fourcol{% if forloop.first %} first{% endif %}">
+                            <a href="{% if block.link %}/{{ block.link }}{% else %}#home{% endif %}">
+                                <div class="panel">
+                                    <div class="caption">
+                                        <div>
+                                            <h3>{{ block.title }}</h3>
+                                        </div>
+                                    </div>
+                                    <img src="{% thumbnail block.image 341x210 crop %}" alt="{{ block.title }}" />
+                                </div>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="fourcol last">
+                            <div class="panel video">
+                                <h3>What DetourMaps do for your community?</h3>
+                                <object width="341" height="210">
+                                    <param name="movie" value="{{ block.video }}"></param>
+                                    <param name="allowFullScreen" value="true"></param>
+                                    <embed src="{{ block.video }}"
+                                           type="application/x-shockwave-flash"
+                                           allowfullscreen="true"
+                                           width="341" height="210">
+                                    </embed>
+                                </object>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% include "couponsFormFooter.html" %}
+{% endblock %}

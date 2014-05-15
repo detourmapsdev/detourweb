@@ -1,0 +1,119 @@
+Microsoft Windows [Versión 6.1.7601]
+Copyright (c) 2009 Microsoft Corporation. Reservados todos los derechos.
+
+C:\Users\Mauricio>python
+Python 2.7 (r27:82525, Jul  4 2010, 09:01:59) [MSC v.1500 32 bit (Intel)] on win
+32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import urllib2
+>>> import StringIO
+>>> from xml.dom.minidom
+  File "<stdin>", line 1
+    from xml.dom.minidom
+                       ^
+SyntaxError: invalid syntax
+>>> import xml.dom.minidom
+>>> from xml.etree.ElementTree import parse
+>>> usock = urllib.urlopen("http://xoap.weather.com/weather/search/search?where=
+berwyn,il")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'urllib' is not defined
+>>> usock = urllib2.urlopen("http://xoap.weather.com/weather/search/search?where
+=berwyn,il")
+>>> xmldoc = minidom.parse(usock)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'minidom' is not defined
+>>> import xml.dom.minidom
+>>> xmldoc = minidom.parse(usock)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'minidom' is not defined
+>>> xmldoc = xml.dom.minidom.parse(usock)
+>>> print xmldoc.toxml()
+<?xml version="1.0" ?><!-- This document is intended only for use by authorized
+licensees of The  --><!-- Weather Channel. Unauthorized use is prohibited.  Copy
+right 1995-2013, --><!-- The Weather Channel Interactive, Inc.  All Rights Reser
+ved.            --><search ver="3.0">
+  <loc id="USIL0101" type="1">Berwyn, IL</loc>
+</search>
+>>> from xml.dom.minidom import parse
+>>> r = usock.read()
+>>> dom = parse(StringIO.StringIO(r))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Python27\lib\xml\dom\minidom.py", line 1911, in parse
+    return expatbuilder.parse(file)
+  File "C:\Python27\lib\xml\dom\expatbuilder.py", line 928, in parse
+    result = builder.parseFile(file)
+  File "C:\Python27\lib\xml\dom\expatbuilder.py", line 211, in parseFile
+    parser.Parse("", True)
+xml.parsers.expat.ExpatError: no element found: line 1, column 0
+>>> m = parse(StringIO.StringIO(r))
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "C:\Python27\lib\xml\dom\minidom.py", line 1911, in parse
+    return expatbuilder.parse(file)
+  File "C:\Python27\lib\xml\dom\expatbuilder.py", line 928, in parse
+    result = builder.parseFile(file)
+  File "C:\Python27\lib\xml\dom\expatbuilder.py", line 211, in parseFile
+    parser.Parse("", True)
+xml.parsers.expat.ExpatError: no element found: line 1, column 0
+>>> req = "http://xoap.weather.com/weather/search/search?where=berwyn,il"
+>>> response = urllib2.urlopen(req)
+>>> page = response.read()
+>>> print page
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This document is intended only for use by authorized licensees of The  -->
+<!-- Weather Channel. Unauthorized use is prohibited.  Copyright 1995-2013, -->
+<!-- The Weather Channel Interactive, Inc.  All Rights Reserved.            -->
+<search ver="3.0">
+  <loc id="USIL0101" type="1">Berwyn, IL</loc>
+</search>
+
+
+>>> d = parse(StringIO.StringIO(page))
+>>> name = d.getElementsByTagName('loc')
+>>> code = name[0].firstChild
+>>> print code.nodeValue
+Berwyn, IL
+>>> print code.attributes["id"]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'NoneType' object is not subscriptable
+>>> print code
+<DOM Text node "u'Berwyn, IL'">
+>>> name[0]
+<DOM Element: loc at 0x179e940>
+>>> name[0].attributes["id"]
+<xml.dom.minidom.Attr instance at 0x0179E990>
+>>> print name[0].attributes["id"]
+<xml.dom.minidom.Attr instance at 0x0179E990>
+>>> a = name[0].get('id')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: Element instance has no attribute 'get'
+>>> name[0].attrib
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: Element instance has no attribute 'attrib'
+>>> name[0].id
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: Element instance has no attribute 'id'
+>>> name[0].firstChild
+<DOM Text node "u'Berwyn, IL'">
+>>> name[0].attribute["id"]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: Element instance has no attribute 'attribute'
+>>> name[0].attributes["id"]
+<xml.dom.minidom.Attr instance at 0x0179E990>
+>>> name[0].attributes["id"].value
+u'USIL0101'
+>>>
+
+
+http://xoap.weather.com/weather/search/search?where=berwyn,il api
+view-source:http://weather.yahooapis.com/forecastrss?p=USIL0101&u=f weather api yahoo

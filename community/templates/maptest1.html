@@ -1,0 +1,217 @@
+{% load queryset %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+{% block head %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no">
+    <title>{% block title %}Detour Maps - {{ community.name|capfirst }}{% endblock %}</title>
+    <!-- <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" /> -->
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Baumans|Arvo:400,700|Istok+Web:400,700|Metrophobic">
+    <link media="screen" type="text/css" rel="stylesheet" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <style type="text/css">
+        html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cite, code, del, dfn, em, img, ins, q, small, strong, sub, sup, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+            border: 0;
+            margin: 0;
+            padding: 0
+        }
+
+        article, aside, figure, figure img, figcaption, hgroup, footer, header, nav, section, video, object {
+            display: block
+        }
+
+        a img {
+            border: 0
+        }
+
+        figure {
+            position: relative
+        }
+
+        figure img {
+            width: 100%
+        }
+    </style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var map = null;
+        var cmData = false;
+        $.getJSON('{% url "community.views.data" community.url_name %}', function(data){
+            cmData = data;
+        });
+    </script>
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/raphael-min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/slider.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/dtmfront.js"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-31412199-1']);
+        _gaq.push(['_setDomainName', 'detourmaps.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+{% endblock %}
+</head>
+<body>
+{% block body %}
+
+<div id="map">
+    <div class="tbar">
+        <img class="logo" src="{{ STATIC_URL }}community/img/detour_logo.png" alt="detourMaps"/>
+        <header class="welcome">
+            <h1>{{ community.name }}</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="#overDiscover">Discover</a></li>
+                <li><a href="#overSavings">Local Deals</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="radius-wrap">
+        <div class="lbar clear">
+            <div class="search">
+                <div>
+                    <input name="q" type="search" autocomplete="on" placeholder="e.g. Famous Dave's"/>
+                    <div class="search-icon"><img src="{{ STATIC_URL }}community/img/icons/detoursearch.png" alt="search"/></div>
+                </div>
+            </div>
+            <div class="cat-title"></div>
+            <div class="cat-content"></div>
+        </div>
+        <div class="rbar">
+            <div id="categories">
+                <ul cellSpacing="0">
+                    {% for category in categories %}
+                    <li id="cat-{{ forloop.counter0 }}" class="cat">
+                        <div class="cat-title">
+                            <div class="img" style="background-image: url('/media/{{ category.icon }}')"></div>
+                            <div><span class="title">{{ category.name }}</span></div>
+                        </div>
+                        <div class="cat-content">
+                            <div class="cat-filter">
+
+                                <form id="categories{{ category.id }}" action="#">
+                                    <span>Filter: </span>
+                                    {% listServiceByCategoryByBusiness community.id category.id %}
+                                </form>
+                            </div>
+                            <div class="cat-list">
+                                <ul>
+                                    {% list_business community.id category.id %}
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="detourmap">
+                <div class="loading">
+                    <h3>Pretending to load...</h3>
+                    <div class="messages"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overDiscover" class="over">
+        {{ discover.text|safe }}
+    </div>
+    <div id="overSavings" class="over">
+        <h1>Coming soon!</h1>
+    </div>
+</div>
+{% spaceless %}
+<section id="templates">
+    <article id="info-{{ b.hash }}" class="binfo">
+        <div class="lpanel">
+            <div class="img-wrap"></div>
+            <div class="l-nav"></div>
+            <div class="r-nav"></div>
+        </div>
+        <div class="rpanel">
+            <h3></h3>
+            <p class="des"></p>
+            <address>
+                <span class="address"></span><br/>
+                <span class="phone"></span><br/>
+                <span class="directions">
+                    <a target="_blank" class="from" href="#">From Here</a> |
+                    <a target="_blank" class="to" href="#">To Here</a>
+                </span><br/>
+                <span class="url"><a href="" target="_blank"></a></span>
+                <span class="social fb"><a href="" target="_blank">
+                    <img alt="facebook" src="{{ STATIC_URL }}community/img/icons/ico_facebook-50x50.png"/>
+                </a></span><nobr></nobr>
+                <span class="social tt"><a href="" target="_blank">
+                    <img alt="twitter" src="{{ STATIC_URL }}community/img/icons/ico_twitter-50x50.png"/>
+                </a></span>
+            </address>
+            <div class="review-wrap">
+                <div class="stars"></div>
+                <button class="reviews">Reviews</button>
+                <span class="soon">Coming Soon!</span>
+            </div>
+        </div>
+        <div class="bpanel">
+            <div class="tags">
+                <div class="tag"><div class="img"></div></div>
+            </div>
+        </div>
+    </article>
+    <div class="marker smaller" style="height: 8px; width: 8px; cursor: help;">
+        <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title></title>
+                <circle r="5" cy="5" cx="5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#f48131"/>
+            </g>
+        </svg>
+    </div>
+    <div class="marker small" style="height: 16px; width: 16px; cursor: help;">
+        <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title></title>
+                <circle r="7" cy="8" cx="8" stroke-linejoin="round" stroke-dasharray="2,2" stroke-width="2" stroke="#f48131" fill="none"/>
+                <circle r="5" cy="8" cx="8" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#f48131"/>
+            </g>
+        </svg>
+    </div>
+    <div class="marker big" style="height: 22px; width: 22px; cursor: help; position: relative;">
+        <svg width="22" height="22" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <title></title>
+                <circle fill="#f48131" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" cx="11" cy="11" r="9.6066"/>
+                <circle r="10.6066" cy="11" cx="11" stroke-linejoin="round" stroke-dasharray="2,2" stroke-width="2" stroke="#f48131" fill="none"/>
+            </g>
+        </svg>
+        <div style="height: 15px; width: 15px; position: absolute; top: 3.5px; left: 3.5px; overflow: hidden;">
+            <img src="http://systems.detourmaps.com/media/categoryicons/restaurants.icon.flat.png" style="height: 33px; width: 18px; position: absolute; left: 0; top: -18px;"/>
+        </div>
+    </div>
+    <div class="overmap">
+        <div class="c">
+            <img  src="http://maps.gstatic.com/mapfiles/mv/imgs8.png"/>
+            </div><div class="m">
+        </div>
+    </div>
+</section>
+{% endspaceless %}
+{% block content %}
+{% endblock %}
+{% endblock %}
+
+</body>
+</html>

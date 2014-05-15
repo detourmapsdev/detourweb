@@ -1,0 +1,196 @@
+{% extends "communityHomeB.html" %}
+{% block title %}Settings{% endblock %}
+{% block head %}
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <script src="/static/community/js/jquery.validate.min.js"></script>
+
+    <script language="JavaScript">
+        function show_hide(id) {
+            if (document.getElementById) {
+                var el = document.getElementById(id);
+                el.style.display = (el.style.display == 'none') ? 'block' : 'none';
+            }
+        }
+
+        window.onload = function () {
+            show_hide('changePassword');
+            show_hide('changeEmail');
+
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var $input = $('input:text,input:password'),
+                    $bSave = $('#Bsave');
+            $bSave.attr('disabled', true);
+            $input.keyup(function () {
+                var trigger = true;
+                $input.each(function () {
+                    if ($(this).val()) {
+                        trigger = false;
+                    }
+                });
+                trigger ? $bSave.attr('disabled', true) : $bSave.removeAttr('disabled');
+            });
+
+
+            $('#changeEmailAccount').validate({
+                rules: {"newemail": {required: false, email: true}},
+                messages: {"newemail": "Not a valid email"}
+            });
+
+            $('#changePassAccount').validate({
+                rules: {"originalpss": {required: false}, "password": {required: false, minlength: 6, maxlength: 16}, "repassword": {required: false, minlength: 6, maxlength: 16}},
+                messages: {"originalpss": "Not is your password", "password": "Not a valid password", "repassword": "Not a valid password"}
+            });
+
+            $("#Bsave").click(function (e) {
+                e.preventDefault();
+
+
+                if ($("#newpassword").val() != $("#renewpassword").val()) {
+                    alert("repeat new password correctly!");
+                    return false;
+                }
+                if ($("#changeEmailAccount").valid() || $("#changePassAccount").valid()) {
+                    $.post('{% url "accountSettings" %}',
+                            {
+                                newEmail: $("#newemail").val(),
+                                oldPassword: $("#oldpassword").val(),
+                                newPassword: $("#newpassword").val()
+                            },
+                            function (data, status) {
+                                if (data.state) {
+                                    $('input:text,input:password').val("")
+                                    alert("¡Successful change!")
+                                } else {
+                                    alert(data.msg);
+                                }
+                            }, "json"
+                    );
+                }
+
+            });
+        })
+    </script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 180px;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        !important;
+        }
+
+        .overmenu {
+            z-index: 1000;
+        }
+    </style>
+{% endblock %}
+{% block bodyname %}account-settings-page{% endblock %}
+{% block bar-container %}
+{% endblock %}
+{% block content %}
+    <div id="aSettings" class="row details content">
+        <h2 id="title-account">Account Settings</h2>
+        <hr width=%100 align="center">
+
+        <div class="fourcol" style="text-align: left;margin-top:3% ">
+            </br>
+            <img src="/static/community/img/icons/account_user.png">
+        </div>
+        <div id="settingsUsers" class="elevencol">
+            <div style="display: block; line-height: 12pt;">
+                <div style="display: block">
+                    <h1 id="title-settings">Email</h1>
+
+                    <h1 style="font-size: 12pt"> {{ user.email }}</h1>
+                </div>
+
+                <div style="display: block">
+                    <a id="bEdit" class="buttonSet"
+                       style="width: 150px; background-color: #dcdcdc; border: 1px solid #2b3032;"
+                       onclick="show_hide('changeEmail')">Edit</a>
+                    </br>
+                </div>
+                <div id="changeEmail" name="ChangeEmail">
+                    <form id="changeEmailAccount" method="POST" action="">
+                        <div>
+                            <input id="newemail" class="inputLogin" type="text" name="NewEmail"
+                                   placeholder="Your new Email"/>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <div style="display: block">
+                    </br>
+                    <p style="font-size: 9pt">Your email address will be used to verify that you own your account, reset
+                        your password an more.</p>
+
+                </div>
+                <hr width=%100 align="center">
+            </div>
+
+            <div style="display: block">
+                <div style="display: block;  line-height: 12pt;">
+                    <h1 id="title-settings">Password<br>
+                        <i style="font-size: 12pt;color: #000000">your password</i>
+                    </h1>
+                </div>
+                <div style="display: block">
+                    <a id="bChangePss" class="buttonSet" style="width: 150px" onclick="show_hide('changePassword')">Change
+                        your password</a>
+                    </br>
+                </div>
+                <div id="changePassword" name="ChangePass">
+                    <form id="changePassAccount" method="POST" action="">
+                        <div>
+                            <input id="oldpassword" class="inputLogin" type="password" name="originalpss"
+                                   placeholder="Your original password"/>
+                        </div>
+                        <div>
+                            <input id="newpassword" class="inputLogin" type="password" name="password"
+                                   placeholder="Your new Pass: ********"/>
+                        </div>
+                        <div>
+                            <input id="renewpassword" class="inputLogin" type="password" name="repasswrod"
+                                   placeholder="Your new Pass again:********"/>
+                        </div>
+
+                    </form>
+                </div>
+                <div style="display: block">
+                    <br>
+
+                    <p style="font-size: 9pt">It is recommended that you create a unique password.</p>
+                </div>
+            </div>
+            <div style="text-align: right; margin-right: 75px; line-height: 10pt;">
+                <input id="Bsave" class="buttonSet" value="Save" type="submit"
+                       style="background-color: #f48131; border: 1px #f48131 solid; color: #ffffff"/>
+                <input class="buttonSet" value="Cancel" type="submit"/>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

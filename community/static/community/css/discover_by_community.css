@@ -1,0 +1,177 @@
+h2{
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 28px;
+	width: 96%;
+	padding: 5px 2%;		
+}
+div.captionDiscover{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 90%;
+	padding: 8px 5%;
+	background: rgba(0,0,0,0.75);
+	color: #fff;
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+}
+div.headerDiscover{
+	padding: 15px 20px;
+	border-bottom: 1px solid #808285;
+}
+div.captionDiscover div{
+	font-size: 46px;
+	margin-left: 20%;
+}
+div.captionDiscover span{
+	font-size: 30px;
+	margin-right: 20%;
+}
+div.lista{
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+}
+a.back{
+	background: url(/static/community/elementos/arrow-back-map.png) center left no-repeat;
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	color: #808285;
+	padding: 5px 5px 5px 10px;
+}
+a.share{
+	color: #fff;
+	background: #808285;
+	padding: 2px 15px;
+	text-align: center;
+	border-radius: 15px;
+}
+ul.social{
+	list-style: none;
+	float: right;
+}
+ul.social li{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+}
+div.principalEvents h1{
+	color: #808285;
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 36px;
+}
+h2.eventTitle{
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	color: #fff;	
+	background: #F38031;
+	font-weight: lighter;
+	margin: 0;	
+	border-right: 1px solid #F38031;
+}
+h2.eventTitle div{
+	background: url(/static/community/elementos/date-event-discover.png)no-repeat top center;
+	width: 33px;
+	height: 34px;
+	margin-right: 10px;
+	text-align: center;
+	font-size: 20px !important;
+	position: relative;
+	display: inline-block;vertical-align: middle;
+	padding-top: 8px;
+}
+div.bodyEvent{
+	padding: 5px 5% 5px 15%;
+	width: 80%;
+	border: 1px solid #F38031;
+}
+div.bodyEvent h3{
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	color: #414042;	
+	font-size: 16px;
+}
+div.bodyEvent p{
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	color: #414042;
+	font-weight: lighter;
+	font-size: 14px;
+}
+ul.navEvent{
+	position: relative;
+	margin-top: 30px;
+	list-style: none;
+}
+ul.navEvent li{
+	position: relative;
+	display: inline-block;vertical-align: top;	
+}
+ul.navEvent li:last-child{
+	float: right;
+	background: url(/static/community/elementos/see-more-discover.png)no-repeat center right;	
+}
+ul.navEvent li a{
+	display: block;
+	padding-right: 20px;
+	color: #414042;
+}
+div.tencol.partners, div.tencol.numbers{
+	border-bottom: 1px solid #808285;
+	margin-bottom: 20px;
+}
+div.tencol.partners h2, div.tencol.numbers h2{
+	color: #F26522;
+	font-size: 34px !important;
+	margin-left: 0;
+	padding-left: 0;
+}
+ul.allPartners li{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 30%;
+}
+ul.allPartners li a{
+	display: block;
+	color: #58595B;
+	cursor: pointer;
+}
+ul.allNumbers{
+
+}
+ul.allNumbers li{
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	position: relative;display: inline-block;vertical-align: top;
+	width: 45%;
+	color: #808285;
+	padding-right: 4%;
+	margin-bottom: 7px;
+}
+ul.allNumbers li b{
+	color: #58595B;
+}
+div.nav{
+	width: 55px;
+	position: relative;display: inline-block;
+	cursor: pointer;
+}
+div.nav.lt{
+	background: url(/static/community/elementos/left-arrow-discover.png) no-repeat center center;
+	height: 150px;
+	padding: 10px 5px;
+	cursor: pointer;
+}
+div.nav.rt{
+	background: url(/static/community/elementos/right-arrow-discover.png) no-repeat center center;
+	height: 150px;
+	padding: 10px 5px;
+	cursor: pointer;
+}
+div.slideDiscover{
+	position: relative;display: inline-block;vertical-align: top;
+	width: 85%;
+	position: relative;
+	margin: auto;
+}
+h2.titleSlide{
+	color: #808285;
+	margin-left: 0;	
+	padding-left: 0;
+	font-size: 34px !important;
+}

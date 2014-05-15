@@ -1,0 +1,156 @@
+{% extends "base-mobile.html" %}
+{% load queryset %}
+{% block title %}{{ community.name }}{% endblock %}
+{% block extrahead %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/infobubble.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script defer src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <script type="text/javascript">
+        $(document).bind("pageinit", function () {
+            $.mobile.page.prototype.options.domCache = false;
+            $("a.bizPanel").click(function (e) {
+                var id = $(this).attr("href");
+                $("#communities-title").slideUp();
+                $(id + "-cat").slideUp();
+                $(".panelBiz").hide();
+                $("li.li-biz").hide();
+                $(".allTitle").hide();
+                $(id + "-title").show();
+                $(id).show();
+                e.returnValue = false;
+                return false;
+            });
+            $("a.back").click(function (e) {
+                var id = $(this).attr("href");
+                $(".allTitle").hide();
+                $(".panelList").hide();
+                $(id).show();
+                e.returnValue = false;
+                return false;
+            });
+            $("a.backCat").click(function (e) {
+                var id = $(this).attr("href");
+                $(".allTitle").show();
+                $(".allTitle.hideTitle").slideUp();
+                $("li.li-biz").show();
+                $(id).slideUp();
+                $(id + "-title").slideUp();
+                e.returnValue = false;
+                return false;
+            });
+            var community = [
+                {
+                    name: '{{ community.name }}',
+                    url_name: '{{ community.url_name }}',
+                    geojson: {{ community.borders.geojson|safe }}
+                }
+            ];
+            var poly = new google.maps.Polyline();
+            var ePath = poly.getPath();
+            for (var cor=0; cor<community[0].geojson.coordinates[0][0].length; cor++){
+                var coord = community[0].geojson.coordinates[0][0][cor];
+                var lat = coord[1];
+                var lng = coord[0];
+                var latlng = new google.maps.LatLng(lat, lng);
+                console.log(latlng);
+                ePath.push(latlng);
+            }
+            var path = google.maps.geometry.encoding.encodePath(ePath);
+            var srcPath = "&path=color:0xf48031ff|fillcolor:0xFFFFCC|weight:2|enc:" + path;
+            var src = "http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=1024x200&maptype=roadmap&sensor=false&scale=2" + srcPath;
+            $("img.onlyMap").attr("src", src);
+            var array = [{ name: "John", value: "1"}, { name: "Alex", value: "2"},{ name: "John2", value: "3"}, { name: "Alex2", value: "4"}];
+
+            function createCheckboxes(){
+                 $(this).remove();
+                 $("#content").append('<fieldset id="cbFieldSet" data-role="controlgroup">');
+                 var length = array.length;
+                 for(var i=0;i<length;i++){
+                    $("#cbFieldSet").append('<input type="checkbox" name="cb-'+i+'" id="cb-'+i+'" value="'+array[i].name+'"/><label for="cb-'+i+'">'+array[i].name+'</label>');
+                 }
+
+                 $("#content").trigger("create");
+                 $("#showBtn").css("visibility","visible");
+            }
+
+
+        });
+        function closePop(idClose){
+            $(idClose).popup("close");
+        }
+        function filterCheck(category){
+            var checkFields = $("input[name='" + category + "']:checked");
+            var listaLi = new Array();
+            $("li."+ category).hide();
+            for(var j=0; j<checkFields.length; j++){
+                var nombreCheck = $(checkFields[j]).attr("idb");
+                $("li."+ nombreCheck).show();
+            }
+        }
+    </script>
+{% endblock %}
+{% block body %}
+    <section id="static-map">
+        <figure class="staticmaps">
+            <img src="" class="onlyMap" id="map-{{ community.pk }}">
+            <h2>{{ community.name }}</h2>
+        </figure>
+    </section>
+    <section id="communities-title" class="allTitle">
+        <a href="/#nav-index" class="back"><i class="icon-caret-left"></i>In {{ community.name }}</a>
+    </section>
+    <section id="communities" class="panelList">
+        <ul data-role="listview">
+            {% for c in categories %}
+                <li id="cat{{ c.pk }}-cat" class="li-biz"><a href="#cat{{ c.pk }}" class="bizPanel"><i class="bg"
+                                                                 id="c-{{ c.pk }}"></i><span>{{ c.name }}</span></a></li>
+                <style>
+                    i#c-{{ c.pk }} {
+                        background: url('{{ MEDIA_URL }}{{ c.icon }}') no-repeat;
+                        width: 18px;
+                        height: 18px;
+                        margin-right: 10px;
+                        display: inline-block;
+                        background-size: 18px;
+                    }
+                    .ui-listview, .ui-listview-filter{
+                        margin: 0 !important;
+                    }
+                </style>
+                <section id="cat{{ c.pk }}-title" class="allTitle hideTitle">
+                    <a href="#cat{{ c.pk }}" class="backCat"><i class="icon-caret-left"></i>{{ c.name }}</a><div class="filter" id="filter{{ c.pk }}"><a href="#filterPanel-{{ c.pk }}" data-transition="flip" data-rel="popup" data-position-to="window"><i class="icon-plus"></i>Filter</a></div>
+                </section>
+                <section id="cat{{ c.pk }}" class="panelHide panelBiz">
+                    <ul data-role="listview" data-filter="true" data-filter-placeholder="Search Busines...">
+                        {% list_business_cat_mobile community.pk c.pk %}
+                    </ul>
+                </section>
+                <div id="filterPanel-{{ c.pk }}" data-role="popup" data-overlay-theme="c" data-theme="a" data-dismissible="false">
+                    <!--<a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>-->
+                    <form style="padding: 20px;">
+                        {% service_community_category c.pk community.pk %}
+                    </form>
+                </div>
+            {% endfor %}
+        </ul>
+    </section>
+    <section id="chat">
+        <section id="big-orange">
+            <p>
+                Let's Chat.
+                <span>We'd love to hear about your project</span>
+            <ul id="social-links">
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/face-mobile.png"/></a></li>
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/twitter-mobile.png"/></a></li>
+            </ul>
+            <br>
+            <span>Email: <a href="mailto:info@detourmaps.com">info@detourmaps.com</a></span><br>
+            <span>Telephone: <a href="tel:708-484-1119">708-484-1119</a></span><br>
+            <span>Fax: 708-484-1101</span><br>
+            <span>Location: 6900 W Cermak Rd. Berwyn, IL 60402</span>
+            </p>
+        </section>
+    </section>
+{% endblock %}

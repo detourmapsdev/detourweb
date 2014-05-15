@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DetourMaps - Welcome</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <meta name="keywords"
+          content="shop local, maps, map, explore your community, neighborhood, select your community, Berwyn, Cicero, archer heights, west lawn"/>
+    <meta name="description="
+          content="DetourMaps brings you closer to your neighborhood with the latest business promotions, events, and savings. Support your community while staying connected">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico">
+    <link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css'>
+    <link href="{{ STATIC_URL }}landing-partner-m/css/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}web-icon/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/js/jquery.validate.min.js" type="text/javascript"></script>
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .gradient {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-31412199-1']);
+        _gaq.push(['_setDomainName', 'detourmaps.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <script type="text/javascript">
+        $(document).bind('pageinit', function(){
+            var email, password;
+            $('.ui-page').live('pagehide', function () { $(this).remove(); });
+            $("#form-email-page").validate();
+            $("a#email-left").click(function(e){
+                if($("#form-email-page").valid()){
+                    email = $("#emailField").val();
+                    $.mobile.changePage("#password", {transition:'flip'});
+                }else{
+                    console.log("error");
+                }
+                e.preventDefault();
+            });
+            $("#form-pass-page").validate();
+            $("a#pass-left").click(function(e){
+                if($("#form-pass-page").valid()){
+                    password = $("#passField").val();
+                    var senderList = {
+                        email: email,
+                        password: password
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url "create_user_confirm" %}",
+                        data: senderList
+                    }).done(function(msg){
+                       console.log(msg);
+                    });
+                    $.mobile.changePage("#voucher", {transition:'flip'});
+                    return false;
+                    e.returnValue = false;
+                }else{
+                    console.log("error");
+                }
+                e.preventDefault();
+            });
+        });
+    </script>
+    <style>
+        .ui-input-text{
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            width: 55%;
+        }
+    </style>
+</head>
+<body>
+<section data-role="page" id="welcome">
+    <figure id="explore">
+        <img src="{{ STATIC_URL }}landing-partner-m/img/welcome.png"/>
+    </figure>
+    <section data-role="content">
+        <h2>Our new Mobile Business Pages help you uncover the best local spots</h2>
+        <section id="nav">
+            <fieldset class="ui-grid-b">
+                <div class="ui-block-a"><a href="" data-role="none" class="nav">Play</a><div class="info">coming soon</div></div>
+                <div class="ui-block-b"><a href="#email" data-role="none" class="nav" data-transition="flip" data-inline="true">Free</a></div>
+                <div class="ui-block-c"><a href="/" rel="external" data-role="none" class="nav">Start</a></div>
+            </fieldset>
+        </section>
+    </section>
+    <section data-role="footer" id="footer-welcome">
+        <figure>
+            <img src="{{ STATIC_URL }}landing-partner-m/img/logo-detourmaps-welcome.png"/>
+        </figure>
+    </section>
+</section>
+<section data-role="page" id="email">
+    <figure id="email-cup">
+        <img src="{{ STATIC_URL }}landing-partner-m/img/coffee-cup.png"/>
+    </figure>
+    <section data-role="content">
+        <h2>Stay warm this fall & winter</h2>
+        <p>Create an account and have a cafe con leche on us!</p>
+        <form id="form-email-page">
+            <input type="text" name="email" id="emailField" placeholder="your email address" class="required email"/>
+            <a data-role="none" class="btnSave" id="email-left">next</a>
+        </form>
+    </section>
+</section>
+<section data-role="page" id="password">
+    <figure id="pass-cup">
+        <img src="{{ STATIC_URL }}landing-partner-m/img/coffee-cup.png"/>
+    </figure>
+    <section data-role="content">
+        <h2>Stay warm this fall & winter</h2>
+        <p>Create an account and have a cafe con leche on us!</p>
+        <form id="form-pass-page">
+            <input type="password" name="password" id="passField" placeholder="your password" class="required" minlength="8"/>
+            <a data-role="none" class="btnSave" id="pass-left">next</a>
+        </form>
+    </section>
+</section>
+<section data-role="page" id="voucher">
+    <section data-role="content">
+        <h2>That's it!</h2>
+        <p>Where would you like your cup of coffee from?</p>
+        <ul data-role="none">
+            <li>
+                <a href="" data-role="none">
+                    <img src="{{ STATIC_URL }}landing-partner-m/img/cafe-latino.png"/>
+                    <div>
+                        Cafe Latino<br>
+                        <span>Berwyn [west side]</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="" data-role="none">
+                    <img src="{{ STATIC_URL }}landing-partner-m/img/la-fiesta.png"/>
+                    <div>
+                        La Fiesta Bakery<br>
+                        <span>West Lawn [south side]</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="" data-role="none">
+                    <img src="{{ STATIC_URL }}landing-partner-m/img/cafe-name.png"/>
+                    <div>
+                        Business Name<br>
+                        <span>Area [north side]</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <p>
+            Download coffee voucher under coupons
+        </p>
+    </section>
+</section>
+</body>
+</html>

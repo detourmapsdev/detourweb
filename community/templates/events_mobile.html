@@ -1,0 +1,66 @@
+{% extends 'base-mobile.html' %}
+{% load queryset %}
+{% block title %}DetourMaps - Events{% endblock %}
+{% block extrahead %}
+    <script type="text/javascript">
+        $(document).bind("pageinit", function(){
+            $("a.displayEvents").click(function(e){
+                var next = $(this).next().css("display");
+                if(next == "block"){
+                    $(".upcoming").slideUp();
+                    $(this).find("i").removeClass("icon-caret-down").addClass("icon-caret-right");
+                }
+                else{
+                    $(".upcoming").slideUp();
+                    $(this).next().slideDown();
+                    $(this).find("i").removeClass("icon-caret-right").addClass("icon-caret-down");
+                }
+                e.returnValue = false;
+                return false;
+            });
+        })
+    </script>
+{% endblock %}
+{% block body %}
+    <section id="events_today">
+        <h1>
+            <a href="/" rel="external" data-transition="flip"><i class="icon-caret-left"></i>What’s going on</a>
+        </h1>
+        <p class="subTitle">
+            Check out upcoming events. near you.
+        </p>
+        <section id="today">
+            {% for event in events_today %}
+                <a href="{{ event.get_landing_event }}" rel="external">
+                    <article>
+                        <figure>
+                            <img src="{{ MEDIA_URL }}{{ event.imagebusinessevents_set.all.0.img }}"/>
+                        </figure>
+                        <section>
+                            <h2>{{ event.business.community.name }}</h2>
+                            <div class="titleEvent">{{ event.title }}</div>
+                            <div class="dateEvent">{{ event.date_begin|date:"l, F d" }}</div>
+                        </section>
+                        <i class="icon-caret-right"></i>
+                    </article>
+                </a>
+                <hr>
+            {% endfor %}
+        </section>
+        <section id="upcoming">
+            <h2>Upcoming Events</h2>
+            <p>
+               Check out your community’s events. and plan
+               your next outing
+            </p>
+            <ul>
+                {% for i in communities %}
+                    <li>
+                        <a href="" class="displayEvents">{{ i.name }} <i class="icon-caret-right"></i></a>
+                        {% events_by_date_by_community i.id %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </section>
+{% endblock %}

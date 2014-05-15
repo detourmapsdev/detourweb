@@ -1,0 +1,84 @@
+{% extends 'base-mobile.html' %}
+{% load thumbnail %}
+{% block title %}DetourMaps - {{ community.name|capfirst }}{% endblock %}
+{% block extrahead %}
+    <style>
+
+    </style>
+{% endblock %}
+{% block secondnav %}{% endblock %}
+{% block body %}
+    <h1 id="headerLanding">
+        {{ community.name|capfirst }}
+        <a href="{% url "menu-communities" %}">Return to communities</a>
+    </h1>
+    <section id="landingMobilePanel">
+        <section id="infoLandingPage">
+            <div class="imgInfoLanding">
+                <img src="{% thumbnail landing_info.landingtext_set.all.0.image 100x100 crop %}"/>
+            </div>
+            <div class="descInfoLanding">
+                <p>
+                    {{ landing_info.landingtext_set.all.0.text|safe }}
+                </p>
+                <div class="exploreInfoLanding">
+                    <a href="{% url "videoDialog" landing_info.video_set.all.0.parseId %}" data-rel="dialog" data-transition="flip"><img src="{{ STATIC_URL }}community/elementos/video-landing.png" height="24px"/></a>
+                    <a href=""><img src="{{ STATIC_URL }}community/elementos/explore-landing.png" height="36px"/></a>
+                </div>
+            </div>
+        </section>
+        <section id="eventsInfoLanding">
+            <h2>Upcoming Events</h2>
+            {% if events %}
+                <ul data-role="listview" data-inset="true">
+                    {% for event in events %}
+                        <li>
+                            <img src="{% thumbnail event.imagebusinessevents_set.all.0.img 100x100 crop %}"/>
+                            <p>
+                                {{ event.description }}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+        <section id="reviewInfoLanding">
+            <h2>Review of the Day</h2>
+            <section id="review_desc">
+                <img src="{% thumbnail review.business.imagebusiness_set.all.0.img 100x100 crop %}"/>
+                <section class="text-rate">
+                    <section class="rate-comment">
+                        {% for i in stars %}
+                            <i class="icon-star"></i>
+                        {% endfor %}
+                    </section>
+                    <section class="text-comment">
+                        {{ review.comment }}
+                        <a href="{{ review.business.get_absolute_url }}" target="_blank">Check it out...</a>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section id="directoryInfoLanding" data-role="collapsible" data-theme="c" data-content-theme="c" data-iconpos="right">
+            <h3>Business Directory</h3>
+            <section  data-role="collapsible-set" data-theme="c" data-content-theme="d">
+            {% for cat in categories %}
+                <section class="" data-role="collapsible" data-iconpos="right">
+                    <h3>{{ cat.name|capfirst }}</h3>
+                    <ul data-role="listview" data-filter="true" data-filter-placeholder="Search {{ cat.name|capfirst }}" data-inset="true">
+                        {% for biz in cat.business_set.all %}
+                            <li class="ui-icon-nodisc" data-iconshadow="false" data-icon="arrow">
+                                <a href="/communities/{{ community.url_name }}/map/business/?name={{ biz.url_name }}&auth_code={{ biz.getUniqueCode }}">
+                                    <img src="/media/{{ biz.category.icon }}"  class="ui-li-icon ui-corner-none"/>
+                                    {{ biz.name|capfirst }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endfor %}
+            </section>
+        </section>
+    </section>
+{% endblock %}
+{% block principalNav %}{% endblock %}

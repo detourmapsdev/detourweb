@@ -1,0 +1,10 @@
+{% extends 'maptest.html' %}
+{% block extrahead %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $.getJSON('{% url "data" "berwyn" %}',function(data){
+                alert(data.tags['1'].name);
+            });
+        })
+    </script>
+{% endblock %}

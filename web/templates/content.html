@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Add Content</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}web/css/styles.css" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}web/markitup/skins/markitup/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}web/markitup/sets/default/style.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/markitup/jquery.markitup.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/markitup/sets/default/set.js"></script>
+    <style type="text/css">
+        label{
+            width: 140px;
+            display: inline-block;
+            font-size: 12px;
+            text-align: left !important;
+        }
+        input[type="text"], input[type="file"], textarea,{
+            display: inline-block;
+        }
+        .helptext{
+            font-size: 10px;
+            color: #989;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("textarea").markItUp(mySettings);
+            $(".module").live("click",function(e){
+                var idm = $(this).attr("idm");
+                $.post("{% url "addForm" %}",{
+                    'idm': idm
+                },function(data){
+                    $("#forms").html('<form enctype="multipart/form-data" class="form"></form>');
+                    $(".form").html(data);
+                    $(".form").append("<button class='btnSave'>Save Content</button>");
+                })
+                e.returnValue = false;
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="twelvecol">
+            <div style="padding: 20px; font-size: 0.65em;">
+            <h2>Edit content to {{ page.get_template_display }}</h2>
+            {% for module in modules %}
+                {% if not forloop.last %}
+                    <a href="#" id="module{{ module.pk }}" class="module" idm="{{ module.type_module }}">Add {{ module.get_type_module_display }}</a><span>&nbsp;</span><span>|</span><span>&nbsp;</span>
+                {% else %}
+                    <a href="#" id="module{{ module.pk }}" class="module" idm="{{ module.type_module }}">Add {{ module.get_type_module_display }}</a>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div id="forms" style="padding: 80px; font-size: 0.65em;margin-bottom: 20px; width: 600px;">
+
+            </div>
+            <hr>
+            <div>
+                {% for i in cantidad %}
+                   <div style="padding: 80px; margin-bottom: 20px; width: 600px;">
+                       <form enctype="multipart/form-data" action="" method="post">
+                       {{ i }}
+                           <button class="btnSendData" id="btn{{ forloop.counter }}">Edit and Save</button>
+                       </form>
+                   </div>
+                    <hr>
+                {% endfor %}
+            </div>
+
+            <input type="hidden" value="{{ page.pk }}"/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

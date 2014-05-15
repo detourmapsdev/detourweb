@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}
+    Activation Usr Confirmation.
+{% endblock %}
+{% block content %}
+    <div>
+        <div id="new_mesj">
+            <div>
+                <h1>WELCOME</h1>
+                <p>
+                Now you're ready to explore your community width Detourmaps. Check out your<br>
+                new account by clicking Communities above and go to log in. Now you can check<br>
+                out out new features and receive deals only Detourmaps member can receive.
+                </p>
+                <p>
+                Thanks for creating an account. Have fun!
+                </p>
+                <p>
+                <a class="btn" href="/">Get Started</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $(document.body).css('background',"#f5f6f7 url('../img/fondoDetour.jpg');");
+            $("#new_mesj")
+                    .css('background',"white")
+                    .css('display','relative')
+                    .parent()
+                    .css('background',"#f5f6f7 url('../img/fondoDetour.jpg')");
+            //style="position: relative;top: -45px;"
+            $("div.container.padding, div.container.contact")
+                    .css('position','relative')
+                    .css('top','-45px');
+
+        });
+    </script>
+{% endblock %}

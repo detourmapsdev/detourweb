@@ -1,0 +1,671 @@
+{% load queryset %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DetourMaps - {{ event.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords"
+          content="shop local, maps, map, explore your community, neighborhood, select your community, Berwyn, Cicero, archer heights, west lawn"/>
+    <meta name="description="
+          content="DetourMaps brings you closer to your neighborhood with the latest business promotions, events, and savings. Support your community while staying connected">
+    <link href='http://fonts.googleapis.com/css?family=Rambla|Text+Me+One|Roboto|Julius+Sans+One|Open+Sans|Open+Sans+Condensed:300'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ STATIC_URL }}community/css/styles-mobile.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}web-icon/css/font-awesome.min.css">
+    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/demos/js/jquery.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}messi/messi.min.css"/>
+    <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
+    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script src="{{ STATIC_URL }}messi/messi.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/css3-mediaqueries.js"></script>
+    <script type="text/javascript">
+        var initialLocation;
+        var siberia = new google.maps.LatLng(60, 105);
+        var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+        var directionsService = new google.maps.DirectionsService();
+        var browserSupportFlag = new Boolean();
+        var map;
+        var directionsDisplay;
+        function initialize() {
+            var myOptions = {
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+
+            // Try W3C Geolocation (Preferred)
+            if (navigator.geolocation) {
+                browserSupportFlag = true;
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    map.setCenter(initialLocation);
+                }, function () {
+                    handleNoGeolocation(browserSupportFlag);
+                });
+            }
+            // Browser doesn't support Geolocation
+            else {
+                browserSupportFlag = false;
+                handleNoGeolocation(browserSupportFlag);
+            }
+
+            function handleNoGeolocation(errorFlag) {
+                if (errorFlag == true) {
+                    alert("Geolocation service failed.");
+                    initialLocation = newyork;
+                } else {
+                    alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+                    initialLocation = siberia;
+                }
+                map.setCenter(initialLocation);
+            }
+        }
+        var directionDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        latlng = new google.maps.LatLng(41.850033, -87.6500523);
+        function initializer() {
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
+            directionsDisplay.setPanel(document.getElementById('directionsPanel'));
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title: "Rodderhof, Oss"
+            });
+        }
+        function calcRoute() {
+            var geo = '{{ event.geo }}' || undefined;
+            var r = geo.slice(7, geo.length - 1).split(' ') || [];
+
+            var latlngD = new google.maps.LatLng(parseFloat(r[1]), parseFloat(r[0]));
+            var start = initialLocation;
+            var end = latlngD;
+            var waypoints = [];
+            if (end != "") {
+                // if waypoints (via) are set, add them to the waypoints array
+                waypoints.push({
+                    location: end,
+                    stopover: true
+                });
+            }
+            var request = {
+                origin: start,
+                destination: end,
+                waypoints: waypoints,
+                travelMode: google.maps.DirectionsTravelMode.DRIVING
+            };
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    $('#directionsPanel').empty();
+                    directionsDisplay.setDirections(response);
+                } else {
+                    // alert an error message when the route could nog be calculated.
+                    if (status == 'ZERO_RESULTS') {
+                        alert('No route could be found between the origin and destination.');
+                    } else if (status == 'UNKNOWN_ERROR') {
+                        alert('A directions request could not be processed due to a server error. The request may succeed if you try again.');
+                    } else if (status == 'REQUEST_DENIED') {
+                        alert('This webpage is not allowed to use the directions service.');
+                    } else if (status == 'OVER_QUERY_LIMIT') {
+                        alert('The webpage has gone over the requests limit in too short a period of time.');
+                    } else if (status == 'NOT_FOUND') {
+                        alert('At least one of the origin, destination, or waypoints could not be geocoded.');
+                    } else if (status == 'INVALID_REQUEST') {
+                        alert('The DirectionsRequest provided was invalid.');
+                    } else {
+                        alert("There was an unknown error in your request. Requeststatus: nn" + status);
+                    }
+                }
+            });
+        }
+        $(document).on("pageinit", function () {
+            initialize();
+            $("a.actPanel").click(function (e) {
+                var id = $(this).attr("href");
+                $("#pre-options").hide();
+                $("#options").hide();
+                $(".hidePanel").hide();
+                $(".hideOptions").hide();
+                $(id + "-title").show();
+                $(id).show();
+                if ($(this).hasClass('dir')) {
+                    initialize();
+                    initializer();
+                    calcRoute();
+                }
+                if ($(this).hasClass("add")) {
+                    $.getJSON('{% url "sessions" %}', function (data) {
+                        if (data.session) {
+                            var htmlReview = "<img src='" + data.gravatar + "' class='imgAvatar'/><div class='userAvatar'>" + data.username + "</div>";
+                            $("#userInformation").html(htmlReview);
+                            $("#reviewPanel").slideDown();
+                            $("#loginPanel").slideUp();
+                        }
+                        else {
+                            $("#loginPanel").slideDown();
+                            $("#reviewPanel").slideUp();
+                        }
+                    });
+                }
+                //google.maps.event.trigger(map, "resize");
+                e.returnValue = false;
+                return false;
+            });
+            $("a.back").click(function (e) {
+                $(".hidePanel").hide();
+                $("#pre-options").show();
+                $(".hideOptions").hide();
+                $("#options").show();
+                e.returnValue = false;
+                return false;
+            });
+            $("a.back-more").click(function (e) {
+                $(".hidePanel").hide();
+                $("#more-title").show();
+                $(".hideOptions").hide();
+                $("#more").show();
+                e.returnValue = false;
+                return false;
+            });
+            $("a.back-parent").click(function (e) {
+                var parentDiv = $(this).attr("href");
+                $(".hidePanel").hide();
+                $(parentDiv + "-title").show();
+                $(".hideOptions").hide();
+                $(parentDiv).show();
+                e.returnValue = false;
+                return false;
+            });
+            $("#downloaddeal").click(function (e) {
+                e.preventDefault();
+                var tag = '{{ business.getUniqueCode }}';
+                window.location.href = '/communities/get/card?tag=' + tag + '&name=' + $("#nameBusinessField").val() + '&email=' + $("#emailBusinessField").val() + '&phone=' + $("#phoneBusinessField").val()
+            });
+            $("#printCoupon").click(function (e) {
+                e.preventDefault();
+                window.open(
+                        'http://{{ request.META.HTTP_HOST }}/communities/print/coupon?source=' + '{{ business.getUniqueCode }}',
+                        '_blank'
+                );
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=238434222967585";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<body>
+<section data-role="page" data-fullscreen="true">
+<section data-role="header" id="header">
+    <section id="logo">
+        <h1 id="titleM"><img src="{{ STATIC_URL }}community/elementos/new-logo-mobile.png"/></h1>
+        <!--<input id="busqueda" type="search" value="" placeholder="e.g. famous dave's bbq" data-theme="d"/>-->
+    </section>
+    <section id="searchBar">
+        <!--<input type="text" placeholder="e.g. famous dave's bbq" id="searcher"/>-->
+    </section>
+</section>
+<section id="body">
+    <section id="info-qr-biz">
+        <figure>
+            <img src="{{ MEDIA_URL }}{{ event.imagebusinessevents_set.all.0.img }}"/>
+        </figure>
+        <section>
+            <article>
+                <h1>{{ event.title }}</h1>
+                {{ event.description|safe }}
+            </article>
+        </section>
+    </section>
+</section>
+<section id="pre-options" class="headPanel">
+    <section>
+        <h2><img src="{{ STATIC_URL }}community/elementos/qrcode.png"/> Select an option:</h2>
+    </section>
+</section>
+<section id="options" class="options">
+    <ul id="first-options">
+        <li><a href="#call" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/call.png"/>Call</a></li>
+        <li><a href="#share" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/social_media.png"/>Social
+            Media</a></li>
+        <li><a href="#email" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/email.png"/>Email</a></li>
+        <li><a href="#coupons" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/coupons.png"/>Coupons</a>
+        </li>
+    </ul>
+    <div class="split"></div>
+    <ul id="second-options">
+        <li><a href="#directions" class="actPanel dir"><img src="{{ STATIC_URL }}community/elementos/visit_me.png"/>Directions</a>
+        </li>
+        {% if business.category.name == 'Restaurants' %}
+            <li><a href="#social" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/restaurants.png"/>Services</a>
+            </li>
+        {% else %}
+            <li><a href="#social" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/services.png"/>Services</a>
+            </li>
+        {% endif %}
+        <li><a href="#video" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/video-qr.png"/>Video</a>
+        </li>
+        <li><a href="#more" class="actPanel"><img src="{{ STATIC_URL }}community/elementos/more.png"/>More</a></li>
+    </ul>
+</section>
+<section id="call-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Call</a></h2>
+</section>
+<section id="call" class="content-qr hideOptions">
+    <ul>
+        <li><a href="tel:{{ event.phone }}">{{ event.phone }}<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+</section>
+<section id="directions-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Directions</a></h2>
+</section>
+<section id="directions" class="content-qr hideOptions">
+    <div id="map-canvas" style="width: 100%; height: 200px;"></div>
+    <div id="directionsPanel">
+    </div>
+</section>
+<section id="email-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Email</a></h2>
+</section>
+<section id="email" class="content-qr hideOptions">
+    <ul>
+        <li><a href="mailto:{{ business.email }}">{{ business.email }}<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+</section>
+<section id="website-title" class="headPanel hidePanel">
+    <h2><a href="" class="back-more"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Website</a></h2>
+</section>
+<section id="website" class="content-qr hideOptions">
+    <ul>
+        <li><a href="{{ event.landingevent_set.all.0.website }}" target="_blank">{{ event.landingevent_set.all.0.website }}<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+</section>
+<section id="social-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/>
+        Menu|Services|Products</a></h2>
+</section>
+<section id="social" class="content-qr hideOptions">
+    {{ business.businessmenu_set.all.0.menu|safe }}
+</section>
+<section id="video-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Video</a></h2>
+</section>
+<section id="video" class="content-qr hideOptions">
+    <iframe width="100%" height="315" src="http://www.youtube.com/embed/{{ business.parseId }}" frameborder="0"
+            allowfullscreen></iframe>
+</section>
+<section id="share-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Social Media</a></h2>
+</section>
+<section id="share" class="content-qr hideOptions">
+    <h3>Visit our:</h3>
+    <ul>
+        <li><a href="{{ event.facebook }}" target="_blank">Facebook<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        <li><a href="{{ event.twitter }}" target="_blank">Twitter<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+    <h3>Share with:</h3>
+    <ul>
+        <li><a href="#" id="faceShare"><img src="{{ STATIC_URL }}community/elementos/Facebook.png"/><img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        <li><a href="" id="twitterShare"><img src="{{ STATIC_URL }}community/elementos/Twitter.png"/><img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        <li>
+            <a href="https://plus.google.com/share?url=http%3A%2F%2F{{ request.META.HTTP_HOST }}%2Fcommunities%2F{{ business.community.url_name }}%2Fmap%2Fbusiness%2F?name={{ business.url_name }}%26auth_code={{ business.getUniqueCode }}"
+               id="plusShare"
+               onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=100%');return false;"><img
+                    src="{{ STATIC_URL }}community/elementos/Google+.png"/><img
+                    src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+</section>
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#faceShare").click(function (e) {
+            e.preventDefault();
+            FB.init({appId: '238434222967585', status: true, cookie: true});
+            FB.ui(
+                    {
+                        method: 'feed',
+                        name: '{{ event.title|capfirst }}',
+                        link: 'http://{{ request.META.HTTP_HOST }}{{ event.get_landing_event }}',
+                        picture: 'http://detourmaps.com{{ MEDIA_URL }}{{ event.imagebusinessevents_set.all.0.img }}',
+                        caption: '{{ event.description }}',
+                        description: '{{ event.description }}',
+                        message: 'Discover all that you want in ' + '{{ event.title|capfirst }}',
+                        redirect_uri: 'http://detourmaps.com{{ event.get_landing_event }}'
+                    }
+            );
+        });
+        $("#twitterShare").click(function (e) {
+            e.preventDefault();
+            window.open("https://twitter.com/share?url=" + "http%3A%2F%2F" + "{{ request.META.HTTP_HOST }}" + "%2Fcommunities%2F" + "{{ business.community.url_name }}" + "%2Fmap%2Fbusiness%2F?name={{ business.url_name }}%26auth_code={{ business.getUniqueCode }}&via=detourmap", "_blank");
+        });
+    });
+</script>
+<section id="more-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> More</a></h2>
+</section>
+<section id="more" class="content-qr hideOptions">
+    <ul>
+        <li><a href="#services" class="actPanel">Services<img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a>
+        </li>
+        <li><a href="#website" class="actPanel">Website<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        <li><a href="#events" class="actPanel">Events<img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a>
+        </li>
+        <li><a href="#savings" class="actPanel">Save $10<img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a>
+        </li>
+        <li><a href="#reviews" class="actPanel">Reviews<img
+                src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+    </ul>
+</section>
+<section id="services-title" class="headPanel hidePanel">
+    <h2><a href="" class="back-more"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Services</a></h2>
+</section>
+<section id="services" class="content-qr hideOptions">
+    <ul>
+        {% for serv in business.tag_service.all %}
+            <li><a style="background: url('{{ MEDIA_URL }}{{ serv.icon }}') no-repeat; height: 14px; padding-left: 30px; padding-top: 14px;">{{ serv.name }}
+                <img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        {% endfor %}
+    </ul>
+</section>
+<section id="reviews-title" class="headPanel hidePanel">
+    <h2><a href="" class="back-more"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Reviews</a></h2>
+</section>
+<section id="reviews" class="content-qr hideOptions">
+    <ul>
+        {% for rev in business.review_set.all %}
+            <li>
+                <p id="star-{{ rev.id }}" class="stars">
+                </p>
+                <script type="text/javascript">
+                    $(document).on("pageinit", function () {
+                        var newStar = parseInt('{{ rev.stars }}');
+                        var i = "<i class='icon-star'></i>";
+                        for (var x = 0; x < newStar - 1; x++) {
+                            i += "<i class='icon-star'></i>";
+                        }
+                        $("#star-" + "{{ rev.id }}").html(i);
+                    });
+                </script>
+                {{ rev.comment }}<br>
+                <span>Posted by {{ rev.user.username|arrobe }} on {{ rev.date|date:"M d - Y" }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+    <section>
+        <a href="#addReview" class="actPanel add">Add Review</a>
+        <a href="" id="moreReviews">View More</a>
+    </section>
+</section>
+<section id="addReview-title" class="headPanel hidePanel">
+    <h2><a href="#reviews" class="back-parent"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Add Review</a>
+    </h2>
+</section>
+<section id="addReview" class="content-qr hideOptions">
+    <section id="reviewPanel" style="display: none;">
+        <div id="userInformation"></div>
+        <div class="rating">
+            <a href="" idb="5"><i class="icon-star-empty"></i></a>
+            <a href="" idb="4"><i class="icon-star-empty"></i></a>
+            <a href="" idb="3"><i class="icon-star-empty"></i></a>
+            <a href="" idb="2"><i class="icon-star-empty"></i></a>
+            <a href="" idb="1"><i class="icon-star-empty"></i></a>
+        </div>
+        <form style="padding: 20px;">
+            <textarea name="comment" id="commentReview">
+
+            </textarea>
+            <input type="hidden" name="rateCommentReview" id="rateBiz"/>
+            <input type="hidden" name="bizCommentReview" codeBiz="{{ business.getUniqueCode }}" id="codeBiz"/>
+            <button id="btnReviewBusiness">
+                Submit Review
+            </button>
+        </form>
+    </section>
+    <section id="loginPanel" style="display: none;">
+        <form id="frmlogin" method="POST" style="padding: 0 35px;" data-ajax="true">
+            <h3>Please log in:</h3>
+
+            <div style="display: block;">
+                <div>
+                    Email
+                </div>
+                <div>
+                    <input class="inputLogin" id="frmlogin_email" type="email" name="user_email">
+                </div>
+            </div>
+            </br>
+            <div style="display: block;">
+                <div>
+                    Password:
+                </div>
+                <div>
+                    <input class="inputLogin" id="frmlogin_password" type="password" name="user_password">
+                </div>
+            </div>
+            </br>
+            <div style="display: block;">
+                <div style="display: inline-block;text-align: center;">
+                    <button id='nativeLogin' style="width: 140px;padding-left:2px" data-role="button">
+                        Login
+                    </button>
+                </div>
+            </div>
+            </br>
+            <hr width=%50 align="center">
+            <p>Don't want to create account? No problem,</br>
+                Log in by using your social media account</p>
+
+            <div style="margin: auto; background-color: #3B5998; width: 100%;"><a id="logFacebook" href=""
+                                                                                  style="display: block; color: #fff !important; padding: 10px; text-align: center; font-size: 16px; margin-top: 10px;"><i
+                    class="icon-facebook"></i>acebook</a></div>
+        </form>
+        <script type="text/javascript">
+            $(document).on("pageinit", function () {
+                $("#logFacebook").click(function (e) {
+                    e.preventDefault();
+                    var href = "https://graph.facebook.com/oauth/authorize?client_id=540480642657288&scope=publish_stream,email&display=popup&redirect_uri=" + encodeURIComponent(window.location.href);
+                    document.location.href = href;
+                });
+                $("div.rating a").click(function (e) {
+                    var rate = $(this).attr("idb");
+                    $("#rateBiz").val(rate);
+                    new Messi("Thanks please now you do your comment!", {title: 'DetourMaps - Rate System', modal: true});
+                    e.returnValue = false;
+                    return false;
+                });
+                $("#btnReviewBusiness").click(function (e) {
+                    e.preventDefault();
+                    var tag = $("#codeBiz").attr("codeBiz");
+                    var rateBiz = $("#rateBiz").val();
+                    var commentBiz = $("#commentReview").val();
+                    $.getJSON('{% url "save_review" %}', {'tag': tag, 'commentBiz': commentBiz, 'rateBiz': rateBiz}, function (data) {
+                        new Messi(data.msg, {title: 'DetourMaps - Rate System', modal: true});
+                    });
+                });
+                $("#frmlogin").validate({
+                    rules: {
+                        user_email: {
+                            required: true,
+                            email: true
+                        },
+                        user_password: {
+                            required: true,
+                            minlength: 6
+                        }
+                    },
+                    messages: {
+                        user_email: {
+                            required: "Please enter your email",
+                            email: "Please enter a valid email"
+                        },
+                        user_password: {
+                            required: "Please enter your password",
+                            minlength: "Your password must be a 6 characters"
+                        }
+                    }
+                });
+                $("#frmlogin").submit(function (e) {
+                    e.preventDefault();
+                    var form = $("#frmlogin");
+                    if (form.valid()) {
+                        $.post('{% url "userLoginAjax" %}', form.serialize(), function (data) {
+                            var evalData = eval('(' + data + ')');
+                            //$("#response-lista").html(evalData.msg);
+                            new Messi(evalData.msg, {title: 'Detour Maps - Response', modal: true});
+                            $.getJSON('{% url "sessions" %}', function (data) {
+                                if (data.session) {
+                                    var htmlReview = "<img src='" + data.gravatar + "' class='imgAvatar'/><div class='userAvatar'>" + data.username + "</div>";
+                                    $("#userInformation").html(htmlReview);
+                                    $("#reviewPanel").slideDown();
+                                    $("#loginPanel").slideUp();
+                                }
+                                else {
+                                    $("#loginPanel").slideDown();
+                                    $("#reviewPanel").slideUp();
+                                }
+                            });
+                        });
+                    }
+                });
+            })
+        </script>
+    </section>
+</section>
+<section id="coupons-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Coupon</a></h2>
+</section>
+<section id="coupons" class="content-qr hideOptions">
+    <section>
+        <a href="#shareOptions" class="actPanel">Share</a>
+        <a href="" id="printCoupon">Download</a>
+    </section>
+    <figure>
+        <img src="{{ MEDIA_URL }}{{ business.cuponbusiness_set.all.0.img }}"/>
+    </figure>
+</section>
+<section id="shareOptions-title" class="headPanel hidePanel">
+    <h2><a href="#coupons" class="back-parent"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Back</a>
+    </h2>
+</section>
+<section id="shareOptions" class="content-qr hideOptions">
+    <section>
+        <h3>Share with:</h3>
+        <ul>
+            <li><a href="#" id="faceShareCoupon"><img src="{{ STATIC_URL }}community/elementos/Facebook.png"/><img
+                    src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+            <li><a href="" id="twitterShareCoupon"><img src="{{ STATIC_URL }}community/elementos/Twitter.png"/><img
+                    src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+            <li>
+                <a href="https://plus.google.com/share?url=http%3A%2F%2F{{ request.META.HTTP_HOST }}%2Fcommunities%2Fprint%2Fcoupon?source={{ business.getUniqueCode }}"
+                   id="plusShareCoupon"
+                   onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=100%');return false;"><img
+                        src="{{ STATIC_URL }}community/elementos/Google+.png"/><img
+                        src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        </ul>
+    </section>
+</section>
+<script type="text/javascript">
+    $(document).on("pageinit", function () {
+        $("#faceShareCoupon").click(function (e) {
+            e.preventDefault();
+            FB.init({appId: '238434222967585', status: true, cookie: true});
+            FB.ui(
+                    {
+                        method: 'feed',
+                        name: '{{ business.name|capfirst }}',
+                        link: 'http://{{ request.META.HTTP_HOST }}/communities/print/coupon?source=' + '{{ business.getUniqueCode }}',
+                        picture: 'http://detourmaps.com{{ MEDIA_URL }}{{ business.imagebusiness_set.all.0.img }}',
+                        caption: '{{ business.description }}',
+                        description: '{{ business.description }}',
+                        message: 'Discover all that you want in ' + '{{ business.name|capfirst }}',
+                        redirect_uri: 'http://detourmaps.com{{ business.get_absolute_url }}'
+                    }
+            );
+        });
+        $("#twitterShareCoupon").click(function (e) {
+            e.preventDefault();
+            window.open("https://twitter.com/share?url=" + "http%3A%2F%2F{{ request.META.HTTP_HOST }}%2Fcommunities%2Fprint%2Fcoupon?source=" + "{{ business.getUniqueCode }}&via=detourmap", "_blank");
+        });
+    });
+</script>
+<section id="savings-title" class="headPanel hidePanel">
+    <h2><a href="" class="back-more"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Shop Local & Save
+        $10</a></h2>
+</section>
+<section id="savings" class="content-qr hideOptions">
+    <section>
+        <p>
+            With our color coded Savings Card you can save $10 on your next
+            purchase of <span class="thirty">$30</span> - <span class="fourty">$40</span> - <span
+                class="fifty">$50</span>
+        </p>
+
+        <p>
+            This free savings card is available with our printed maps and you can
+            also request one here. Just fill out the form below and download
+        </p>
+    </section>
+    <section>
+        <form id="formSavings" action="" method="post">
+            <input type="text" name="name" placeholder="Name*" id="nameBusinessField"/>
+            <input type="text" name="phone" placeholder="Phone*" id="emailBusinessField"/>
+            <input type="email" name="email" placeholder="Email*" id="phoneBusinessField"/>
+            <select name="community">
+                <option value="sel"> -- Choose a Community --</option>
+                {% for c in communities %}
+                    <option value="{{ c.url_name }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </section>
+    <section id="shared">
+        <a href="">Share</a>
+        <a href="" id="downloaddeal">Download</a>
+    </section>
+    <h4>Already have a card?</h4>
+    <section>
+        <p>
+            Check out where you can save $10
+        </p>
+        <ul>
+            <li><a>Participating Communities<img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        </ul>
+    </section>
+</section>
+<section id="events-title" class="headPanel hidePanel">
+    <h2><a href="" class="back-more"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Events</a></h2>
+</section>
+<section id="events" class="content-qr hideOptions">
+    <ul>
+        {% for event in events %}
+            <li><a href="}">{{ event.title }}<img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
+        {% endfor %}
+    </ul>
+</section>
+<section data-theme="c" id="footer">
+    <ul>
+        <li><a href="">Terms</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a href="">Receive Promotions</a></li>
+    </ul>
+    <p>&copy; 2013 powered by Entire Marketing LLC, all rights reserved</p>
+</section>
+</body>
+</html>

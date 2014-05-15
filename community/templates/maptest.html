@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+{% block head %}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no">
+    <title>{% block title %}Detour Maps{% endblock %}</title>
+    <!-- <link rel="shortcut icon" href="{{ STATIC_URL }}favicon.ico" /> -->
+    
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Arvo|Niconne|Istok+Web:400,700,400italic|Metrophobic">
+	<link media="screen" type="text/css" rel="stylesheet" href="{{ STATIC_URL }}community/css/base.css">
+    <link media="screen" type="text/css" rel="stylesheet" href="{{ STATIC_URL }}community/css/dtmfront.css">
+	{% block extrahead %}
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            //Map Style
+            var dtmStyle = [{
+                featureType: "road",
+                stylers: [{ hue: "#504740" }, { saturation: 70 }, { lightness: -20 }]
+            }, {
+                featureType: "landscape",
+                stylers: [{ lightness: 50 }]
+            }, {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [{ visibility: "off" }]
+            }, {
+                featureType: "poi.park",
+                stylers: [{ lightness: -10 }, { saturation: 10 }, { visibility: "simplified" }]
+            }, {
+                featureType: "poi.place_of_worship",
+                stylers: [{ visibility: "off" }]
+            }, {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [{ visibility: "simplified" }]
+            }, {
+                featureType: "landscape.man_made",
+                stylers: [{ visibility: "off" }]
+            }];
+
+            //Map
+            var map = new google.maps.Map(document.getElementById("detourmap"), {
+                zoom : 15,
+                center : new google.maps.LatLng(41.847027, -87.755141),
+                mapTypeId : google.maps.MapTypeId.TERRAIN,
+                disableDefaultUI: true,
+                navigationControl: true,
+                navigationControlOptions: {
+                    style: google.maps.NavigationControlStyle.SMALL,
+                    position: google.maps.ControlPosition.RIGHT_CENTER
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM
+                }
+            });
+            
+            var dtmMapType =  new google.maps.StyledMapType(dtmStyle,{
+                map: map,
+                name: "DetourMaps"
+            });
+            map.mapTypes.set('dtm', dtmMapType);
+            map.setMapTypeId('dtm');
+
+            var infowindow = new google.maps.InfoWindow({
+                content: $('.binfo')[0],
+                maxWidth: 460
+            });
+            
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(41.847027, -87.755141),
+                map: map,
+                icon: '/static/img/icons/snippet1.png'
+            });
+            
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.open(map, marker);
+            });
+        });
+    </script>
+    {% endblock %}
+{% endblock %}
+</head>
+<body>
+{% block body %}
+
+<div id="map">
+    <div id="detourmap"></div>
+    <div class="tbar">
+        <nav>
+            <ul>
+                <li><a href="#">Discover</a></li>
+                <li><a href="#">Savings</a></li>
+                <li><a href="#">Directory</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="lbar">
+        <header>
+            <h1><span>Welcome to</span><br/>Chicago Lawn</h1>
+        </header>
+        <div id="browser">
+            <div id="search-bar"><!-- Coming soon search feature --></div>
+            <div id="categories">
+                <div id="cat-i0" class="cat">
+                    <div class="cat-title">
+                        <span><img src="maptest.html" alt="category title"/></span>
+                        <span class="title">Restaurants</span>
+                    </div>
+                    <div class="cat-content">
+                        <div class="cat-filter">
+                            <span>Services: </span>
+                            <div class="tags">
+                                <label class="tag tag1"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag2"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag3"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag4"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tagn"><input type="checkbox" class="tag"/></label>
+                            </div>
+                        </div>
+                        <div class="cat-list">
+                            <ul>
+                                <li bindex="j">Wayra</li>
+                                <li bindex="j1">Chef Town</li>
+                                <li bindex="j2">Mata Hambre</li>
+                                <li bindex="j3">Duerme Leones</li>
+                                <li bindex="j4">Gourmet Tay-pá</li>
+                                <li bindex="j5">Recoje tu baba</li>
+                                <li bindex="j6">Aqui no tenemos ratas</li>
+                                <li bindex="j7">Bolsillos Hammer</li>
+                                <li bindex="j8">Sonqo-qilla</li>
+                                <li bindex="j9">Fuck Chef</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="cat-i1" class="cat">
+                    <div class="cat-title">
+                        <span><img src="maptest.html" alt="category title"/></span>
+                        <span class="title">Hotels</span>
+                    </div>
+                    <div class="cat-content">
+                        <div class="cat-filter">
+                            <span>Filter: </span>
+                            <div class="tags">
+                                <label class="tag tag1"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag2"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag3"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag4"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tagn"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tagn"><input type="checkbox" class="tag"/></label>
+                            </div>
+                        </div>
+                        <div class="cat-list">
+                            <ul>
+                                <li bindex="j">Wayra</li>
+                                <li bindex="j1">Chef Town</li>
+                                <li bindex="j2">Mata Hambre</li>
+                                <li bindex="j3">Duerme Leones</li>
+                                <li bindex="j4">Gourmet Tay-pá</li>
+                                <li bindex="j5">Recoje tu baba</li>
+                                <li bindex="j6">Aqui no tenemos ratas</li>
+                                <li bindex="j7">Bolsillos Hammer</li>
+                                <li bindex="j8">Sonqo-qilla</li>
+                                <li bindex="j9">Fuck Chef</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="cat-i2" class="cat">
+                    <div class="cat-title">
+                        <span><img src="maptest.html" alt="category title"/></span>
+                        <span class="title">Business</span>
+                    </div>
+                    <div class="cat-content">
+                        <div class="cat-filter">
+                            <span>Services: </span>
+                            <div class="tags">
+                                <label class="tag tag1"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag2"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag3"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tag4"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tagn"><input type="checkbox" class="tag"/></label>
+                                <label class="tag tagn"><input type="checkbox" class="tag"/></label>
+                            </div>
+                        </div>
+                        <div class="cat-list">
+                            <ul>
+                                <li bindex="j">Wayra</li>
+                                <li bindex="j1">Chef Town</li>
+                                <li bindex="j2">Mata Hambre</li>
+                                <li bindex="j3">Duerme Leones</li>
+                                <li bindex="j4">Gourmet Tay-pá</li>
+                                <li bindex="j5">Recoje tu baba</li>
+                                <li bindex="j6">Aqui no tenemos ratas</li>
+                                <li bindex="j7">Bolsillos Hammer</li>
+                                <li bindex="j8">Sonqo-qilla</li>
+                                <li bindex="j9">Fuck Chef</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="binfo">
+    <article id="info-{{ b.hash }}" class="binfo">
+        <div class="l-panel">
+            <div class="img-wrap">
+                <img src="" alt=""/>
+                <img src="" alt=""/>
+                <img src="" alt=""/>
+                <img src="" alt=""/>
+            </div>
+            <div class="l-nav"></div>
+            <div class="r-nav"></div>
+        </div>
+        <div class="r-panel">
+            <h3>Oak Labs</h3>
+            <span class="cat">Tech</span>
+            <p class="des">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                sed diam nonummy nibh euismod tincidunt ut laoreet dolore.
+            </p>
+            <address>
+                <span class="address">Los Pinos 103</span><br/>
+                <span class="phone">+51 958334107</span><br/>
+                <span class="url"><a href="http://www.oaklabs.pe">www.oaklabs.pe</a></span><br/>
+            </address>
+            <div class="stars">
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star half"></div>
+                <div class="star no"></div>
+            </div>
+        </div>
+        <div class="b-panel">
+            <div class="tags">
+                <div class="tag"></div>
+                <div class="tag"></div>
+                <div class="tag"></div>
+                <div class="tag"></div>
+            </div>
+        </div>
+    </article>
+</section>
+{% block content %}
+{% endblock %}
+{% endblock %}
+</body>
+</html>

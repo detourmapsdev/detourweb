@@ -1,0 +1,18 @@
+<section class="upcoming">
+{% for event in events %}
+<a href="{{ event.get_landing_event }}" rel="external">
+    <article>
+        <figure>
+            <img src="/media/{{ event.imagebusinessevents_set.all.0.img }}"/>
+        </figure>
+        <section>
+            <h2>{{ event.business.community.name }}</h2>
+            <div class="titleEvent">{{ event.title }}</div>
+            <div class="dateEvent">{{ event.date_begin|date:"l, F d" }}</div>
+        </section>
+        <i class="icon-caret-right"></i>
+    </article>
+</a>
+<hr>
+{% endfor %}
+</section>

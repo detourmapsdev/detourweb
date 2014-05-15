@@ -1,0 +1,5 @@
+<div class="tags">
+    {% for i in services %}
+            <label title="{{ i.name }}" for="chk{{ i.id }}" class="tag" style="background-image: url('/media/{{ i.icon }}')"><input name="chk{{ i.id }}" type="checkbox"/></label>
+    {% endfor %}
+</div>

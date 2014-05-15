@@ -1,0 +1,242 @@
+font menu 
+League Gothic title head menu color #333 slide menu bgcolor #f4f5f9
+log in color #F26F31
+
+[About]
+We are a local evolution. 	Open Sans regular color #414042 #F48031
+
+A friendly and dedicated team that loves connecting residents
+with their neighborhood Open Sans Light color #000000
+
+How we do it Open Sans Light color #000000
+
+Detour Maps specializes in custom map making. From print, digital, interactive to mobile, our maps serve many purposes at any scale in any media.
+
+Our maps merge geographic data with effective map design. In combination with strong marketing tools such as email blasts, social media, text message campaigns and savings card. Our advertising platforms cover all marketing needs.
+
+Open Sans Light color #000000
+Active color #F48031 open sans regular no active color #414042
+Print Web & Mobile Savings Program Multi-Media
+
+text open sans light color #414042
+
+print-text
+Detour’s printed map is a way to have everything there is to know about the community in the palm of your hand. With 2 publications each year for each community and over 40,000 maps distributed you will be well informed with our printed maps. Inside the printed maps include a map of the community with different local business advertisements. The map pin points each business giving the user a better idea of where the business or resource is located in the community. We do not just have business locations on the map; we also have locations of parks, bus routes, schools, useful phone numbers, events and basically all public assets in the community.  The printed map also is color coded so that residents may know which business is participating in the $10 Savings Card promotion.
+
+web-mobile-text
+With Detour Maps, you can browse and explore places within your community. You can:
+•	Search for businesses in your community such as, restaurants, hospitals and airports.
+•	Share the link to your favorite places where your friends can also find the businesses information and deals.
+•	Get driving, walking and public transportation directions.
+•	Explore your community’s local deals.
+•	Add your own ratings, and reviews of the places you've been.
+•	View videos of your favorite places.
+•	Can view which businesses are participating in the local $10 Savings Card and pin point where they are located.
+You don't need to download or install anything to use detourmaps.com.
+
+savings-text
+With our color coded Savings Card, you can save $10 on your next purchase (minimum purchase required of $30, $40, or $50). Our Free Printed maps have savings cards attached to be redeemed at participating businesses or you can fill out the form online to receive a digital card. The form is located on the home page and in the deals page. 
+The savings card is available throughout participating neighborhoods from supermarkets and restaurants to public location including libraries. Saving cards comes free with the printed map. You can also request a new card online to print out and redeem at the participating location
+
+multimedia-text
+Besides having many community resources on our website, we are actively involved in promoting on social media sites like facebook, twitter, youtube, and more. Our newly launched detourTV division focuses on promoting local small 
+businesses with short video exclusives that give viewers an inside look at how the business works and what they have to offer. 
+With the large number of users on social networks, it is critical that we reach our target audiences 
+on various platforms so that our useful community information is seen by residents and those intertested. 
+
+About Detourmaps Open Sans light color #000000 background #F4F5F9
+
+active open sans regular #000000 no active color #808285
+History Vision  Impact
+
+text open sans light color #000000
+
+history-text
+Detour Community MAPs (a Marketing and Advertising Platform) is a division of Entire Marketing Group LLC established in 2007. The division was created to help the development of different communities in Illinois. We strive on connecting resident with local businesses and organizations to better the community by creating a SHOP LOCAL campaign. 
+
+This campaign encourages residents to shop local versus shopping at a corporate or chain store. Resources suggest that for each dollar you spend at an independent business in your community, three or more times goes back into the local economy compared to a dollar spent at retailer owned by a chain. This means better school, security, resources, and an overall better community.
+
+mision-text
+Detour Maps is committed to help neighborhoods and organizations of all Industries, sizes and locations by personalizing the organization’s branding so their residents can recognize them. When you partner with us, we help by using a simple and easy advertising platform whether it is print advertisement or adding your community to our online directory (examples SSA3 “Greater Southwest Development Corporation”). 
+
+We help the businesses of the local organization to have the opportunity to advertise collectively and share the cost. We will work with you so you do not have to worry about “ARTvertising” (branding your neighborhood with promotions) your community. 
+
+impact-text
+
+As of now the participating communities are Berwyn, Cicero, Archer Heights, Brighton Park, Back of the Yards, West Lawn, Chicago Lawn, Washington Heights, Morgan Park, and Roseland. 
+Local organizations called Special Service Areas are also participating such as SSA 3, SSA 10, SSA 39, and SSA 45. These Special Service Areas also called SSA’s work within the participating communities helping local businesses with different resources to improve the shopping corridors and community.
+
+clients say each background #F4F5F9
+
+evolution alternative open sans light color #000000
+
+Evoluzion Alternative Health Inc. highly recommends Detour Maps as first in its class with creative and effective tools use for branding your own business, reaching to your community and/or simply receiving professional mentoring guidance from marketing experts. Let Detour engineer your concept, just look at Us!!!
+Gabriela H. Ardila - President/Founder
+
+greatest southwest
+Detour Maps provide a unique opportunity of building community image while local businesses benefit from low cost advertising strategies.
+Nick Kollias - Commercial Director, GSD
+
+Let’s chat. color #ffffff open sans light 40pt
+We’d love to hear about your project open sans light 25pt
+Email: info@detourmaps.com open sans light 25pt
+Telephone: 708-484-1119 open sans light 25pt
+Fax: 708-484-1101 open sans light 25pt
+Location: 6900 W Cermak Rd. Berwyn, IL 60402 open sans light 25pt
+[END ABOUT]
+
+[CONTACT]
+
+We’d love to hear you.
+Here’s how you can get in touch with us. league Gothic regular color #F48031
+
+info contact background #F48031
+Myriad pro semibold color #ffffff
+Address
+6900 W Cermak Rd
+Berwyn IL 60402
+
+Phone
+708.484.1119
+
+Email
+info@detourmaps.com
+
+Skype
+detourmaps.emg
+
+Whatever you want to ask, we are happy to hear from you and we are always ready to give our best answer. Myriad Pro regular color #6D6E71
+
+form elements border color #D1D3D4
+label color #939598 Myriad pro regular
+
+button color #ffffff background #F48031 Myriad pro regular
+
+Don’t forget to check us out here! color #6D6E71 Myriad pro regular
+
+[END CONTACT
+
+[PARTNER PAGE]
+BANNER CAPTION background #000000 opacity 53% color #fff Myriad Pro Regular
+arrow-left color #808285 
+back to map color #808285 Myriad Pro Regular
+share background #808285 color #fff Myriad Pro Regular 
+line color #808285
+
+title color #414042 league gothic regular
+A little about Berwyn Main Street
+
+color #414042 Myriad Pro Regular
+Berwyn’s historic Cermak Road is going to get a “Main Street Makeover” thanks to recently becoming part of the Illinois Main Street program. The Main Street program is a comprehensive community revitalization program that promotes the historic preservation and economic development of traditional business districts.
+
+color #808285 Myriad Pro Regular
+More information about our services
+
+Directory background #333333
+Business Directory color #ffffff Myriad pro regular
+searcher border #8E9CA8
+
+paginator background #083769
+categories color #414042
+label arial narrow color #58595B
+
+list business background #E8E9EA arial narrow color #414042 
+more information background #083769 color #ffffff Enriqueta regular
+
+line split events color #808285
+check it out color #fff background #083769 Entiqueta regular
+
+title event enriqueta bold color #998675 
+text color #808285 myriad pro regular
+[END PARTNER]
+
+[NEW DEALS]
+Local Deals in Berwyn color #F38031 League Gothic regular
+
+Myriad Pro regular color #6D6E71 
+Save $10 at these locations with your Detourmaps Saving Card when you spend at least $30 (yellow), $40(red) or $50(blue). Click on a location below to view business info, get directions, and more. Saving and staying local made easy.
+
+color #1C75BB Myriad pro regular
+Need a Savings Card?
+
+yellow color #FFDD17 
+red color #EC1C24
+blue color #27A9E0
+
+color #AA9711 league gothic regular
+Yellow Save 10 at these locations when you spend at least $30
+
+color #F7A4A7
+Red Save 10 at these locations when you spend at least $30
+
+color #D3EBF5
+Blue Save 10 at these locations when you spend at least $30
+
+business color #58595B Myriad pro regular
+[END DEALS]
+
+[Events]
+title h1 League Gothic Regular #F38031 border-bottom #A6A8AB
+Events coming up in Berwyn
+
+Event Name Myriad Pro Regular #F38031
+date #808184 Myriad Pro Regular
+desc #6D6E71 Myriad Pro Regular
+link #808184 Myriad Pro Regular border color #6D6E71
+border-bottom #A6A8AB
+img border #A6A8AB
+[end Events]
+[discover]
+caption banner #000000 opacity 58%
+community name #fff Myriad Pro Regular
+back to map #808285 Myriad Pro Regular
+line #808285
+What’s happening in color #808285 League Gothic Regular
+Featured Event color #fff Myriad Pro Regular
+desc event color #414042 Myriad Pro Regular
+date color #414042 Myriad Pro Regular
+See more events color #414042 Myriad Pro Regular
+Video title #414042 Myriad Pro Regular
+
+slides title Get to know Berwyn League Gothic color #808285
+slides desc color #F26522 Myriad Roman
+
+Partners color #F26522 Community Partners League Gothic Regular
+links color #58595B Myriad Pro Regular
+Community Phone Numbers color #F26522 League Gothic Regular
+phones name color #58595B Myriad Pro Regular
+phones and address color #808285 Myriad Pro Regular
+[end discover]
+[general deals]
+Detourmaps $10 Savings Card  #414042 Open Sans Regular
+get savings background #F4F5F9
+Get a Savings Card color #F48031 Open Sans Regular
+input border #808285 color #808285 Open Sans Regular
+
+How it works #000000 Open Sans Light
+
+Open Sans Light #000000
+With our color coded Savings Card, you can save $10 on your next purchase (minimum purchase required of $30, $40, or $50). Our Free Printed maps have savings cards attached to be redeemed at participating businesses or you can fill out the form online to receive a digital card. The form is located on the home page and in the deals page. 
+The savings card is available throughout participating neighborhoods from supermarkets and restaurants to public location including libraries. Saving cards comes free with the printed map. You can also request a new card online to print out and redeem at the participating location
+
+Print Download #BCBEC0 Open Sans Light 
+Where to use it #000000 Open Sans Light
+
+Open Sans Light
+How do I know who is participating in the Savings Cards promotion?
+Using your Detour printed map, you can look through the map and the participating  color #000000
+businesses are marked off with a color and the minimum purchase ($30 is yellow, $40 is red, $50 is blue). color #F48031
+Using detourmaps.com you can select your community you want to explore. Then in the navigation where it says Deals you can click and a list of businesses will appear (also color coded). color #000000
+
+Save $10 on your purchase of at least $30 or more #000000 Open Sans Light
+Save $10 on your purchase of at least $40 or more
+Save $10 on your purchase of at least $50 or more
+
+Choose a neighborhood #000000 OPen Sans Light
+
+color #000000 Open Sans Light
+These areas are currently accepting Detourmaps Savings Card, check out a list of participating locations. Try a new shop or place to get lunch and don’t forget your savings card!
+Community caption back #231F20 75% opacity color #ffffff Open Sans Light
+coming soon Open Sans Light Italic #ffffff
+back #231F20 75% opacity
+[end deals]

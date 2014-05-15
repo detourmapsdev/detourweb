@@ -1,0 +1,87 @@
+{% extends 'base-mobile.html' %}
+{% block title %}DetourMaps - {{ business.name|capfirst }}{% endblock %}
+{% block secondnav %}{% endblock %}
+{% block body %}
+    <section id="businessLandingPanel">
+        <div id="headerLandingPanel">
+            <h1>{{ business.name|capfirst }}</h1>
+            <span id="categoryLandingPanel">{{ business.category.name|capfirst }}</span><br>
+            <span id="addressLandingPanel">{{ business.address }}</span>
+        </div>
+        <div id="listNavigationLanding">
+            <ul>
+                <li><a href="#website" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/go.png" height="24px"/>Web</a></li>
+                <li><a href="#share" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/share.png" height="24px"/>Share</a></li>
+                <li><a href="#deals" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/10.png" height="24px"/>Save</a></li>
+                <li><a href="#review" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/review.png" height="24px"/>Review</a></li>
+                <li><a href="#direction" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/direction.png" height="24px"/>Directions</a></li>
+                <li><a href="#coupons" class="navigationPanel"><img src="{{ STATIC_URL }}community/mobile/deal.png" height="24px"/>Coupon</a></li>
+            </ul>
+        </div>
+        <section id="contentPanel">
+            <section id="website" class="panelHide">
+                <h2>Building a Map</h2>
+            </section>
+            <section id="share"  class="panelHide">
+                <h2>Share with your friends and family.</h2>
+                <div>
+                    <img src="{{ STATIC_URL }}community/elementos/network.png" width="300px" usemap="#mapNetwork"/>
+                    <map name="mapNetwork">
+                        <area coords="0,0,80,77" href="http://detourmaps.com{{ business.get_absolute_url }}" id="faceShare" target="_blank" name="{{ business.name|capfirst }}" caption="{{ business.desc }}" description="{{ business.desc }}" img=""/>
+                        <area coords="130,0,210,77" href="https://twitter.com/share?url=https%3A%2F%2Fdetourmaps.com&via=detourmaps" class="twitter-share-button" target="_blank" id="tweetShare"/>
+                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        <area coords="260,0,340,77" href=""/>
+                        <area coords="390,0,470,77" href="" onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;" id="plusShare"/>
+                        <area coords="520,0,600,77" href=""/>
+                        <area coords="650,0,730,77" href=""/>
+                    </map>
+                </div>
+               <script type="text/javascript">
+                   $(document).on('pageinit',function(){
+                       $("#faceShare").click(function(e){
+                           e.preventDefault();
+                           FB.init({appId: '238434222967585', status: true, cookie: true});
+                           FB.ui(
+                                   {
+                                       method: 'feed',
+                                       name: $(this).attr("name"),
+                                       link: $(this).attr("href"),
+                                       picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
+                                       caption: $(this).attr("caption"),
+                                       description: $(this).attr("description"),
+                                       message: '',
+                                       redirect_uri: $(this).attr("href")
+                                   });
+                       });
+                   })
+               </script>
+            </section>
+            <section id="deals"  class="panelHide">
+                <h2>Deals.</h2>
+            </section>
+            <section id="review" class="panelHide">
+                <h2>Reviews</h2>
+                <div class="starRating">
+                    <span>({{ business.review_set.all.count }})</span>
+                </div>
+                <div id="allReview">
+                    {% for review in business.review_set.all %}
+                        <div class="reviewUnique">
+                            <div class="starsReview">{{ review.comment|truncatewords:"2" }}</div>
+                            <div class="commentReview">
+                                {{ review.comment }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+            <section id="direction" class="panelHide">
+                <h2>Direction.</h2>
+            </section>
+            <section id="coupons" class="panelHide">
+                <h2>Coupons.</h2>
+            </section>
+        </section>
+    </section>
+{% endblock %}
+{% block principalNav %}{% endblock %}

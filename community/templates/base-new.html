@@ -1,0 +1,317 @@
+{% load queryset %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- home -->
+    <title>DetourMaps - {% block title %}{% endblock %}</title>
+    {% block description %}<meta name="description="
+          content="DetourMaps brings you closer to your neighborhood with the latest business promotions, events, and savings. Support your community while staying connected">{% endblock %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="www.detourmaps.com">
+    <meta name="owner" content="Entire Marketing Group LLC">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords"
+          content="Home Map,detour, detourmaps, shop local, maps, map, explore your community, neighborhood, select your community, Berwyn, Cicero, archer heights, west lawn"/>
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro|Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/pure-min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico">
+    <link rel="stylesheet" href="{{ STATIC_URL }}messi/messi.min.css.gz"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/jquery.validate.min.js.gz"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js.gz"></script>
+    {#    <script defer type="text/javascript" src="/user/js/utils_sys"></script>#}
+    <script src="{{ STATIC_URL }}messi/messi.min.js.gz"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js.gz"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.validator.addMethod("phoneUS", function (phone_number, element) {
+                phone_number = phone_number.replace(/\s+/g, "");
+                return this.optional(element) || phone_number.length > 9 &&
+                        phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+            }, "Please specify a valid phone number");
+            // Coupons Form
+            $('#couponRequestForm').validate();
+            $('#couponRequestForm').submit(function (e) {
+                if ($('#couponRequestForm').valid() && !$('#mailCouponRequest').hasClass('disabled')) {
+                    $('#mailCouponRequest').prop('disabled', true).addClass('disabled').css('opacity', 0.5);
+                    $('#couponRequestForm p.submit .msg').html($('<img/>').attr('src', '{{ STATIC_URL }}web/img/loading.gif'));
+                    $.post('{% url 'request_coupon' %}', $('#couponRequestForm').serialize(), function (data) {
+                        if (data = 'Thanks') {
+                            $('#couponRequestForm p.submit .msg').text('Success! Check your email inbox.');
+                            new Messi(data + ' Success! Check your email inbox.', {title: 'DetourMaps - Savings Card System', modal: true});
+                        } else {
+                            $('#mailCouponRequest').prop('disabled', false).removeClass('disabled').css('opacity', 1);
+                            $('#couponRequestForm p.submit .msg').text('Error! Try again or call-us to 708 484 1119. We will be happy to help you!');
+                            new Messi('Error! Try again or call-us to 708 484 1119. We will be happy to help you!', {title: 'DetourMaps - Savings Card System', modal: true});
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+            $("form#formSuscribe").validate(
+                    {
+                        rules: {
+                            suscribe: {
+                                required: true,
+                                email: true
+                            }
+                        },
+                        messages: {
+                            suscribe: {
+                                required: "This field is obligatory",
+                                email: "Enter a valid email address"
+                            }
+                        }
+                    }
+            );
+            $("button#btnSuscribe").click(function(e){
+                e.preventDefault();
+                $.post(
+                        '/communities/newsletter/',
+                        $("form#formSuscribe").serialize(),
+                        function(data){
+                            var evalData = eval('(' + data + ')');
+                            new Messi(evalData.msg, {title: 'Detour Maps - Newsletter', modal: true});
+                        }
+                )
+            })
+        });
+    </script>
+    {% block head %}
+
+    {% endblock %}
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-31412199-1']);
+        _gaq.push(['_setDomainName', 'detourmaps.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <!--[if IE]>
+        <style>
+            #categories ul li{
+                width: 0% !important;
+            }
+        </style>
+    <![endif]-->
+    <style>
+        .overmenu {
+            z-index: 10000;
+        }
+    </style>
+</head>
+<body id="{% block bodyname %}communityHome-page{% endblock %}">
+{% block general-header %}
+    <header class="tbar"
+            style="height: 60px;background: #414042; border-bottom: 1px solid #ffffff; position: relative;">
+        <a class="logo" href="{% url 'render' "about-us" %}"><img src="{{ STATIC_URL }}community/img/detour_logo.png" alt="detourMaps"/></a>
+
+        <div class="tmenu communities">
+            <h1>Neighborhoods</h1>
+            {% list_community_active %}
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'render' "deals" %}">Deals</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+                <li><a href="http://blog.detourmaps.com" target="_blank">Blog</a></li>
+                <li><a href="{% url 'render' "about-us" %}">About Detour Maps</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-set" name="perfiles">
+            {% if request.session.user %}
+                <a href="" class="overLogin" name="perfiles"><span
+                        class="newLog">{{ request.session.user.username }}</span></a>
+                <ul class="perfiles" id="">
+                    <li><a href="{% url 'accountSettings' %}">Profile</a></li>
+                    <li><a href="{% url 'goodbye' %}">Log Out</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li>
+                        <a class="plus-orange"><img src="{{ STATIC_URL }}community/evolution/icon-orange.png"/> <div>Orange Deals</div><i>+</i></a>
+                    </li>
+                    <li>
+                        <input type="email" placeholder="Enter email and suscribe" class="suscribe-field"/>
+                    </li>
+                    <li>
+                        <a href="{% url 'loginUser' %}" class="account">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'registerUser' %}" class="account">Sign Up</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+    </header>
+{% endblock %}
+{% block bar-container %}
+    <div class="bars_container">
+        <div style="position: absolute;top:5px;right: 5px;bottom: 5px;left: 5px;">
+            <div id="categories">
+                <ul cellSpacing="0">
+                    {% for category in categories %}
+                        <li id="cat-{{ category.id }}" class="cat">
+                            <div class="cat-title">
+                                <div class="img" style="background-image: url('/media/{{ category.icon }}')"></div>
+                                <div><span class="title">{{ category.name }}</span></div>
+                            </div>
+                            <div class="cat-content">
+                                <div class="cat-filter">
+                                    <form id="categories{{ category.id }}" action="#">
+                                        <span>Filter: </span>
+                                        {#% listServiceByCategoryByBusiness community.id category.id %#}
+                                    </form>
+                                </div>
+                                <div class="cat-list">
+                                    <ul>
+                                        {#% list_business community.id category.id %#}
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div id="left_bar" show="true">
+            <div class="show_hide" style="text-align: center;">
+                <div style="cursor: pointer;">
+                    <div style="font-size: 1.4em;color: #808080;text-align: left;margin-left: 10px;">Search</div>
+                    <div style="background-image: url('{{ STATIC_URL }}community/img/home_button.png');width: 22px;height: 19px; position: absolute;top:5px;right: 5px;"></div>
+                    <div class="search">
+                        <div>
+                            <label>
+                                <strong>Search:</strong>
+                                <input name="q" type="search" autocomplete="off" placeholder="e.g. Famous Dave's"/>
+                            </label>
+
+                            <div class="search-icon"><img src="{{ STATIC_URL }}community/img/icons/detoursearch.png"
+                                                          alt="search"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div id="load-bar"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; background: #333; z-index: 100; color: #fff; font-size: 1.25em; padding-top: 6%;">
+                <i class="icon-refresh icon-spin" style="color: #fff !important;"></i> Loading Search Bar..
+            </div>-->
+	    {% all_business_data %}
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div id="map" style="position: absolute;width: 100%; height: 568px; top: 130px; left: 0;">
+
+    </div>
+    <!--Menu Form User-->
+{% endblock %}
+{% block footer %}
+    <footer id="homeFooter_cnt" class="container coupon">
+        <ul class="list_row">
+            <li>
+                <ul>
+                    <li>
+                        <!--About us-->
+                        <ul>
+                            <li><h2>Detour Maps</h2></li>
+                            <li><a href="http://www.detourmaps.com/about-us">About Detour Maps</a></li>
+                            <li><a href="http://www.entiremarketinggroup.com/" target="_blank">How to use Detour Maps</a></li>
+                            <li><a href="http://www.entiremarketinggroup.com/" target="_blank">How to use Detour Maps</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <!--Join us-->
+                        <ul>
+                            <li><h2>Partners</h2></li>
+                            <li><a href="{% url 'loginUser' %}">Entire Marketing Group LLC</a></li>
+                            <li><a href="{% url 'registerUser' %}">QMOQUI</a></li>
+                            <!--<li><a href="http://www.detourmaps.com/free-business-listing">Free Business Listing</a></li>
+                            <li><a href="http://www.detourmaps.com/deals"> Recieve Promotions</a></li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <!--Let's Talk-->
+                        <ul>
+                            <li><h2>Join Us</h2></li>
+                            <li><a href="http://www.detourmaps.com/about-us">Register</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Free Business Listing</a></li>
+                            <li><a href="http://www.detourmaps.com/about-us">receive our newsletter</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Jointhe Local Evolution</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <!--Let's Talk-->
+                        <ul>
+                            <li><h2>What you need to know</h2></li>
+                            <li><a href="http://www.detourmaps.com/about-us">FAQ</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Terms & Conditions</a></li>
+                            <li><a href="http://www.detourmaps.com/about-us">Privacy Policy</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Receive our newsletter</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Join the local evolution</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <section>
+                    <h3 class="footerH3">SIGN UP TO OUR NEWSLETTER <i class="fa fa-envelope-o"></i>
+                    </h3>
+                    <section id="suscribe">
+                        <form id="formSuscribe" novalidate="novalidate">{% csrf_token %}
+                            <h3 class="footerH3Form">ENTER YOUR EMAIL ADDRESS BELOW TO RECEIVE NEWS FROM EMG, DETOUR MAPS</h3>
+                            <div id="fields">
+                                <input type="text" name="suscribe" id="txtSuscribe">
+                                <button id="btnSuscribe">SUSCRIBE</button>
+                            </div>
+                        </form>
+                    </section>
+                </section>
+                <ul>
+                    <li><h2>Follow Us</h2></li>
+                    <li class="social-icon"><a href="https://www.facebook.com/detourmaps"
+                           target="_blank"><img src="{{ STATIC_URL }}community/evolution/icon-facebook.png"/></a>
+                    </li>
+                    <li class="social-icon"><a href="https://twitter.com/detourmaps" target="_blank"><img src="{{ STATIC_URL }}community/evolution/icon-twitter.png"/></a></li>
+                    <li class="social-icon"><a href="https://www.youtube.com/user/detourmapstv" target="_blank"><img src="{{ STATIC_URL }}community/evolution/icon-rss.png"/></a></li>
+                    <li class="social-icon"><a href="https://www.youtube.com/user/detourmapstv" target="_blank"><img src="{{ STATIC_URL }}community/evolution/icon-youtube.png"/></a></li>
+                    <li class="social-icon"><a href="http://www.flickr.com/people/detourmaps/" target="_blank"><img src="{{ STATIC_URL }}community/evolution/icon-flickr.png"/></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div style="width: 100%;">
+            <ul class="terms">
+                <li>Copyright 2013 Detour Maps powered by Entire Marketing Group LLC</li>
+            </ul>
+        </div>
+    </footer>
+{% endblock %}
+</body>
+</html>

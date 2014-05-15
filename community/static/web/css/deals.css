@@ -1,0 +1,93 @@
+div.container.first{
+	padding-top: 50px;
+}
+div.eightcol h1{
+	font-family: 'Open Sans', sans serif;
+	font-size: 24px;
+	color: #414042;
+	margin-bottom: 15px;
+}
+div.container.foto{
+	background: url(/static/community/elementos/foto-smart.jpg) #F4F5F9 no-repeat top left;
+	height: 482px;
+	padding: 20px 0;
+	margin-top: 40px;
+    background-size: 600px;
+}
+div.container.patterns{
+	background: url(/static/community/elementos/where-to-use.png) #F4F5F9 no-repeat center -170px;
+    height: 200px;
+    padding: 20px 40px;
+    overflow: hidden;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin: 20px -160px;
+}
+ul.getdeal{
+	list-style: none;
+	text-align: center;
+}
+ul.getdeal li{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+	font-family: 'Open Sans', sans serif;
+	color: #BCBEC0;
+	margin: 20px 20px;
+}
+ul.getdeal li a{
+	position: relative;
+	display: block;
+	text-align: center;
+}
+ul.bannerdeals{
+	list-style: none;
+	text-align: center;
+}
+ul.bannerdeals li{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	text-align: center;
+}
+ul.bannerdeals li img{
+
+}
+div.triangles{
+	background: url(/static/community/elementos/deals-tri.png) no-repeat;
+	height: 53px;
+	padding-left: 40px;
+}
+form.savingsForm{
+	background: #F4F5F9;
+	padding: 18px 8px;
+	margin-top: 45px;
+}
+form.savingsForm h2{
+	font-family: 'Open Sans', sans serif;
+	font-size: 20px;
+	color: #F48031;
+}
+div.sixcol.use{
+	background: rgba(255,255,255,0.75);
+	padding: 10px;
+}
+div.sixcol.use p{
+	font-family: 'Open Sans', sans serif;
+	font-size: 14px;
+	color: #000000;
+}
+div.sixcol.use p span{
+	color: #F48031;
+}
+form.savingsForm input{
+	background: #fff;
+	border: 1px solid #808285;
+	margin-bottom: 7px;
+	display: block;
+	color: #808285;
+	font-family: 'Open Sans', sans serif;
+}

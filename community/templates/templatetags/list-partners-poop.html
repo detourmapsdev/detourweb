@@ -1,0 +1,22 @@
+{% if content %}
+    <div id="pop-partners" style="display: none; border: 10px solid #565656; margin-top: 20px;">
+        <div id="pop-left">
+            <h3>VISIT YOUR COMMUNITY’S
+                NEIGHBORHOOD PARTNERS
+            </h3>
+            <p>
+                Your local SSA or Development organization is ready
+                to help you. Take a few minutes to get to know them
+            </p>
+            {% for i in partners %}
+                <a href="{{ i.get_absolute_url }}" class="btnPartners">{{ i.name }}</a>
+            {% endfor %}
+            <a href="" rel="modal:close" class="btnPartners">No thank you, maybe later</a>
+            <p>
+                If you choose later you can just go to Community Partners on the navigation
+            </p>
+        </div>
+        <div id="pop-right">
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,702 @@
+{% extends 'communityHomeB.html' %}
+{% block title %}Frequently Asked Questions (FAQ){% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <script>
+        var detourmaps = {
+            user: {
+                email: {}
+            }
+        };
+        var dtmStyle = [
+            {
+                featureType: "road",
+                elementType: "geometry",
+                stylers: [
+                    { hue: "#00ccff" },
+                    { saturation: -55 },
+                    { lightness: -35 },
+                    { gamma: 2 },
+                    { visibility: "simplified" }
+                ]
+            },
+            {
+                featureType: "road",
+                elementType: "labels",
+                stylers: [
+                    { hue: "#00ccff" },
+                    { saturation: -55 },
+                    { lightness: -5 },
+                    { gamma: 1 }
+                ]
+            },
+            {
+                featureType: "landscape",
+                stylers: [
+                    { lightness: 50 }
+                ]
+            },
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "poi.park",
+                stylers: [
+                    { lightness: 10 },
+                    { saturation: 0 },
+                    { gamma: 1.5 }
+                ]
+            },
+            {
+                featureType: "poi.place_of_worship",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "landscape.man_made",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "administrative.neighborhood",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            },
+            {
+                featureType: "administrative.locality",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            }
+        ];
+        var cmData = false;
+        $.getJSON('{% url "alldata" %}', function (data) {
+            cmData = data;
+        });
+        $(document).ready(function () {
+            //$("#user_menu_login").hide();
+            var mapConstructorURL = '{% url "map" "replace" %}';
+            var communities = [
+                {% for c in communities %}
+                    {
+                        name: '{{ c.name }}',
+                        url_name: '{{ c.url_name }}',
+                        geojson: {{ c.borders.geojson|safe }}
+                    },
+                {% endfor %}
+            ];
+            var bounds = new google.maps.LatLngBounds();
+            var polygons = [];
+            var markers = [];
+            for (var j = 0; j < communities.length; j++) {
+                var pcoords = [];
+                var tmpBounds = new google.maps.LatLngBounds();
+                for (var k = 0; k < communities[j].geojson.coordinates[0][0].length; k++) {
+                    var coord = communities[j].geojson.coordinates[0][0][k];
+                    var latlng = new google.maps.LatLng(coord[1], coord[0]);
+                    pcoords.push(latlng);
+                    bounds.extend(latlng);
+                    tmpBounds.extend(latlng);
+                }
+                polygons.push(new google.maps.Polygon({
+                    paths: pcoords,
+                    strokeColor: "#f48131",
+                    strokeOpacity: 1,
+                    strokeWeight: 2,
+                    fillColor: "#f48131",
+                    fillOpacity: 0.1,
+                    url: communities[j].url_name
+                }));
+                latlng = tmpBounds.getCenter();
+                markers.push(new RichMarker({
+                    position: latlng,
+                    map: null,
+                    title: communities[j].name,
+                    content: '<h3 class="cmm-title" style="color #F48031 !important;">' + communities[j].name + '</h3>',
+                    flat: true,
+                    url: communities[j].url_name
+                }));
+            }
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 20,
+                center: latlng,
+                disableDefaultUI: false,
+                scrollwheel: false,
+                scaleControl: true,
+                zoomControl: true,
+                zoomControlOptions: {
+                    style: google.maps.ZoomControlStyle.SMALL
+                },
+                navigationControl: true,
+                navigationControlOptions: {
+                    style: google.maps.NavigationControlStyle.SMALL,
+                    position: google.maps.ControlPosition.RIGHT_CENTER
+                },
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    position: google.maps.ControlPosition.RIGHT_BOTTOM,
+                    mapTypeIds: [
+                        google.maps.MapTypeId.SATELLITE,
+                        google.maps.MapTypeId.HYBRID,
+                        google.maps.MapTypeId.TERRAIN,
+                        'dtm']
+                },
+                mapTypeId: 'dtm'
+            });
+            var dtmMapType = new google.maps.StyledMapType(dtmStyle, {
+                map: map,
+                name: "Map"
+            });
+            map.mapTypes.set('dtm', dtmMapType);
+            map.setMapTypeId('dtm');
+            map.fitBounds(bounds);
+            for (var n = 0; n < polygons.length; n++) {
+                polygons[n].setMap(map);
+                markers[n].setMap(map);
+                google.maps.event.addListener(polygons[n], 'click', function () {
+                    window.location.href = mapConstructorURL.replace('replace', this.url);
+                });
+                google.maps.event.addListener(polygons[n], 'mouseover', function () {
+                    this.setOptions({
+                        fillColor: "#ffffff",
+                        fillOpacity: 0.5
+                    });
+                });
+                google.maps.event.addListener(polygons[n], 'mouseout', function () {
+                    this.setOptions({
+                        fillColor: "#f48131",
+                        fillOpacity: 0.1
+                    });
+                });
+            }
+            $("div.faq h3").click(function (e) {
+                $("div.faq h3").find("img").attr("src", "{{ STATIC_URL }}community/elementos/plus-slide.png");
+
+                $("article.hideFAQ").slideUp();
+                var visibility = $(this).next().css("display");
+                if(visibility=="none"){
+                    $(this).next().slideDown();
+                    $(this).find("img").attr("src", "{{ STATIC_URL }}community/elementos/minus-slide.png");
+                }
+                e.returnValue = false;
+                return false;
+            });
+            $("li.slideList").click(function (e) {
+                $("li.slideList").find("p, ul").slideUp();
+                $("li.slideList i").find("img").attr("src", "{{ STATIC_URL }}community/elementos/plus-slide.png");
+                var visibility = $(this).find("p, ul").css("display");
+                if(visibility=="none"){
+                    $(this).find("p, ul").slideDown();
+                    $(this).find("img").attr("src", "{{ STATIC_URL }}community/elementos/minus-slide.png");
+                }
+                e.returnValue = false;
+                return false;
+            });
+        });
+    </script>
+    <style type="text/css">
+        body {
+            background: #ffffff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+            margin-top: 180px;
+        }
+
+        input:focus {
+            background-color: #ffffff;
+        }
+
+        .overmenu {
+            z-index: 10000;
+        }
+
+        .menuJoin li {
+            width: 100%;
+        }
+
+        .menuJoin li a {
+            text-align: left !important;
+        }
+    </style>
+{% endblock %}
+{% block bodyname %}faq-page{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div id="map" style="position: relative; width: 100%; height: 300px;">
+
+    </div>
+    <div class="container">
+    <div class="row">
+    <div class="twocol">
+
+    </div>
+    <div class="eightcol faq">
+    <h1>Frequently Asked Questions (FAQ)</h1>
+
+    <p>
+        Why choose Detourmaps? Who is Detour Maps? Entire Marketing Group LLC? All those frequestly
+        asked<br/>
+        questions can be answered here on this page. Your question is not here? You can contact us over
+        the<br/>
+        phone 708-484-1119 and we can answer that question for you.
+    </p>
+
+    <h2>Know more about Detour Maps</h2>
+
+    <h3>Who is Detour Community Maps?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+    </h3>
+    <article class="hideFAQ">
+        Detour Community MAPs (a Marketing and Advertising Platform) is a division of Entire Marketing Group
+        LLC established in 2007. The division was created to help the development of different communities
+        in Illinois. We strive on connecting resident with local businesses and organizations to better the
+        community by creating a LOCAL EVOLUTION campaign. This campaign encourages residents to shop local
+        versus shopping at a corporate or chain store. By evolving the way we advertise, utilizing
+        multimedia outlets, we strive toward evolving communities and local businesses. Resources suggest
+        that for each dollar you spend at an independent business in your community, three or more times
+        goes back into the local economy compared to a dollar spent at retailer owned by a chain. This means
+        better school, security, resources, and an overall better community.
+    </article>
+    <h3>How do we connect residents to their communities?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        We use different resources, both print and online, to introduce small businesses and organizations
+        to their local residents. We do this by creating a collective advertising platform that displays
+        local business advertisements as well as useful information, such as emergency phone numbers, local
+        events, entertainment, and local Savings. How did we do this? We have created a printed map that pin
+        points locations of different local businesses, restaurants, retail shops, and even public assets.
+        With this printed map, you can navigate through your community with ease and explore different areas
+        your probably never knew were there! A Detour Community map is a Marketing and Advertising Platform
+        (MAP) that ARTvertises your community and makes exploring fun, colorful and easy.<br/>
+        This concept became so popular and useful throughout the community, that we created another
+        platform, www.detourmaps.com . Our online directory is available 24/7 so you will have access to it
+        from the comfort of your own home. With this online tool you can avoid traveling outside your
+        neighborhood to see what is there. This saves you save energy, money, and time. We renovated our
+        printed map, which is accessible to everyone, even if you do not live in the community.
+    </article>
+    <h3>Why use us?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        Detour Community Maps has created a new innovated and easy way to interact with your community. It
+        benefits everyone in the community:
+        <ul>
+            <li class="slideList">
+                Residents<i><img
+                    src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+                <ul>
+                    <li>Our online directory is available 24/7</li>
+                    <li>With our platform, you can avoid traveling outside your neighborhood saving you
+                        time, money and energy
+                    </li>
+                    <li>Detour consumers are engaged with the $10 savings card on every map. Residents not
+                        only to look for the savings, but they also participate in the community and support
+                        their local business
+                    </li>
+                    <li>Our printed and online maps provide residents with the locations of local resources,
+                        bus routes, useful numbers, local entertainment, and more.
+                    </li>
+                </ul>
+            </li>
+            <li class="slideList">
+                Business<i><img
+                    src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+                <ul>
+                    <li>Detour Community Maps promotes the Local Evolution campaign, by encouraging
+                        residents to shop local, which in turn, returns revenue their community
+                    </li>
+                    <li>When a business participates in the map we connect the local residents with their
+                        establishment
+                    </li>
+                    <li>We offer businesses multimedia advertising to attract new customers. Whether they
+                        want to reach busy families, professionals, or active retirees, businesses can trust
+                        Detour Community Maps to treat consumers as smart, sophisticated shoppers who want
+                        offers that are relevant to their lifestyles
+                    </li>
+                    <li>By signing up your business, we will provide you with the tools and resources you
+                        will need to continually improve your marketing program
+                    </li>
+                    <li>Detour offers a number of distinctive products and services that work together to
+                        create full circle direct marketing support, regardless of how dispersed the
+                        audience might be
+                    </li>
+                    <li>Detour Maps has a thorough understanding of, and presence in, local community
+                        markets and a strong success rate in targeting “qualified” members of our audience.
+                        We can design a comprehensive proposal that hits home for different businesses every
+                        time
+                    </li>
+                </ul>
+            </li>
+            <li class="slideList">
+                Organizations<i><img
+                    src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+
+                <p>
+                    Detour Maps is committed to help neighborhoods and organizations of all industries,
+                    sizes, and locations. We personalize the organizations' branding, so their residents can
+                    recognize them. When you partner with us, we help by using a simple and easy advertising
+                    platform. Businesses now have the opportunity to advertise collectively and share the
+                    cost. We will work with you so you do not have to worry about “ARTvertising” (branding
+                    your neighborhood with promotions) your community.
+                </p>
+            </li>
+            <li class="slideList">
+                Community<i><img
+                    src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+
+                <p>
+                    Detour Maps offers a number of distinctive products and services that work together to
+                    create full circle direct marketing support, regardless of how dispersed your audience
+                    might be. (Solutions would be print solutions, internet solutions etc.). We help promote
+                    communities by encouraging residents to SHOP LOCAL and by doing so we keep money within
+                    the community that can be used to better public assets such as schools, security, and
+                    community
+                </p>
+            </li>
+        </ul>
+    </article>
+    <h3>Where have we made impact?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i>
+    </h3>
+    <article class="hideFAQ">
+        As of now the participating communities are Berwyn, Cicero, Archer Heights, Brighton Park, Back of
+        the Yards, West Lawn, Chicago Lawn, Washington Heights, Morgan Park, and Roseland.
+        Local organizations called Special Service Areas are also participating such as SSA 3, SSA 10, SSA
+        39, and SSA 45. These Special Service Areas also called SSA’s work within the participating
+        communities helping local businesses with different resources to improve the shopping corridors and
+        community.
+    </article>
+    <h2>Printed Map Users</h2>
+
+    <h3>What does a printed map contain?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        Detour’s printed map is a way to have everything there is to know about the community in the palm of
+        your hand. With 2 publications each year for each community and over 40,000 maps distributed you
+        will be well informed with our printed maps. Inside the printed maps include a map of the community
+        with different local business advertisements. The map pin points each business giving the user a
+        better idea of where the business or resource is located in the community. We do not just have
+        business locations on the map; we also have locations of parks, bus routes, schools, useful phone
+        numbers, events and basically all public assets in the community. The printed map also is color
+        coded so that residents may know which business is participating in the $10 Savings Card promotion.
+    </article>
+    <h2>Online Map Users</h2>
+
+    <h3>What is detourmaps.com?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        With Detour Maps, you can browse and explore places within your community. You can:
+        <ul>
+            <li>Search for businesses in your community, such as restaurants, hospitals, and airports.</li>
+            <li>Share the link to your favorite places, so your friends can also find the businesses
+                information and deals.
+            </li>
+            <li>Get driving, walking, and public transportation directions.</li>
+            <li>Explore your community’s local deals.</li>
+            <li>Add your own ratings and reviews of the places you've been.</li>
+            <li>View advertisement videos of your favorite places.</li>
+            <li>Search which businesses are participating in the local $10 Savings Card and pin point where
+                they are located.
+            </li>
+        </ul>
+        You don't need to download or install anything to use detourmaps.com.
+    </article>
+    <h3>How do I sign in to detourmaps.com?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        Click on Login in the upper-mid section of the navigation. You'll need an account to sign in. If you
+        do not have an account, in the same tab click the link Not a member yet? to set one up. It only
+        takes a minute.
+    </article>
+    <h3>Why should I create an account with detourmaps.com?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        By creating an account with detourmaps.com you can take full advantage of what our site has to
+        offer. Aside from already getting the best out of your community, you will be able to unlock
+        features such as business videos and slide shows, be able to get business coupons that will help you
+        save even more money, and best of all, you can rate your experiences.
+    </article>
+    <h3>Does it cost anything to use detourmaps.com?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        Detour Maps is free to use. However, fees may apply if you connect to the internet. Check with your
+        network service provider for more info about data charges.
+    </article>
+    <h2>Navigating and finding businesses on detourmaps.com</h2>
+
+    <h3>What communities are on detourmaps.com?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        As of now, the participating communities are Berwyn, Cicero, Archer Heights, Brighton Park, Back of
+        the Yards, West Lawn, Chicago Lawn, Washington Heights, Morgan Park, and Roseland.
+        Local organizations called Special Service Areas are also participating, such as SSA 3, SSA 10, SSA
+        39, and SSA 45.
+    </article>
+    <h3>How do I find a local business? ex: a restaurant<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        To find a place, first select the community you would like to explore. You can enter a community by
+        clicking the community on the map or you can also look in the top navigation where it says Select
+        your community and choose from the list of communities.
+        <br/>
+        Once you are in the community you want, you can search a business by their name in the search field
+        on the left side of the screen. If you want to narrow down your search, you can use the orange sub
+        navigation under the main navigation and choose from the categories listed. Once you click on a
+        category, a list will appear on the left side of the screen. Once you find the business you are
+        looking for click on the name and it will take you to the business online bubble.
+    </article>
+    <h3>I couldn't find the place I was searching for. What can I do?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        If you can't find what you're looking for, try these:
+        <ul>
+            <li>Make sure you've spelled the name of the business correctly for the best results.</li>
+            <li>Make sure you are in the correct community. Businesses are separated by community.</li>
+        </ul>
+        If you have tried all of the above, unfortunately, the businesses is not registered with us yet.
+    </article>
+    <h3>What other information can I find on detourmaps.com about each community?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        Aside from business information, you can find fact and events from each community on the navigation tabs.  Select your community, and go to the <b>Navigation</b> tab. Here, you will find tabs like Discover, Deals, and Events. In the Discover tab, there is a slide show containing information of the community, such as population, schools, and useful numbers. Each community is different. On the <b>Deals tab</b>, you can find which businesses are participating in the $10 savings card promotion. On that tab, you can click the business and it will direct you to that businesses bubble information. Each community also has an Event tab. The event tab will inform you of upcoming events. Click on the event to be directed to the location of the event along with the event information. Events can also be found on a business bubble by clicking <b>Show Events</b> (<i>events vary for each business and not all businesses have events</i>)
+    </article>
+    <h3>Where can I fnd more information on the Detour Maps?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        On our home page's navigation, you will find the tabs <b>About Us</b>, <b>Deals</b>, <b>Join us</b>, and <b>Contact us</b>
+    </article>
+    <h2>Deals</h2>
+
+    <h3>What is the $10 Savings Card and where can I get one?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            With our color coded Savings Card, you can save $10 on your next purchase (minimum purchase required of $30, $40, or $50). Our Free Printed maps have savings cards attached to be redeemed at participating businesses. You can also fill out an online form to receive a digital card. This form is located on the home page and on the deals page.
+        </p>
+        <p>
+            The savings card is available throughout participating neighborhoods, from supermarkets and restaurants, to public locations, including libraries. Saving cards are free of cost. They are included in out printed maps, or you can download one online.
+        </p>
+    </article>
+    <h3>How do I know who is participating in the Savings Cards?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            Using your Detour printed map, the participating businesses are color coded, depending on the minimum purchase required ($30 is yellow, $40 is red, $50 is blue).
+        </p>
+        <p>
+            Using detourmaps.com you can select the community you want to explore, and click on the Deals tab to find a list of participating retailers (also color coded).
+        </p>
+    </article>
+    <h3>How can I use the $10 Savings card?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            Once you've located a deal, simply fill out the back of your card for it to be valid. And that's it! Present it at the time of purchase to save $10 off your bill. If you requested a savings card online, just fill out the information asked and print. You are ready to use your savings card.
+        </p>
+    </article>
+    <h3>How can I get the business’ direct coupons?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            If you would like to see more features, information, and coupons of a business, you need to have an account with detourmaps.com. When you click on a feature, such as a video or review, a pop up window will give you the option to either create an account with us, or to sign in to your existing account.
+        </p>
+    </article>
+    <h2>Benefits</h2>
+
+    <h3>How will using detourmaps.com benefit me?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <ul>
+            <li>Our online directory is available 24/7 so you will have access to it from the comfort of your own home</li>
+            <li>With our platform you can avoid traveling outside your neighborhood to see what is there. You save energy, money, and time</li>
+            <li>Detour consumers are engaged with the $10 savings card on every map not only to look for the savings but also to participate in the community and support local business, use local resources, bus routes, useful numbers, local entertainment etc</li>
+        </ul>
+    </article>
+    <h3>Local Businesses<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <ul>
+            <li class="slideList">
+                How does detourmaps.com help my business?
+                <p>
+                    Our online and printed maps serve as a navigation guide throughout the community. We strive in making Detour the best neighborhood resource guide for residents to take wherever they go, and rely on Detour Maps to find your business with ease. This encourages residents to shop local versus shopping at a corporate or chain store. This will help your business and the community you are in.
+                </p>
+            </li>
+            <li class="slideList">
+                How can I add my business to the detourmaps.com Free Business Listing?
+                <p>
+                    We offer business owners the opportunity to list their business with us, free of charge. On our detourmaps.com homepage, select the Join us drop down menu, and click on Free Business Listing. Fill out the form with your business' information. You can also call 708.484.1119 and a representative will help you.
+                </p>
+            </li>
+            <li class="slideList">
+                What is included in the Free Listing?
+                <p>
+                    When you register your business under free business listing, your business will be added to the detourmaps.com directory. You will be given an online bubble that will include business name, address, phone number, and directions to help residents get to your business. Free Listing does not include the features such as slide show images, videos, and events (this is our <b>Detour Premium Bubble</b>).
+                </p>
+            </li>
+            <li class="slideList">
+                What is the Premium bubble and how can I get one for my business?
+                <ul>
+                    <b>A premium bubble is an upgraded free listing bubble in detourmaps.com. This bubble includes:</b>
+                    <li>
+                        Slide show of pictures or graphics of your business, advertisements, or products
+                    </li>
+                    <li>
+                        A section for your business to post a video and let residents see your business (i.e. commercials)
+                    </li>
+                    <li>
+                        Add your business events to the <b>Events tab</b>, where you can advertise upcoming events your business might have. The event, once clicked, will be displayed in a site interactive bubble, pin pointing the location of the event and event information. Events can also be accessed through the business bubble
+                    </li>
+                    If you would like to find out more information and want to participate in the online directory using the <b>Premium Bubble</b> please call 708.484.1119 or email us <a href="mailto:cs.detourmaps@gmail.com">cs.detourmaps@gmail.com</a> a Detour representative will be glad to help you.
+                </ul>
+            </li>
+            <li class="slideList">
+                What else can Detour Maps do for my business?
+                <ul>
+                    Aside from our online directory, Detour Maps helps businesses by creating different marketing strategies to attract customers to their business. We create printed community maps with an ad display that also help residents find the business and navigate through the community. When we create our community map campaign, businesses that participate receive:<br/>
+                    <li>
+                        Display Advertising on 20,000 print maps
+                    </li>
+                    <li>
+                        We will Locally distribute maps throughout the communities
+                    </li>
+                    <li>
+                        By participating in the community map, you have the option of participating in the $10 Savings card promotion. This will attract customers to your business. The $10 savings card gives your customers a $10 discount of any purchase above $30 $40 or $50 at your business.
+                    </li>
+                    <li>
+                        Our new Rewards Program which encourages residents to shop at local businesses
+                    </li>
+                    <li>
+                        Tri-weekly Detour Maps newsletter with 5000 users
+                    </li>
+                    Detour Maps helps businesses promote through other means whether its online, print, business branding and more! Detour Maps is your Advertising Platform.
+                </ul>
+            </li>
+            <li class="slideList">
+                How can I include my business to participate in the $10 Savings Card?
+                <p>
+                    Contact us at cs.detourmaps@gmail.com, or call us at 708.484.1119, and a representative will be glad to assist you.
+                </p>
+            </li>
+        </ul>
+    </article>
+    <h3>Local Organizations<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <ul>
+            <li class="slideList">
+                How does Detour Maps help local organizations and SSA?
+                <p>
+                    Detour Maps is committed to help neighborhoods and organizations of all industries, sizes and locations by personalizing the organization’s branding, so their residents can recognize them. When you partner with us, we help by using a simple and easy advertising platform, whether it is print advertisement or adding your community to our online directory (examples SSA3 “Greater Southwest Development Corporation”). We help the businesses of the local organization have the opportunity to advertise collectively and share the cost. We will work with you so you do not have to worry about “ARTvertising” (branding your neighborhood with promotions) your community.
+                </p>
+            </li>
+            <li class="slideList">
+                What can Detour Maps do for local organizations and SSA?
+                <ul>
+                    <li>We can help connect residents with local businesses with the 20,000 maps being distributed in the community</li>
+                    <li>With our online directory, we make the organization’s community accessible 24/7 </li>
+                    <li>A recognized $10 savings card program is an extra value and interest for users, local businesses, and organizations to encourage users to shop local and create LOCAL EVOLUTION.</li>
+                    <li>Detour Maps has a thorough understanding of, and presence in, local community markets and a strong success rate in targeting “qualified” members of our audience. </li>
+                    <li>Local business owners and residents alike will see the support of high profile names, such as the community’s organization, and see that the organization is here to help with the development of your community</li>
+                    <li>Partnering with local businesses and organization is key for a community’s evolution.</li>
+                </ul>
+
+            </li>
+        </ul>
+    </article>
+    <h2>Know about Entire Marketing Group LLC</h2>
+
+    <h3>Who is Entire Marketing Group (EMG)?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            Entire Marketing Group LLC is a full‐service strategic marketing and advertising firm that leverages its cultural expertise in the multicultural markets to develop powerfully engaging messages (Local Evolution Campaign)  that maximize results throughout communities, such as Berwyn, Cicero, and parts of Chicago.
+        </p>
+        <p>
+            We understand the complexity of marketing and promoting a community and its businesses, and we have the means and expertise to address it while responding to the needs of its residents. We invite you to ARTvertise yourself and your community!
+        </p>
+    </article>
+    <h3>Why use EMG?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            Because the world is changing. Small businesses, as well as communities, need an advertising/ marketing agency with the skills and know‐how to succeed, to connect, and to engage the new market, while supporting their current efforts in the community. We are a strategic company that can supplement your marketing and advertising team with our multicultural, multimedia marketing expertise.
+        </p>
+    </article>
+    <h3>What are EMG Services?<i><img src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <ul>
+            <li class="slideList">
+                Advertising
+                <p>
+                    Creative strategy, copy strategy, branding, and positioning television, print, media planning, placement, and adaptations/translations (Spanish).
+                </p>
+            </li>
+            <li class="slideList">
+                Public Relations/Marketing/Outreach
+                <p>
+                    Strategy, public relations, event marketing, marketing communications, direct mail, product integration, newsletters, promotions, multicultural marketing, and campaign management
+                </p>
+            </li>
+            <li class="slideList">
+                Consulting
+                <p>
+                    Strategic planning, small business assessments, marketing plans, sales plans, etc.; multicultural program/Hispanic market program strategy, bilingual/bicultural staffing strategy, acculturation methodology, Hispanic Readiness™ evaluation and recommendation, business growth plans, and marketing plans
+                </p>
+            </li>
+            <li class="slideList">
+                Website Development
+                <p>
+                    Design, coding, hosting, maintenance, programming for websites, micro sites, and landing pages
+                </p>
+            </li>
+            <li class="slideList">
+                Interactive/Digital/Online ‐ New Media
+                <p>
+                    Strategy, online advertising, launching mobile marketing, , social media (such as Facebook, Twitter, Youtube), web site development, SEO, and online banners
+                </p>
+            </li>
+            <li class="slideList">
+                Entrepreneurship Program
+                <p>
+                    Critical to starting and growing a business, is a strategic marketing plan which directs the company on who to target, how to target, positioning in comparison to competitors and key materials to give the right impression. We help entrepreneurs create the right presence and position their business for growth. Related services include: marketing plan development, brand identity, logo, business cards, letterhead, website, and multi‐purpose sales piece.
+                </p>
+            </li>
+            <li>
+                Photography Services
+            </li>
+        </ul>
+    </article>
+    <h3>How do we connect residents to their communities?<i><img
+            src="{{ STATIC_URL }}community/elementos/plus-slide.png"/></i></h3>
+    <article class="hideFAQ">
+        <p>
+            Entire Marketing Group LLC has been working with many organizations through a partnership with Detour Maps Division to help promote the local evolution initiative. These partnerships are having complete success in the communities promoting local business and helping residents with the $10 Savings Card attached to a local community map. Entire Marketing Group LLC has become an excellent marketing resource for SSA’S organizations (Special Services Area) around the Chicago land area promoting their corridors and local neighborhoods such as the Back of the Yards Neighborhood Council, Greater South West Development Corp, and Far South CDC.
+        </p>
+        <p>
+            Entire Marketing Group LLC and Detour Maps were nominated by Berwyn Main Street with the 2012 Berwyn Hispanic Business Award for Best Community Outreach, saying “They have been growing their customer base by providing excellent customer service, outstanding design and creativity marketing messages. It will be a great time for our local business owners to work with Entire Marketing Group LLC”.
+        </p>
+        <p>
+            Representatives of the Entire Marketing Group LLC and Detour Maps Division are experts in the industry.  They will work with you, personally, to craft designs and marketing messages that will work for each business or organization.
+        </p>
+    </article>
+    </div>
+    <div class="twocol last">
+
+    </div>
+    </div>
+    </div>
+{% endblock %}

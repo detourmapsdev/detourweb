@@ -1,0 +1,6 @@
+<ul data-role='listview'>
+    {% for community in communities %}
+        <li><a href="/communities/{{ community.url_name }}/deals/" rel="external">{{ community.name }}</a></li>
+    {% endfor %}
+    <li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
+</ul>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>DetourMaps - {% block title %}Your advertising platform{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript">
+        WebFontConfig = {
+            google: { families: [ 'Open+Sans:400,700:latin', 'Inder::latin', 'Arvo:400,700:latin' ] }
+        };
+        (function() {
+            var wf = document.createElement('script');
+            wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+                    '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+            wf.type = 'text/javascript';
+            wf.async = 'true';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wf, s);
+        })();
+    </script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script src="http://code.jquery.com/ui/1.8.22/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="{{ STATIC_URL }}web/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+    <!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
+    <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico">
+    <link rel="stylesheet" href="{{ STATIC_URL }}web/nivo-slider.css" type="text/css" media="screen" />
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}web/css/1140.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}web/css/styles.css" type="text/css" media="screen" />
+    {% block extrahead %}
+    {% endblock %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-31412199-1']);
+        _gaq.push(['_setDomainName', 'detourmaps.com']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+<body id="{% block bodyname %}home-page{% endblock %}">
+<header class="container">
+    <div class="row">
+        <div class="fourcol logo">
+            <a href="/"><img src="{{ STATIC_URL }}community/img/detourOrange.png" alt="DetourMaps"/></a>
+        </div>
+        <nav class="eightcol last">
+            <ul class="">
+                <li id="nav-about"><a href="{% url "render" "about-us" %}">About</a></li>
+                <li id="nav-communities"><a href="{% url "community.views.communitySelection" %}">Communities</a></li>
+                <li id="nav-deals"><a href="{% url "render" "deals" %}">Deals</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="headerLine" style="position: absolute; height: 1px; width: 100%; bottom: 0; left: 0; background-color: #bbd8e7;margin-bottom: 10px;"></div>
+</header>
+{% block content %}
+
+{% endblock %}
+{% block contact %}
+<div class="container padding"><div class="contactBackground"></div></div>
+<div class="container contact">
+    <ul>
+        <li><span>Get in Touch</span></li>
+        <li><a href="{% url "render" "free-business-listing" %}"><span class="freeListing"></span> Free Business Listing</a></li>
+        <li><a href="{% url "render" "contact" %}"><span class="mail"></span> Contact Us</a></li>
+        <li>
+            <a href="https://www.facebook.com/detourmaps" target="_blank">
+            <span class="facebook"></span> Like Us</a>
+        </li>
+        <li>
+            <a href="https://twitter.com/detourmaps" target="_blank">
+            <span class="twitter"></span> Follow Us</a>
+        </li>
+        <li><a href="http://www.youtube.com/user/detourmapstv?feature=watch"><span class="video"></span> Watch Us</a></li>
+    </ul>
+</div>
+{% endblock %}
+{% block footer %}
+<footer class="container">
+    <div class="row">
+        <div class="twelvecol">
+            <small>
+                <a href="{% url "render" "us" %}" target="_blank"> Detour Community Maps</a>
+                &copy; 2012 powered by
+                <a href="http://www.entiremarketinggroup.com/" target="_blank">Entire Marketing Group LLC</a>
+            </small>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+</body>
+</html>

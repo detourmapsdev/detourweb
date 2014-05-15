@@ -1,0 +1,124 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ============================== */
+/* ! Layout for desktop version   */
+/* ============================== */
+
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arvo', 'Georgia', serif;
+    font-weight: 700;
+    margin: 0 0;
+}
+
+#cabecera {
+	height:180px;
+
+}
+		#logo {
+			/*margin-bottom:10px;*/
+		
+		}
+			#menu-h {
+				position: relative;
+				float:right;
+			
+				display:inline;
+				margin-bottom:10px;
+			
+					}
+					#menu-h ul li{
+					
+					display:inline;
+					margin-right:2px;
+					
+					}
+		#sub-titulo{
+			
+				position: relative;
+				float: left;
+				margin-top: 30px;
+		
+		}	
+					
+		#titulo{
+			
+				position: relative;
+				float:left;
+				width:300px;
+				margin-bottom:50px;
+		
+		}
+		
+		
+		
+		
+	/* ! CUERPO */	
+	
+	
+#cuerpo {
+	margin: 0 auto;
+
+}	
+
+			#titulo {
+				margin-top:0px;
+
+			}	
+
+			#card-img {
+				position: relative;
+					float:right;
+					margin-bottom:30px;
+			
+			}
+			#enunciado {
+				width:500px;
+				position:inherit;
+				float:inherit;
+				margin-top:100px;
+			
+			}
+			#parrafo {
+				position: inherit;
+				margin: 50px auto 0;
+				text-align:justify;
+			}
+			#botones-centrales{
+				position: relative;
+				margin: 0 auto ;
+				width:500px;				
+			}
+							#imprimir{
+								position:inherit;
+								float:left;
+								width:155px;
+								height:155px;		
+							}
+							#blanco{
+								position:inherit;
+								width:100px;
+								height:55px;	
+							}
+							#enviar-movil{
+								position:inherit;
+								float: right;
+								width:155px;
+								height:155px;	
+							}
+							
+							
+			
+
+
+
+
+
+
+
+
+
+
+
+

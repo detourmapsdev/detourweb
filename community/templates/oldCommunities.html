@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Select your community! - DetourMaps{% endblock %}
+{% block bodyname %}communities-page{% endblock %}
+{% block content %}
+<div class="container main">
+    <div class="shadow">
+        <div class="row headCommunity">
+            <div class="sixcol">
+                <h2>A way to stay connected to your community</h2>
+                <p>
+                    Detour's interactive maps bring you closer to your neighborhood with the latest business promotions,
+                    events, and savings. Support your community while staying connected.
+                </p>
+            </div>
+            <div class="sixcol last fill arrow">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="sixcol descInfo">
+                <div class="titleInfo">
+                    <h3>Become familiar before you go.</h3>
+                </div>
+                <div class="sheet">
+                    <div class="sixcol colincol">
+                        <p>Want to try a new Chinese restaurant?
+                        Just hit the restaurant tab in the
+                        category bar. Categories include
+                        everything from shopping and spas,
+                        to travel and lodging.
+                            <img src="{{ STATIC_URL }}web/img/community/men_03.png" alt="restaurant category" class="right"/>
+                        <p>
+                    </div>
+                    <div class="sixcol last colincol">
+                        <p><img src="{{ STATIC_URL }}web/img/community/berwyn_07.png" alt="select category"/></p>
+                    </div>
+                </div>
+                <div class="sheet">
+                    <div class="sixcol colincol">
+                        <p><img src="{{ STATIC_URL }}web/img/community/map_11.png" alt="select filter"/></p>
+                    </div>
+                    <div class="sixcol last colincol">
+                        <p>Icons will appear to the left of the map to
+                        filter your search.
+                        Still not ready to choose?
+                        No problem, select one or more filters to
+                        narrow down your search.
+                        You filtered results are displayed on the
+                        left side and spotted on the map.
+                            <img src="{{ STATIC_URL }}web/img/community/dish_03.png" alt="thai food"/>
+                        </p>
+                    </div>
+                </div>
+                <div class="sheet">
+                    <div class="sixcol colincol">
+                        <p>Once you have picked a spot, we will
+                        show you what the business has to offer.</p>
+                        <ul>
+                            <li>interior & exterior pics</li>
+                            <li>Business description</li>
+                            <li>address & phone</li>
+                            <li>get directions</li>
+                            <li>visit business website & social media</li>
+                            <li>check reviews</li>
+                            <li>products & services</li>
+                        </ul>
+                        <p><img src="{{ STATIC_URL }}web/img/community/familiar3_03.png" alt="enjoy your promotions"/></p>
+                    </div>
+                    <div class="sixcol last colincol">
+                        <p><img src="{{ STATIC_URL }}web/img/community/biz_03.png" alt="Bodhi Thai Bistro"/></p>
+                    </div>
+                </div>
+            </div>
+            <div class="sixcol last map">
+                <div class="titleInfo">
+                    <h3>Start Exploring Now!</h3>
+                </div>
+                <img src="{{ STATIC_URL }}community/img/CommunityMap.png" usemap="#btn" alt="communities map"/>
+                <map name="btn">
+                    <area shape=rect coords="30,30,59,69" href="{% url "community.views.mapConstructor" 'berwyn' %}">
+                    <area shape=rect coords="91,30,115,69" href="{% url "community.views.mapConstructor" 'cicero' %}">
+                </map>
+                <div class="titleInfo legend">
+                    <p>Available on
+                        <img src="{{ STATIC_URL }}web/img/community/dispositivos_03.png" alt="devices"/></p>
+                </div>
+                <div class="browsers">
+                    <p>If needed, please consider upgrading your browser for the best possible experience</p>
+                    <p class="logos">
+                        <a class="browser chrome" href="http://www.google.com/chrome"></a>
+                        <a class="browser firefox" href="http://www.mozilla.org/en-US/firefox/"></a>
+                        <a class="browser opera" href="http://www.opera.com/download/"></a>
+                        <a class="browser safari" href="http://www.apple.com/safari/"></a>
+                        <a class="browser ie" href="http://ie.microsoft.com"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

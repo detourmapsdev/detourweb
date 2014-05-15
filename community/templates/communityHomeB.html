@@ -1,0 +1,672 @@
+{% load queryset %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- home -->
+    <title>DetourMaps - {% block title %}{% endblock %}</title>
+    {% block description %}<meta name="description="
+          content="DetourMaps brings you closer to your neighborhood with the latest business promotions, events, and savings. Support your community while staying connected">{% endblock %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="author" content="www.detourmaps.com">
+    <meta name="owner" content="Entire Marketing Group LLC">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords"
+          content="Home Map,detour, detourmaps, shop local, maps, map, explore your community, neighborhood, select your community, Berwyn, Cicero, archer heights, west lawn"/>
+    <link href='http://fonts.googleapis.com/css?family=Pathway+Gothic+One|Arvo:400,700|Istok+Web:400,700|Metrophobic' rel='stylesheet' type='text/css'>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico">
+    <link rel="stylesheet" href="{{ STATIC_URL }}messi/messi.min.css.gz"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}community/js/jquery.validate.min.js.gz"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js.gz"></script>
+    {#    <script defer type="text/javascript" src="/user/js/utils_sys"></script>#}
+    <script src="{{ STATIC_URL }}messi/messi.min.js.gz"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.validator.addMethod("phoneUS", function (phone_number, element) {
+                phone_number = phone_number.replace(/\s+/g, "");
+                return this.optional(element) || phone_number.length > 9 &&
+                        phone_number.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+            }, "Please specify a valid phone number");
+            // Coupons Form
+            $('#couponRequestForm').validate();
+            $('#couponRequestForm').submit(function (e) {
+                if ($('#couponRequestForm').valid() && !$('#mailCouponRequest').hasClass('disabled')) {
+                    $('#mailCouponRequest').prop('disabled', true).addClass('disabled').css('opacity', 0.5);
+                    $('#couponRequestForm p.submit .msg').html($('<img/>').attr('src', '{{ STATIC_URL }}web/img/loading.gif'));
+                    $.post('{% url "request_coupon" %}', $('#couponRequestForm').serialize(), function (data) {
+                        if (data = 'Thanks') {
+                            $('#couponRequestForm p.submit .msg').text('Success! Check your email inbox.');
+                            new Messi(data + ' Success! Check your email inbox.', {title: 'DetourMaps - Savings Card System', modal: true});
+                        } else {
+                            $('#mailCouponRequest').prop('disabled', false).removeClass('disabled').css('opacity', 1);
+                            $('#couponRequestForm p.submit .msg').text('Error! Try again or call-us to 708 484 1119. We will be happy to help you!');
+                            new Messi('Error! Try again or call-us to 708 484 1119. We will be happy to help you!', {title: 'DetourMaps - Savings Card System', modal: true});
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+        });
+    </script>
+    {% block head %}
+
+    {% endblock %}
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-31412199-1']);
+        _gaq.push(['_setDomainName', 'detourmaps.com']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+    <!--[if IE]>
+        <style>
+            #categories ul li{
+                width: 0% !important;
+            }
+        </style>
+    <![endif]-->
+</head>
+<body id="{% block bodyname %}communityHome-page{% endblock %}">
+<!-- HOME B -->
+
+{% block general-header %}
+    <header class="tbar"
+            style="height: 60px;background: #f5f6f7 url('/static/community/img/fondoDetour.jpg'); border-bottom: 1px solid #bababa; position: relative;">
+        <a class="logo" href="{% url "render" "about-us" %}"><img src="{{ STATIC_URL }}community/img/detourOrange.png" alt="detourMaps"/></a>
+
+        <div class="tmenu communities">
+            <h1>Explore your community</h1>
+            <ul class="menu">
+                {% for c in community %}
+                    {% if c.landingpage_set.all.0 %}
+                        <li><a href="{% url "landing" c.url_name %}">{{ c.name }}</a></li>
+                    {% else %}
+                        <li><a href="{% url "map" c.url_name %}">{{ c.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <nav>
+            <ul>
+                <!--<li><a href="#userLogin" style="font-size: 1.5em; font-weight: bold;padding-top: 10px;">{#% if user.is_authenticated %#}Logout{#% else %#}Login{#% endif %#}</a></li>-->
+                <!--<li><a href="#printedMaps" style="font-size: 1.5em; font-weight: bold;padding-top: 10px;">Printed Maps</a></li>-->
+                <li>
+                <li><a href="{% url "render" "about-us" %}">About us</a></li>
+                </li>
+                <li><a href="{% url "render" "deals" %}">Deals</a></li>
+                <li style="position: relative;" id="joinUs">
+                    <a href="#">
+                        Join us
+                    </a>
+                    <ul class="menuJoin">
+                        <li><a href="{% url "join-us" %}">Why use Detour Maps</a></li>
+                        <li><a href="{% url "render" 'free-business-listing' %}">Free Business Listing</a></li>
+                        <li><a href="{% url "printed-maps" %}">Printed Maps</a></li>
+                        <li><a href="{% url "bring" %}">Register Neighborhood</a></li>
+                    </ul>
+                </li>
+                <li><a href="http://blog.detourmaps.com" target="_blank">Blog</a></li>
+                <li><a href="{% url "render" "contact" %}">Contact us</a></li>
+            </ul>
+        </nav>
+
+        <div class="login detourmaps" name="perfiles">
+            {% if request.session.user %}
+                <a href="" class="overLogin" name="perfiles"><img
+                        src="{{ STATIC_URL }}community/elementos/ico-detour.png"
+                        alt="Logout"/><span
+                        class="newLog">{{ request.session.user.username }}</span></a>
+                <ul class="perfiles" id="">
+                    <li><a href="{% url "accountSettings" %}">Profile</a></li>
+                    <li><a href="{% url "goodbye" %}">Log Out</a></li>
+                </ul>
+            {% else %}
+                <a href="{% url "loginUser" %}"><img src="{{ STATIC_URL }}community/elementos/ico-detour.png"
+                                                   alt="Login"/><span
+                        class="newLog">Log in</span></a>
+            {% endif %}
+        </div>
+    </header>
+{% endblock %}
+{% block bar-container %}
+    <div class="bars_container">
+        <div style="position: absolute;top:5px;right: 5px;bottom: 5px;left: 5px;">
+            <!--<div id="detourmap">
+                <div class="loading">
+                    <h3>Pretending to load...</h3>
+
+                    <div class="messages"></div>
+                </div>
+            </div>-->
+            <div id="categories">
+                <ul cellSpacing="0">
+                    {% for category in categories %}
+                        <li id="cat-{{ category.id }}" class="cat">
+                            <div class="cat-title">
+                                <div class="img" style="background-image: url('/media/{{ category.icon }}')"></div>
+                                <div><span class="title">{{ category.name }}</span></div>
+                            </div>
+                            <div class="cat-content">
+                                <div class="cat-filter">
+                                    <form id="categories{{ category.id }}" action="#">
+                                        <span>Filter: </span>
+                                        {#% listServiceByCategoryByBusiness community.id category.id %#}
+                                    </form>
+                                </div>
+                                <div class="cat-list">
+                                    <ul>
+                                        {#% list_business community.id category.id %#}
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <!--<div id="load-categories"
+                     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; background: #f48031; z-index: 100; color: #fff; font-size: 1.25em; padding-top: 1em;">
+                    <i class="icon-refresh icon-spin" style="color: #fff !important;"></i> Loading Categories..
+                </div>-->
+            </div>
+        </div>
+        <div id="left_bar" show="true">
+            <div class="show_hide" style="text-align: center;">
+                <div style="cursor: pointer;">
+                    <div style="font-size: 1.4em;color: #808080;text-align: left;margin-left: 10px;">Search</div>
+                    <div style="background-image: url('{{ STATIC_URL }}community/img/home_button.png');width: 22px;height: 19px; position: absolute;top:5px;right: 5px;"></div>
+                    <div class="search">
+                        <div>
+                            <label>
+                                <strong>Search:</strong>
+                                <input name="q" type="search" autocomplete="off" placeholder="e.g. Famous Dave's"/>
+                            </label>
+
+                            <div class="search-icon"><img src="{{ STATIC_URL }}community/img/icons/detoursearch.png"
+                                                          alt="search"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div id="load-bar"
+                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; text-align: center; background: #333; z-index: 100; color: #fff; font-size: 1.25em; padding-top: 6%;">
+                <i class="icon-refresh icon-spin" style="color: #fff !important;"></i> Loading Search Bar..
+            </div>-->
+	    {% all_business_data %}	
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div id="map" style="position: absolute;width: 100%; height: 568px; top: 130px; left: 0;">
+
+    </div>
+    <!--Menu Form User-->
+{% endblock %}
+
+{% block footer %}
+    <footer id="homeFooter_cnt" class="container coupon">
+        <ul class="list_row">
+            <li>
+                <ul>
+                    <li>
+                        <!--About us-->
+                        <ul>
+                            <li><h2>About Us</h2></li>
+                            <li><a href="http://www.detourmaps.com/about-us">Detour Maps</a></li>
+                            <li><a href="http://www.entiremarketinggroup.com/" target="_blank">Entire Marketing Group
+                                LLC</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <!--Join us-->
+                        <ul>
+                            <li><h2>Join Us</h2></li>
+                            <li><a href="{% url "loginUser" %}">Sign in</a></li>
+                            <li><a href="{% url "registerUser" %}">Register</a></li>
+                            <li><a href="http://www.detourmaps.com/free-business-listing">Free Business Listing</a></li>
+                            <li><a href="http://www.detourmaps.com/deals"> Recieve Promotions</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <!--Let's Talk-->
+                        <ul>
+                            <li><h2>Let's Talk</h2></li>
+                            <li><a href="http://www.detourmaps.com/about-us">Services</a></li>
+                            <li><a href="http://www.detourmaps.com/careers">Career Opportunities</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul>
+                            <li><h2>Follow Us</h2></li>
+                            <li><a href="https://www.facebook.com/detourmaps"
+                                   target="_blank">Facebook</a>
+                            </li>
+                            <li><a href="https://twitter.com/detourmaps" target="_blank">Twitter</a></li>
+                            <li><a href="https://www.youtube.com/user/detourmapstv" target="_blank">YouTube</a></li>
+                            <li><a href="http://www.flickr.com/people/detourmaps/" target="_blank">Flicker</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <!--Communities-->
+                        <ul>
+                            <li><h2>Communities</h2></li>
+                            {% list_community_footer %}
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li style="width:320px;">
+                <ul>
+                    <li>
+                        <!--Savings Card form-->
+                        <ul>
+                            <li><h2>Already have a card?</h2></li>
+                            <li>
+                                <form accept-charset="UTF-8" action="#" id="couponRequestForm">
+                                    {% csrf_token %}
+                                    <input type="text" name="name" placeholder="Name*" class="required" maxlength="60">
+                                    <input type="tel" name="cellphone" placeholder="cellphone*" class="required"
+                                           maxlength="60">
+                                    <input type="email" name="email" placeholder="Email*" class="required email"
+                                           maxlength="60">
+                                    <select id="community" name="community" class="required">
+                                        <option value="" selected="">Choose community *</option>
+                                        {% list_community_savings %}
+                                    </select>
+                                    <input type="checkbox" name="subscribe" checked="checked">
+                                    <label for="subscribe">Hear from us!</label>
+
+                                    <span class="msg"></span>
+                                    <button class="submit" style="float: right;">Send to Email</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li style="padding-top: 30px;">
+                <img src="{{ STATIC_URL }}web/img/tarjeta.png" alt="Savings Card"/>
+            </li>
+        </ul>
+        <div>
+            <ul class="terms">
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="{% url "privacy" %}">Privacy Policy</a></li>
+                <li><a href="{% url "terms" %}">Terms & Conditions</a></li>
+                <li><a href="{% url "faq" %}">FAQ's</a></li>
+                <li><a href="{% url "media_kit" %}">Media Kit</a></li>
+                <li><a href="http://blog.detourmaps.com" target="_blank">Blog</a></li>
+                <li>Copyright 2013 Detour Maps powered by Entire Marketing Group LLC</li>
+            </ul>
+        </div>
+    </footer>
+{% endblock %}
+
+<!-- Modal Coupon -->
+<div id="modalCoupon" class="row form modal">
+    <div class="fivecol">
+        <h2>What is this Savings Card?</h2>
+
+        <p>With our color coded Savings Card you can save $10 on your next purchase (*minimum amount required
+            $30-$40-$50). GRAB A MAP available all throughout participating neighborhoods.</p>
+
+        <p>Our FREE Map has a Savings Card attached to be redeemed at participant businesses or fill this form to sign
+            up for a FREE
+            card as well. The print map will tell you who the participant businesses are and what their minimum
+            purchase amounts are based on their color code.</p>
+
+        <p> SHOP LOCAL, save and help your community development.</p>
+    </div>
+    <div class="sevencol last">
+        <h2>Already have a card?</h2>
+
+        <div class="sevencol colincol">
+            <form accept-charset="UTF-8" action="#" id="couponRequestForm">
+                {% csrf_token %}
+                <p>
+                    <label class="hidden" for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Name *" class="required" maxlength="60"/>
+                </p>
+
+                <p>
+                    <label class="hidden" for="cellphone">Cell Phone</label>
+                    <input type="tel" id="cellphone" name="cellphone" placeholder="Cell Phone *"
+                           class="required phoneUS"/>
+                </p>
+
+                <p>
+                    <label class="hidden" for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Email *" class="required email"/>
+                </p>
+
+                <p>
+                    <label class="hidden"
+                           for="{{ coupons_form.community.name }}">{{ coupons_form.community.label }}</label>
+                    <select id="{{ coupons_form.community.name }}" name="community" class="required">
+                        <option value="" selected>Choose community *</option>
+                        {% for choice in coupons_form.community.field.choices %}
+                            {% if choice.0 %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </p>
+                <p>
+                    <input id="subscribe" type="checkbox" name="subscribe" checked="checked"/>
+                    <label for="subscribe">Hear from us!</label>
+                </p>
+
+                <p class="submit">
+                    <span class="msg"></span>
+                    <button id="mailCouponRequest" class="submit">Send to E-mail</button>
+                </p>
+            </form>
+        </div>
+        <div class="fivecol last card">
+            <img src="{{ STATIC_URL }}web/img/tarjeta.png" alt="Savings Card"/>
+        </div>
+    </div>
+</div>
+
+<!--User register Form-->
+<div id="user_frm_register">
+    <div style="margin-bottom: 12px;text-align: justify;font-size: 1em;padding: 0 40px;">By registering will have access
+        to review, share, and explore local community deals and promotions.<br> You don't need to go anywhere else to
+        shop local.
+    </div>
+    <form id="frm_user_register" action="/user/register" method="POST">
+
+        <div style="display: table-row; height: 50px;">
+            <div style="width: 366px;display: table-cell;text-align: right;">
+                <input id="register_user_email" class="required" type="email" name="user_email" placeholder="Email">
+                <input id="register_user_email_available" type="hidden" name="user_email_available" value="false">
+            </div>
+            <div class="available_icon" style="width: 35px; height: 35px; position: relative; top: 10px;"></div>
+        </div>
+        <div style="display: table-row;">
+            <div style="display: table-cell;text-align: right;"><input id="register_user_password" class="required"
+                                                                       type="password" name="user_password"
+                                                                       placeholder="Password"
+                                                                       style="display: table-cell;"></div>
+            <div style="display: table-cell;vertical-align: middle;text-align: left;">
+                <button>Sign In</button>
+            </div>
+        </div>
+        <div style="display: table-row;">
+            <input id="register_user_terms" type="checkbox" name="user_terms" id="user_terms"><label
+                for="register_user_terms" style="font-size: 0.7em;">I have read and accepted the Terms and
+            Conditions</label>
+            <span style="font-size: 0.75em;"><a id="closerModal" href="javascript:void()">Skip</a> | <a
+                    id="link_lear_more" href="#learn_more">Learn More</a></span>
+        </div>
+
+    </form>
+
+    <div style="font-size: 0.55em; position: absolute;left: 23px;bottom: 5px;">Detourmaps will not share any of your
+        personal information without your consent. See Terms and Conditions or Details.
+    </div>
+</div>
+
+<!-- Learn More -->
+<div id="learn_more">
+    <div style="display: table-row;">
+        <div style="display: table-cell;height:70px;"></div>
+        <div style="display: table-cell;text-align: right;padding-top: 10px;"></div>
+    </div>
+    <div style="display: table-row;">
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/map.png">
+            <span><span>Our Features</span><br>
+            Detourmaps helps you connect with your local businesses
+            in minutes with our new online features.</span>
+        </div>
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/savings-card.png">
+            <span><span>Our $10 saving card</span><br>
+            With Detourmaps $10 saving card you to shop $10
+            less in your community. The map will show you which
+            businesses.</span>
+        </div>
+    </div>
+    <div style="display: table-row;">
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/business.png">
+            <span><span>Business Information</span><br>
+            In our new business information tab you will find each
+            business information such as Name, phone number,
+            directions, and brief description of the business and their service.</span>
+        </div>
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/share.png">
+            <span><span>Share your experience with the world</span><br>
+            We offer a way for you to share links, coupons and offers
+            with your family and friends. Just click on the share button
+            and share the savings.</span>
+        </div>
+    </div>
+    <div style="display: table-row;">
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/video.png">
+            <span><span>Business video and slide show</span><br>
+            Business get to upload video or slide shows of their
+            business so you can see what they have to offer.</span>
+        </div>
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/print.png">
+            <span><span>Print your savings</span><br>
+            Once you choose the coupon you want simply click the
+            print button and in minutehave your coupon or offer in your hands.</span>
+        </div>
+    </div>
+    <div style="display: table-row;">
+        <div style="display: table-cell;">
+            <img src="{{ STATIC_URL }}community/img/icons/rate.png">
+            <span><span>Rate your experience</span><br>
+            You get to rate business you visit just a click of
+            the mouse. Let other users and the business know just
+            how great you experience was.</span>
+        </div>
+        <div style="display: table-cell; text-align: center;">
+            <a href="/" class="btn" style="font-size: 1.3em;">Get Stared</a>
+            <button id="link_learn_more_go_back" href="#user_frm_register">Go Back</button>
+        </div>
+    </div>
+
+    <div class="m_l">* You must be registered in order to use these features. Without registration you will not be able
+        to access these features.
+    </div>
+</div>
+<button style="display: none" id="new_user" href="#new_user_frame">new user</button>
+
+<!-- New user frame -->
+<div id="new_user_frame">
+    <p style="margin-top: 80px;">
+        <img src="{{ STATIC_URL }}web/img/envelopel.png" style="float: left;">
+
+    <h2 style="font-size: 1.8em;">YOUR ACCOUNT IS NOT ACTIVE YET!</h2>
+    <span>Thanks for joining <span class="resaltado">detourmaps.com</span>. We sent you<br>
+    an email with an activation link. To complete your<br>
+    registration please check the email you registered.</span><br>
+    <span>If you did not receive the email please check your<br>
+    Junk or Span folder. If not click below to re send.</span><br>
+
+    <button class="btn">Re-send Activation Email</button>
+    </p>
+    <img src="{{ STATIC_URL }}web/img/loading.gif" class="imge">
+</div>
+
+<div class="left_bar_body" style="display: none;">
+    <div style="font-family: 'LeagueGothic'; font-size: 3em;padding: 0 30px 0 60px;line-height: 40px;text-transform: uppercase;margin-top: 5px;">
+        What is<br> DetourMaps
+    </div>
+    <p style="padding: 0 30px 0 60px;">
+        DetourMaps brings you closer to your neighborhood with the latest business promotions,
+        events, and savings. Support your community while staying connected
+    </p>
+
+    <div class="explore_banner">
+        <a href="#" style="color: #a52e0c; text-decoration: none;">
+            <span class="home_search_button" style="display: inline-block;"></span>
+            <span style="position: relative;top:-12px;">Explore Now!</span>
+        </a>
+    </div>
+    <p style="padding: 0 30px 0 60px;">
+        Start saving $10 when you shop in your community. For more info click
+    </p>
+    <!-- <p>SHOP LOCAL, save and help your community development.</p>-->
+    <p class="center" style="margin: 0;"><img src="{{ STATIC_URL }}web/img/tarjeta.png" alt="Savings Card"
+                                              style="height: 135px;"/></p>
+
+    <p>
+        <button class="glow_grey" id="requestCoupon" href="#modalCoupon"
+                style="width:220px;position: relative;left: 50px; background: -webkit-linear-gradient(top, #836f66 0%,#5d4d40 100%);border-radius: 10px;border-color: #8d796e;border-top-color: #aca6b0;border-bottom-color: #493b31;border-width: 1px;">
+            GET YOUR SAVINGS CARD
+        </button>
+    </p>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#frm_user_register").validate({
+            ignore: "",
+            rules: {
+                user_password: {minlength: 4},
+                user_terms: {required: true},
+                register_user_email_available: {required: true, equalTo: 'true'}
+            }
+        });
+        if (window.location.hash == '#modalCoupon') {
+            $("#requestCoupon").trigger("click");
+            window.location.hash = '';
+        } else if (window.location.hash == '#user_new') {
+            //window.location.search.split('=')[1]
+            var _vars = window.location.search.substring(1);
+            var arr_vars = _vars.split('&');
+            for (var x in arr_vars) {
+                if ((new String(arr_vars[x])).match('email') != null) {
+                    detourmaps.user.email = arr_vars[x].split('=')[1];
+                    break;
+                } else {
+                    detourmaps.user.email = undefined;
+                }
+            }
+
+            $("#new_user").trigger('click');
+        }
+        $("#frm_user_register button").click(function (e) {
+            e.preventDefault();
+            if ($("#frm_user_register").find("#register_user_email_available").val() == 'true') {
+                $("#frm_user_register").submit();
+            }
+        });
+        $("#register_user_email").blur(function (evt) {
+            var isEmailValid = $("#register_user_email").jmtpValidate({type: 'email'});
+            var icon = $("#user_frm_register .available_icon");
+            var filter = $("#user_frm_register").find("#register_user_email_available");
+            if (isEmailValid) {
+                //Check out the email available.
+                $.getJSON('/user/register/checkout/email/',
+                        {value: $("#register_user_email").val()},
+                        function (data) {
+                            icon.css('background-size', '35px 35px');
+                            if (data.available) {
+                                //not-available
+                                icon.attr('title', 'This user name is not available, try with another one.');
+                                icon.css('background-image', 'url("/static/community/img/not_available.png")');
+                                filter.val('false');
+                            } else {
+                                //available.
+                                icon.attr('title', 'Available');
+                                icon.css('background-image', 'url("/static/community/img/available.png")');
+                                filter.val('true');
+                            }
+                        }
+                );
+            } else {
+                icon.attr('title', '');
+                icon.css('background-image', 'none');
+                filter.val('false');
+            }
+        });
+
+        $("#learn_more").find("#stared_learn_more").click(function () {
+            $("header.tbar a.logo").trigger('click');
+        });
+
+        $("#new_user_frame button").click(function () {
+            jmtpReSendActivateMail({
+                email: detourmaps.user.email,
+                preSend: function () {
+                    //Show the loader Image.
+                    $("div#new_user_frame img.imge").show();
+                },
+                postSend: function (data) {
+                    //Hide the loader Image.
+                    $("div#new_user_frame img.imge").hide();
+                    alert('The Email was send.');
+                }
+            });
+        });
+        $(".left_bar_body").hide();
+        $('div#left_bar div.show_hide > div:first-child').click(function (e) {
+            var b_left = $('#left_bar');
+            if (b_left.css("overflow") == 'visible') {
+                //hide
+                {% comment %}b_left.css('height', $('#detourmap').css('height'));
+                b_left.css('bottom', '');
+                var _d = $('#detourmap').height() - 30;
+                b_left.animate({height: '-=' + _d}, 500, function () {
+                    b_left.addClass('float_map');
+                });
+                //b_left.css('height','45px');
+                b_left.find('.left_bar_body').hide('fade', {}, 500);
+                b_left.attr('show', 'false');{% endcomment %}
+                b_left.css("overflow", "hidden");
+            } else {
+                //show
+                {% comment %}b_left.animate({height: '+=' + $('#detourmap').css('height')}, 500, function () {
+                    b_left.css('height', '');
+                    b_left.css('bottom', '5px');
+                });
+                b_left.removeClass('float_map');
+                b_left.find('.left_bar_body').show('fade', {}, 1000);
+                b_left.attr('show', 'true');{% endcomment %}
+                b_left.css("overflow", "visible");
+            }
+        });
+        /*function homeFooter_cntRelocation() {
+         var _h = $('.bars_container').height() + $("header.tbar").height() + 5;
+         $('#homeFooter_cnt').css('top', _h + 'px');
+         }*/
+
+        //homeFooter_cntRelocation();
+        /*$(window).resize(function () {
+         homeFooter_cntRelocation();
+         });*/
+
+    });
+</script>
+</body>
+</html>

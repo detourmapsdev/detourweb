@@ -1,0 +1,37 @@
+{% extends 'base-mobile.html' %}
+{% block title %}Detourmaps - QR Code{% endblock %}
+{% block extrahead %}
+    <style>
+        html{
+            background-color: #05a8a7 !important;
+        }
+        body{
+            background-color: #05a8a7 !important;
+        }
+
+    </style>
+{% endblock %}
+{% block secondnav %}{% endblock %}
+{% block body %}
+    <section id="qrPanel" data-role="content">
+        <h1>
+            NEED TO<br>
+            PROMOTE<br>
+            SOMETHING?
+        </h1>
+        <div style="margin: 15px 0; text-align: center; position: relative; width: 100%;">
+            <img src="{{ STATIC_URL }}community/elementos/qr.png"/>
+        </div>
+
+        <p>
+            QR Codes can be used in a variety of ways<br>
+            to attract attention to websites, blogs, portfolios<br>
+            and also sent to SMS messages, save locations,<br>
+            and many more reations
+        </p>
+        <a>
+            CREATE QR CODE
+        </a>
+    </section>
+
+{% endblock %}

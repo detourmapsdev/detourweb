@@ -1,0 +1,237 @@
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,address,cite,code,del,dfn,em,img,ins,q,small,strong,sub,sup,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{border:0;margin:0;padding:0}article,aside,figure,figure img,figcaption,hgroup,footer,header,nav,section,video,object{display:block}a img{border:0}figure{position:relative}figure img{width:100%}
+@font-face {
+	font-family: 'Kelson Sans Bold';
+	src: url('fonts/Kelson Sans Bold.eot');
+	src: local('☺'), url('fonts/Kelson Sans Bold.woff') format('woff'), url('fonts/Kelson Sans Bold.ttf') format('truetype'), url('fonts/Kelson Sans Bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Kelson Sans Light';
+	src: url('fonts/Kelson Sans Light.eot');
+	src: local('☺'), url('fonts/Kelson Sans Light.woff') format('woff'), url('fonts/Kelson Sans Light.ttf') format('truetype'), url('fonts/Kelson Sans Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Kelson Sans Regular';
+	src: url('fonts/Kelson Sans Regular.eot');
+	src: local('☺'), url('fonts/Kelson Sans Regular.woff') format('woff'), url('fonts/Kelson Sans Regular.ttf') format('truetype'), url('fonts/Kelson Sans Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'LondrinaSolid-Regular';
+	src: url('fonts/LondrinaSolid-Regular.eot');
+	src: local('☺'), url('fonts/LondrinaSolid-Regular.woff') format('woff'), url('fonts/LondrinaSolid-Regular.ttf') format('truetype'), url('fonts/LondrinaSolid-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    font-size: 1.25em;
+}
+section#m-body{
+    background: url(../img/background.jpg) repeat !important;
+}
+h1{
+    font-family: 'Kelson Sans Regular', sans-serif;
+    font-size: 1.25em;
+    color: #888b69;
+    text-align: center;
+    margin: 5% 0;
+    text-transform: uppercase;
+}
+figure#logo-partner{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+}
+figure#logo-partner img{
+    width: 100%;
+}
+section#select-community{
+    width: 70%;
+    margin: 10% auto;
+    text-align: center;
+    padding: 5% 15%;
+}
+section#select-community h2{
+    font-size: 1em;
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #888b69;
+}
+section#select-community a{
+    position: relative;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    padding: 5px;
+    color: #888b69;
+    font-size: 0.85em;
+    font-family: 'Kelson Sans Light', sans-serif;
+    text-decoration: none;
+}
+section#select-community figure{
+    margin-top: 25%;
+}
+/* Welcome First Page */
+section#welcome{
+    background: #000;
+}
+section#welcome h2{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #fff;
+    font-size: 1.05em;
+    font-weight: lighter;
+    text-align: center;
+}
+section#nav{
+    margin: 5% 0;
+}
+section#nav a.nav{
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 0.85em;
+    color: #fff;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    margin: 0 10px;
+    text-shadow: none !important;
+    padding: 5px;
+}
+section#nav div.info{
+    margin-left: 10px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 0.85em;
+    color: #f48031;
+    text-shadow: none !important;
+}
+section#footer-welcome{
+    background: none !important;
+    border: none !important;
+}
+section#footer-welcome figure{
+    width: 50%;
+    margin: auto;
+    text-align: center;
+}
+section#footer-welcome figure img{
+    width: 100%;
+}
+
+section#email, section#password, section#voucher{
+    background: #ed6e25; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzUlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNlZDZlMjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZWY1ZTA0IiBzdG9wLW9wYWNpdHk9IjEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-radial-gradient(center, ellipse cover,  #ed6e25 0%, #ef5e04 100%); /* FF3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#ed6e25), color-stop(100%,#ef5e04)); /* Chrome,Safari4+ */
+    background: -webkit-radial-gradient(center, ellipse cover,  #ed6e25 0%,#ef5e04 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-radial-gradient(center, ellipse cover,  #ed6e25 0%,#ef5e04 100%); /* Opera 12+ */
+    background: -ms-radial-gradient(center, ellipse cover,  #ed6e25 0%,#ef5e04 100%); /* IE10+ */
+    background: radial-gradient(ellipse at center,  #ed6e25 0%,#ef5e04 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ed6e25', endColorstr='#ef5e04',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+
+}
+section#email figure#email-cup, section#password figure#pass-cup{
+    position: relative;
+    width: 40%;
+    margin: 8% auto;
+    text-align: center;
+}
+section#email figure#email-cup img, section#password figure#pass-cup img{
+    width: 100%;
+}
+section#email p, section#password p, section#voucher p{
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    text-shadow: none !important;
+    color: #f5f5f5;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-weight: lighter;
+    font-size: 0.85em;
+}
+section#email h2, section#password h2, section#voucher h2{
+    text-align: center;
+    width: 80%;
+    font-family: 'LondrinaSolid-Regular', sans-serif;
+    font-size: 2em;
+    margin: auto;
+    color: #f5f5f5;
+    text-shadow: none !important;
+}
+form#form-email-page, form#form-pass-page{
+    margin: 3em auto;
+    width: 80%;
+}
+section#email a.btnSave, section#password a.btnSave{
+    color: #fff;
+    font-family: 'Kelson Sans Bold', sans-serif;
+    font-size: 0.85em;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    background: #0084bc;
+    border-radius: 4px;
+    padding: 8px 15px;
+    text-shadow: none !important;
+    margin: 0.6em;
+    text-decoration: none;
+    width: 20%;
+    text-align: center;
+    cursor: pointer;
+}
+label.error {
+	float: left;
+	color: red;
+	padding-top: .5em;
+	vertical-align: top;
+	font-weight:bold
+}
+section#voucher h2{
+    margin-top: 10%;
+}
+section#voucher ul{
+    list-style: none;
+    width: 75%;
+    margin: 10% auto;
+}
+section#voucher ul li{
+    position: relative;
+    display: block;
+    margin: 1em;
+}
+section#voucher ul li a{
+    background: #f04C11;
+    display: block;
+    font-family: 'Kelson Sans Regular', sans-serif;
+    font-size: 0.85em;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    padding: 5px;
+    color: #fff;
+    text-decoration: none;
+}
+section#voucher ul li a div{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
+}
+section#voucher ul li a img{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 20%;
+}
+section#voucher ul li a span{
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 0.85em;
+    font-weight: lighter;
+}

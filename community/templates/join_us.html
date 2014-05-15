@@ -1,0 +1,126 @@
+{% extends 'communityHomeB.html' %}
+{% block title %}Join Us{% endblock %}
+{% block head %}
+    <link rel="stylesheet" type="text/css"
+          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type='text/css' href="{{ STATIC_URL }}community/css/detourmaps_join_us.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
+    <script defer type="text/javascript" src="/user/js/utils_sys"></script>
+    <script src="{{ STATIC_URL }}community/js/layout.js"></script>
+    <!--[if lt IE 9]>
+    <script src="{{ STATIC_URL }}aFarkas-html5shiv-67bff28/dist/html5shiv.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        body {
+            background: #fff !important;
+        }
+
+        .overmenu {
+            z-index: 1000;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block bodyname %}join-us-page{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div id="container_top" class="container">
+        <div class="row">
+            <div class="onecol"></div>
+            <div id="content1" class="sixcol">
+                <h1 class="header">Are you a.....<br>business owner, organization, SSA, mall?</h1>
+
+                <p class="areyou1">Detourmaps specializes in promoting for small business,
+                    specific groups, and commerical areas. We want to help communities
+                    not only grow but also become a destination that people want to visit.
+                    More importantly, our goal is to connect residents with their
+                    neighborhood. </p>
+
+                <p class="areyou1">With a variety of tools, like interactive online maps
+                    and directories, we make it easy to find anything from a new
+                    hair stylist to freshly baked sweets from a nearby bakery.</p>
+
+                <h1 class="header">How does this help my business?</h1>
+
+                <p class="areyou1">Our maps printed and online, serve as a navigation guide throughout the community. We
+                    strive in making Detour the best neighborhood resource guide so residents can take it wherever they
+                    go and can rely on Detour Maps to find your business with ease. This encourages residents to shop
+                    local versus shopping at a corporate or chain store. This will help your business and the community
+                    you are in. </p>
+            </div>
+            <div clas="onecol"></div>
+            <div id="orange_image" class="fourcol last">
+                <figure>
+                    <img src="{{ STATIC_URL }}community/css/images/join-us-page.png"/>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div id="orangecontainter" class="container">
+        <div class="row">
+            <div class="twocol"></div>
+            <div class="eightcol">
+                <figure id="orange_bar">
+                    <img src="{{ STATIC_URL }}community/css/images/orangeBar.jpg"/>
+                </figure>
+            </div>
+            <div class="twocol last"></div>
+        </div>
+    </div>
+    <div class="container" id="container_white">
+        <div class="row">
+            <div class="onecol"></div>
+            <div class="fourcol">
+                <figure id="circle_image">
+                    <img src="{{ STATIC_URL }}community/css/images/circle_image.png" alt="join_us_circle_image">
+                </figure>
+            </div>
+            <div class="onecol"></div>
+            <div id="containerwhite_paragraph_container" class="sixcol">
+                <h1>What else can Detour Maps do for my business?</h1>
+
+                <p class="aside_from_our">Aside from our online directory, Detour Maps help businesses by creating
+                    different marketing strategies to attract customers to their business. We create printed community
+                    maps with an ad display that also help residents find the business and navigate through the
+                    community. When we create our community map campaign businesses that participate receive:</p>
+
+                <ul>
+                    <li>Display Advertising on 20,000 print maps</li>
+                    <li>We will Locally distribute maps throughout the communities</li>
+                    <li>By participating in the community map you have the option of participating in the $10 Savings
+                        card promotion. This will attract customers to your busi ness. The $10 savings card gives your
+                        customers a $10 discount of any purchase above $30 $40 or $50 at your business.
+                    </li>
+                    <li>Our new Rewards Program which encourages residents to shop at local businesses</li>
+                    <li>Tri-weekly Detour Maps newsletter with 5000 users</li>
+
+                </ul>
+                <p class="paragraph_list">Detour Maps helps businesses promote through other means whether its online,
+                    print, business branding and more! Detour Maps is your Advertising Platform.</p>
+
+                <div id="ifyouare_paragraph">
+                    <h1>How can I add my business?</h1>
+
+                    <p class="aside_from_our">If you are a business owner and would like to register your business in
+                        our Free Listing online, you can go on our homepage on the navigation in the upper right hand
+                        corner you will see a circle. Click on the circle and a drop down menu will appear. Click on
+                        Register your Business and fill out the form with your business information. You can also call
+                        708.484.1119 and a representative will help you.
+                    </p>
+                </div>
+                <!--ifyouare_paragraph-->
+
+            </div>
+            <!---paragraph_container-->
+
+        </div>
+    </div>
+{% endblock %}

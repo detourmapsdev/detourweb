@@ -1,0 +1,15 @@
+{% extends 'base-mobile.html' %}
+{% load queryset %}
+{% block title %}Detourmaps - Communities{% endblock %}
+{% block secondnav %}{% endblock %}
+{% block body %}
+    <section id="communities">
+        <ul data-role="listview" data-theme="a" data-dividertheme="a" id="menuCommunity" data-inset="false">
+            <li data-role="list-divider">
+                <h1>Start Exploring<br><span>Select a Community</span></h1>
+                <div><img src="{{ STATIC_URL }}community/img/menu-heading.png" width="80px"/></div>
+            </li>
+            {% list_community %}
+        </ul>
+    </section>
+{% endblock %}

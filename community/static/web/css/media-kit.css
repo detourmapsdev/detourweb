@@ -1,0 +1,1234 @@
+/* Eric Meyer's Reset CSS v2.0 - http://cssreset.com */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+/* end reset*/
+@font-face {
+	font-family: 'Myriad Pro Bold';
+	src: url('/static/community/fonts/myriadwebpro-bold.eot');
+	src: local('☺'), url('/static/community/fonts/myriadwebpro-bold.woff') format('woff'), url('/static/community/fonts/myriadwebpro-bold.ttf') format('truetype'), url('/static/community/fonts/myriadwebpro-bold.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Kelson Sans Light';
+	src: url('/static/web/fonts/Kelson Sans Light.eot');
+	src: local('☺'), url('/static/web/fonts/Kelson Sans Light.woff') format('woff'), url('/static/web/fonts/Kelson Sans Light.ttf') format('truetype'), url('/static/web/fonts/Kelson Sans Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+div#load-videos, div#load-videos-print, div#load-videos-interactive{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 1);
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 1;
+}
+div#superScroll{
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    display: block;
+}
+section.slides:first-child{
+    margin-top: 0 !important;
+}
+section.slides{
+    position: relative;
+    margin-top: 25px;
+}
+section#menu ul{
+    position: absolute;
+    top: -405px;
+    left: 0;
+    background: #1a1a1a;
+    list-style: none;
+    display: none;
+    width: 100%;
+}
+section#menu ul li{
+    position: relative;
+    display: block !important;
+}
+section#menu ul li a{
+    display: block;
+    padding: 10px 20px !important;
+    font-size: 0.85em;
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Source sans pro', sans-serif;
+}
+ul.left-ul{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+    margin-top: 40px;
+    margin-right: 40px;
+    list-style: disc;
+    margin-left: 40px;
+    font-size: 1.1em;
+}
+ul.left-ul li, ul.right-ul li{
+    margin-bottom: 15px;
+}
+ul.right-ul{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+    margin-top: 40px;
+    list-style: disc;
+    margin-left: 40px;
+    font-size: 1.1em;
+}
+section#intro{
+    background: url(../img/home-background.jpg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+}
+section#find{
+    background: url(../img/fade-out.jpg)no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+}
+section#tools{
+    background: url(../img/tools.jpg)no-repeat top center scroll;
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+}
+section#benefits{
+    background: url(../img/benefits.jpg)no-repeat top center scroll;
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+}
+/*print*/
+section#print-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-print{
+    background: url(../img/print-back.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#print-ico{
+    background: url(../img/print-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-print h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 200px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+}
+section#print-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section#banner-print h2 i{
+    font-style: italic;
+    font-size: 1.5em;
+}
+section#banner-print h2 span{
+    font-size: 2em;
+    font-weight: bolder;
+}
+section.print-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.print-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #42210B !important;
+}
+section.print-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.print-section figure img{
+    width: 85%;
+}
+section.print-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+section.print-small{
+    font-size: 0.85em;
+    line-height: 1em;
+    color: #999;
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+}
+/*loyalty*/
+section#loyalty-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-loyalty{
+    background: url(../img/loyalti-banner.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#loyalty-ico{
+    background: url(../img/loyalty-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-loyalty h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 200px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+}
+section#loyalty-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.loyalty-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.loyalty-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.loyalty-section p i{
+    color: #0071BC !important;
+}
+section.loyalty-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.loyalty-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #0071BC !important;
+}
+section.loyalty-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.loyalty-section figure img{
+    width: 85%;
+}
+section.loyalty-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+/*interactive*/
+section#interactive-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-interactive{
+    background: url(../img/interactive-banner.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#interactive-ico{
+    background: url(../img/interactive-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-interactive h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 7em;
+    color: #fff;
+    margin-left: 25%;
+    padding-top: 20%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+    font-weight: lighter;
+    font-style: italic;
+}
+section#banner-interactive h2 b{
+    font-weight: bolder !important;
+}
+section#interactive-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.interactive-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.interactive-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.interactive-section p i{
+    color: #0071BC !important;
+}
+section.interactive-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.interactive-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #ED1C24 !important;
+}
+section.interactive-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.interactive-section figure img{
+    width: 85%;
+}
+section.interactive-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+
+/*qr*/
+section#qr-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-qr{
+    background: url(../img/qr-banner.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#qr-ico{
+    background: url(../img/qr-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-qr h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 200px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+}
+section#qr-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.qr-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.qr-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.qr-section p i{
+    color: #0071BC !important;
+}
+section.qr-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.qr-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #97B89B !important;
+}
+section.qr-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.qr-section figure img{
+    width: 85%;
+}
+section.qr-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+
+/*TV DetourMaps*/
+section#tv-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-tv{
+    background: url(../img/tv-banner.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#tv-ico{
+    background: url(../img/tv-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-tv h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 350px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+}
+section#tv-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.tv-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.tv-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.tv-section p i{
+    color: #0071BC !important;
+}
+section.tv-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.tv-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #F15A24 !important;
+}
+section.tv-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.tv-section figure img{
+    width: 85%;
+}
+section.tv-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+section.tv-section div.stats{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 2em;
+}
+section.tv-section div.stats span{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+}
+
+/*Extra Services*/
+section#extra-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-extra{
+    background: url(../img/extra-banner.jpg)no-repeat top right scroll;
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    position: relative;
+}
+section#extra-ico{
+    background: url(../img/tv-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-extra h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 350px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+}
+section#extra-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.extra-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.extra-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.extra-section ul{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.5em;
+    color: #999;
+    margin-left: 40px;
+    list-style: disc !important;
+}
+section.extra-section p i{
+    color: #0071BC !important;
+}
+section.extra-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.extra-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #8c8c8c !important;
+}
+section.extra-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.extra-section figure img{
+    width: 85%;
+}
+section.extra-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+section.extra-section div.stats{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 2em;
+}
+section.extra-section div.stats span{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+}
+
+/*Entire Marketing*/
+section#entire-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-entire{
+    background: url(../img/entire-banner.jpg)no-repeat top right scroll;
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#entire-ico{
+    background: url(../img/entire-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section#banner-entire h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+    color: #fff;
+    margin-left: 350px;
+    padding-top: 15%;
+    padding-bottom: 15%;
+    text-shadow: 0 0 5px #000;
+}
+section#entire-section{
+    margin: 100px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.entire-section.back{
+    background: url(../img/loyalty-map.jpg)no-repeat top right scroll;
+    background-size: 40% 100%;
+}
+section.entire-section p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.75em;
+    color: #999;
+}
+section.entire-section p i{
+    color: #0071BC !important;
+}
+section.entire-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.entire-section p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #F15A24 !important;
+}
+section.entire-section figure{
+    width: 100%;
+    text-align: center;
+}
+section.entire-section figure img{
+    width: 85%;
+}
+section.entire-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+section.entire-section div.stats{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 2em;
+}
+section.entire-section div.stats span{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 4em;
+}
+
+/*Contact*/
+section#contact-page{
+    width: 100%;
+    height: 100%;
+    min-height: 544px;
+    overflow: hidden;
+}
+section#banner-contact{
+    width: 95%;
+    height: 100%;
+    min-height: 544px;
+    border-left: 5em solid #fff;
+    position: relative;
+}
+section#contact-ico{
+    background: url(../img/contact-page.png)no-repeat center center scroll;
+    background-size: 200px 200px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50%;
+    margin-top: -100px;
+    left: -100px;
+    text-align: center;
+    line-height: 300px;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 2em;
+    color: #666;
+}
+section.contact-section p, section#banner-contact p{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.5em;
+    color: #999;
+}
+section.contact-section p i{
+    color: #0071BC !important;
+}
+section.contact-section p.smaller{
+    padding: 1% 8%;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 0.75em !important;
+    line-height: 1.25em;
+    color: #999;
+}
+section.contact-section p span, section#banner-contact p span{
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-weight: lighter !important;
+    font-size: 2.5em !important;
+    color: #F15A24 !important;
+}
+section.contact-section figure, section#banner-contact figure{
+    width: 100%;
+    text-align: center;
+}
+section.contact-section figure img, section#banner-contact figure img{
+    width: 85%;
+}
+section.contact-section h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: lighter;
+    font-size: 1.75em;
+    margin: 12px 0;
+    color: #808080;
+    padding: 0 8%;
+}
+
+section#toolContent{
+    margin: 800px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section#benefitsContent{
+    margin: 120px auto auto;
+    position: relative;
+    background: #fff;
+    width: 80%;
+}
+section.content-benefits{
+    position: relative;
+    overflow: hidden;
+}
+section.tools-desc{
+    margin: 100px auto;
+}
+section.tools-desc figure{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+    margin-right: 4%;
+}
+section.benefits-desc h3{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 2.5em;
+    color: #29ABE2;
+    margin: 30px 0 20px 0;
+}
+section.benefits-desc section.benefits-content, section.benefits-desc section.benefits-content p{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.05em;
+    line-height: 1.25em;
+    color: #666666;
+}
+section.benefits-desc section.benefits-content{
+    width: 75%;
+}
+section.benefits-desc figure{
+    float: right;
+    margin-top: -35%;
+    margin-right: -5%;
+    vertical-align: top;
+    width: 400px;
+}
+section.benefits-desc figure img{
+    width: 100%;
+}
+figcaption.print{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #754C24;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 23px;
+    font-size: 1.75em;
+    display: none;
+}
+figcaption.loyalty{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #0071BC;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 23px;
+    font-size: 1.75em;
+}
+figcaption.interactive{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #ED1C24;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 23px;
+    font-size: 1.75em;
+}
+figcaption.scan{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #97B89B;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 23px;
+    font-size: 1.75em;
+}
+figcaption.visual{
+    font-family: 'Kelson Sans Light', sans-serif;
+    color: #F15A24;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 23px;
+    font-size: 1.75em;
+}
+section.tools-desc figure img{
+    display: block;
+    width: 100%;
+}
+article.desc{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 2%;
+    width: 50%;
+}
+article.desc header h1{
+    font-family: 'Myriad Pro Bold', sans-serif;
+    font-size: 2em;
+    color: #fff;
+    padding: 1%;
+}
+article.desc header h1.print{
+    background: #754C24;
+    width: 98%;
+}
+article.desc header h1.loyalty{
+    background: #0071BC;
+    width: 88%;
+}
+article.desc header h1.interactive{
+    background: #ED1C24;
+    width: 88%;
+}
+article.desc header h1.scan{
+    background: #97B89B;
+    width: 88%;
+}
+article.desc header h1.visual{
+    background: #F15A24;
+    width: 88%;
+}
+section.footer.print{
+    color: #754C24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin-top: 20px;
+}
+section.footer.print b{
+    font-weight: bolder;
+}
+section.footer.print a{
+    color: #754C24;
+}
+section.footer.loyalty{
+    color: #0071BC;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin-top: 20px;
+}
+section.footer.loyalty b{
+    font-weight: bolder;
+}
+section.footer.loyalty a{
+    color: #0071BC;
+}
+section.footer.interactive{
+    color: #ED1C24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin-top: 20px;
+}
+section.footer.interactive b{
+    font-weight: bolder;
+}
+section.footer.interactive a{
+    color: #ED1C24;
+}
+section.footer.scan{
+    color: #97B89B;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin-top: 20px;
+}
+section.footer.scan b{
+    font-weight: bolder;
+}
+section.footer.scan a{
+    color: #97B89B;
+}
+section.footer.visual{
+    color: #F15A24;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.25em;
+    line-height: 1.25em;
+    margin-top: 20px;
+}
+section.footer.visual b{
+    font-weight: bolder;
+}
+section.footer.visual a{
+    color: #F15A24;
+}
+div.bar70{
+    background: #CCCCCC;
+    width: 90%;
+    height: 20px;
+    position: relative;
+    display: block;
+    margin: 15px 0;
+}
+div.bar60{
+    background: #CCCCCC;
+    width: 80%;
+    height: 20px;
+    position: relative;
+    display: block;
+    margin: 15px 0;
+}
+div.bar50{
+    background: #CCCCCC;
+    width: 70%;
+    height: 20px;
+    position: relative;
+    display: block;
+    margin: 15px 0;
+}
+div.info{
+    color: #4D4D4D;
+    font-size: 0.85em;
+    line-height: 1.05em;
+    line-break: loose;
+    margin: 8px 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+section#intro h1{
+    font-family: 'Myriad Pro Bold', sans-serif;
+    color: #fff;
+    font-size: 5em;
+    text-align: center;
+    padding-top: 15%;
+}
+section#intro h1 span{
+    color: #FFFF00;
+}
+section#intro p#changing{
+    text-align: center;
+    font-size: 1.25em;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    color: #fff;
+}
+section#find h2{
+    position: absolute;
+    top: 12%;
+    right: 12%;
+    text-align: center;
+    font-size: 7em;
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-shadow: 0 -1px #000;
+    font-weight: lighter;
+}
+section#tools h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #FF00FF;
+    font-size: 5em;
+    text-transform: uppercase;
+    padding: 3% 0 0 5%;
+}
+section#benefits h2{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #29ABE2;
+    font-size: 5em;
+    text-transform: uppercase;
+    padding: 35% 0 0 5%;
+}
+section#tools h2 span, section#benefits h2 span{
+    text-shadow:
+   -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+     1px 1px 0 #fff !important;
+    font-size: 2em;
+}
+section#tools img.tool-cog{
+    float: right;
+    width: 400px;
+    margin-right: 30%;
+    margin-top: -5%;
+}
+a.watch-video{
+    color: #fff;
+    text-shadow: 0 -1px #000;
+    padding: 10px 20px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    border: 2px solid #fff;
+    border-radius: 7px;
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 23%;
+    box-shadow: 0 0 3px #000;
+    text-decoration: none;
+}
+a.watch-video i{
+    margin-right: 10px;
+}
+table#fast-navigation{
+    margin: 30px auto;
+}
+table#fast-navigation tr td{
+    color: #fff;
+    font-family: 'Kelson Sans Light', sans-serif;
+    font-size: 1.05em;
+    padding: 5px 34px;
+    text-align: center;
+}
+table#fast-navigation tr td a{
+    position: relative;
+    display: block;
+}
+table#fast-navigation tr td a img{
+    height: 60px;
+}
+a.fast img:hover{
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+section#bbar{
+    width: 100%;
+    background: #1A1A1A;
+    position: fixed;
+    bottom: 0;
+}
+section#bbar section#menu{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+section#bbar section#menu a{
+    position: relative;
+    display: block;
+    padding: 15px 20px;
+}
+section#bbar section#menu a i{
+    background: url(../img/icon-list.png)no-repeat;
+    width: 24px;
+    height: 14px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+section#bbar section#navbar{
+    width: 200px;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: 20px;
+    display: inline-block;
+}
+section#bbar section#navbar nav ul li{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+}
+section#bbar section#socialbar{
+    right: 10px;
+    display: inline-block;
+    position: absolute;
+    margin-top: 15px;
+}
+section#bbar section#socialbar ul li{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+section#bbar section#socialbar ul li a{
+    position: relative;
+    display: block;
+    padding: 0 5px;
+}
+section#bbar section#socialbar ul li a img{
+    height: 23px;
+}

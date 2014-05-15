@@ -1,0 +1,75 @@
+{% extends 'base-mobile.html' %}
+{% block title %}DetourMaps - Contact Us{% endblock %}
+{% block extrahead %}
+{% endblock %}
+{% block body %}
+    <div class="fb-like-box" data-href="https://www.facebook.com/detourmaps" data-width="292" data-show-faces="false" data-header="false" data-stream="false" data-show-border="false"></div>
+    <figure class="superLogo">
+        <img src="{{ STATIC_URL }}community/elementos/logo-chat.png"/>
+    </figure>
+    <section id="chat-form">
+        <form id="formChat">
+            <h1>Let’s chat. <span>We’d love to hear about your project</span></h1>
+            <div class="infoChat">Email: info@detourmaps.com</div>
+            <div class="infoChat">Call: 708-484-1119</div>
+            <div class="infoChat">Fax: 708-484-1101</div>
+            <div class="infoChat">Come in person : 6900 W Cermak Rd. Berwyn, IL 60402</div>
+            <div class="uno">
+                <div data-role="fieldcontain">
+                    <select name="interested" id="interested" data-role="none">
+                        <option value="null">----Interested in----</option>
+                        <option value="FA">Free Advertising</option>
+                        <option value="DA">DetourMaps Advertising</option>
+                        <option value="SC">$10 Savings Card</option>
+                        <option value="GW">Graphic &amp; Web</option>
+                        <option value="MT">Mobile Text</option>
+                        <option value="SM">Social Media</option>
+                        <option value="EB">Email Blast</option>
+                        <option value="CP">Create Promotions</option>
+                        <option value="PV">Photo &amp; Video</option>
+                        <option value="SG">Suggestions</option>
+                    </select>
+                </div>
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="name" class="required" required="required" placeholder="Name*">
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="address" class="required" required="required" placeholder="Address*">
+            </div>
+            <div class="dos">
+                <input type="text" data-role="none" name="city" class="required" required="required" placeholder="City*">
+            </div>
+            <div class="dos">
+                <div data-role="fieldcontain">
+                    <select name="state" data-icon="grid" data-iconpos="left" data-role="none">
+                        <option value="null">--State--</option>
+                        {% for state in states %}
+                            <option value="{{ state.0 }}">{{ state.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="company" class="required" placeholder="Company (if applies)">
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="phone" class="required" required="required" placeholder="Phone*">
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="mobile" class="required" required="required" placeholder="Mobile*">
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="email" class="required" required="required" placeholder="Email*">
+            </div>
+            <div class="uno">
+                <input type="text" data-role="none" name="website" class="required" placeholder="Website">
+            </div>
+            <div class="uno">
+                <button>
+                    Send
+                </button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base-mobile.html' %}
+{% block title %}Detourmaps - Sign In{% endblock %}
+{% block extrahead %}
+    <style>
+        html{
+            background-color: #333 !important;
+        }
+        body{
+            background-color: #333 !important;
+        }
+        #body{
+            background: #333 !important;
+            margin-top: 180px;
+        }
+        #slideMenu{
+            display: none !important;
+        }
+        #nav{
+            display: block !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <section id="signInPanel">
+        <h1>Sign into your DetourMaps account</h1>
+        <form id="formSignIn">
+            <div class="rowForm">
+                <label>
+                    Email:
+                </label>
+                <input type="email" name="email" placeholder="Email Address" data-theme="a"/>
+            </div>
+            <div class="rowForm">
+                <label>
+                    Password:
+                </label>
+                <input type="password" name="email" placeholder="Password"  data-theme="a"/>
+            </div>
+            <div id="barButtons">
+                <div class="linkAccount">
+                    <a href="" class="setPassword">Forgot password?</a>
+                    <a href="" class="setPassword">Create Account</a>
+                </div>
+                <div>
+                    <button id="btnSignIn" data-theme="c">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+{% endblock %}
+{% block principalNav %}{% endblock %}

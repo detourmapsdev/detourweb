@@ -1,0 +1,286 @@
+{% extends 'base-new.html' %}
+{% block title %}Deals{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script src="{{ STATIC_URL }}community/angular-1.2.14/angular.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/angular-1.2.14/angular-route.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/js/ng-infinite-scroll.min.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/js/underscore.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/apps/controllers_deals.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        myApp.config(function($interpolateProvider) {
+          $interpolateProvider.startSymbol('[[');
+          $interpolateProvider.endSymbol(']]');
+        });
+    </script>
+    <script defer type="text/javascript">
+        var varDetourmaps={
+            {% if user.is_authenticated %}
+            user:{
+                username:'{{user.username}}',
+                login: {{'true'}}
+            }
+            {% else %}
+            user:{
+                username:null,
+                login: {{'false'}}
+            }
+            {% endif %}
+        };
+        window['varDetourmaps'] = varDetourmaps;
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("ul.list-circle li").on("click", function(){
+                console.log("helo li");
+                var index = $(this).index();
+                $(".all-sliders").css("transform","translateX("+index * -20+"%)");
+                $("ul.list-circle li a img").not($(this).find("a img")).attr("src", "{{ STATIC_URL }}community/evolution/icon-circle-empty.png");
+                $(this).find("a img").attr("src", "{{ STATIC_URL }}community/evolution/icon-circle-full.png")
+            });
+            $("a.step-circle").on("click", function(event){
+                event.preventDefault();
+            })
+        })
+    </script>
+    <style>
+        footer#homeFooter_cnt{
+            position: relative !important;
+            top: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block bar-container %}
+
+{% endblock %}
+{% block content %}
+<section class="pure-g-r">
+    <section class="pure-u-1-1" id="slider">
+        <section class="mask"></section>
+        <section class="navigation">
+            <a href="#" class="prev-slide arrow"><img src="{{ STATIC_URL }}community/evolution/slide-left.png"/></a>
+            <ul class="list-circle">
+                <li><a href="#home" class="step-circle"><img src="{{ STATIC_URL }}community/evolution/icon-circle-full.png" alt="Active Slide"/></a></li>
+                <li><a href="#ten-off" class="step-circle"><img src="{{ STATIC_URL }}community/evolution/icon-circle-empty.png" alt="Inactive Slide"/></a></li>
+                <li><a href="#smart-buys" class="step-circle"><img src="{{ STATIC_URL }}community/evolution/icon-circle-empty.png" alt="Inactive Slide"/></a></li>
+                <li><a href="#ten-visits" class="step-circle"><img src="{{ STATIC_URL }}community/evolution/icon-circle-empty.png" alt="Inctive Slide"/></a></li>
+                <li><a href="#refer-friends" class="step-circle"><img src="{{ STATIC_URL }}community/evolution/icon-circle-empty.png" alt="Inactive Slide"/></a></li>
+            </ul>
+            <a href="#" class="next-slide arrow"><img src="{{ STATIC_URL }}community/evolution/slide-right.png"/></a>
+        </section>
+        <section class="all-sliders">
+            <section id="slide1" class="slider pure-u-1-1">
+                <section class="block-slide">
+                    <h1>Orange <span>Deals</span></h1>
+                    <p>Earn discounts. Get rewards.</p>
+                    <ul>
+                        <li><img src="{{ STATIC_URL }}community/evolution/10-off.png" alt="Ten Off"/></li>
+                        <li><img src="{{ STATIC_URL }}community/evolution/smart.png" alt="Smart Buys"/></li>
+                        <li><img src="{{ STATIC_URL }}community/evolution/10-visits.png" alt="Ten Visits"/></li>
+                        <li><img src="{{ STATIC_URL }}community/evolution/referer.png" alt="Refer Friends"/></li>
+                    </ul>
+                </section>
+            </section>
+            <section id="slide2" class="slider pure-u-1-1">
+                <figure>
+                    <img src="{{ STATIC_URL }}community/evolution/10-off-slide.png"/>
+                </figure>
+                <section>
+                    <h2>$10 Savings Card</h2>
+                    <p>
+                        With our signature $10 savings card you
+                        can save ten dollars on your purchase
+                        instantly at participating locations. Save
+                        $10 on purchases of $30, $40, or $50*
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </section>
+            </section>
+            <section id="slide3" class="slider pure-u-1-1">
+                <figure>
+                    <img src="{{ STATIC_URL }}community/evolution/smart-slide.png"/>
+                </figure>
+                <section>
+                    <h2>Smart Buys</h2>
+                    <p>
+                        We put together all the coupons & best deals
+                        from various restaurants, shops and other
+                        places in your community.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </section>
+            </section>
+            <section id="slide4" class="slider pure-u-1-1">
+                <figure>
+                    <img src="{{ STATIC_URL }}community/evolution/10-visits-slide.png"/>
+                </figure>
+                <section>
+                    <h2>Loyalty Rewards</h2>
+                    <p>
+                        Earn rewards for being a loyal customer, for
+                        every tenth visit you get something back.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </section>
+            </section>
+            <section id="slide5" class="slider pure-u-1-1">
+                <figure>
+                    <img src="{{ STATIC_URL }}community/evolution/referer-slide.png"/>
+                </figure>
+                <section>
+                    <h2>5=25 Referral Program</h2>
+                    <p>
+                        Sharing is caring. Had a great experience at a local
+                        business? Tell your frineds, and earn $25* when
+                        you refer 5.
+                    </p>
+                    <a href="#" class="learn-more">Learn more</a>
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+<section class="pure-g-r" id="block-info">
+    <section class="block-info">
+        <section class="pure-u-1-2">
+            <h2>Join <span>Orange</span> Deals</h2>
+            <ul>
+                <li>-completely free</li>
+                <li>-save and get local deals instantly</li>
+                <li>-strengthen your community</li>
+            </ul>
+            <a href="" id="link-continue">continue <img src="{{ STATIC_URL }}community/evolution/icon-continue.png"/></a>
+        </section>
+        <section class="pure-u-1-2">
+            <figure>
+                <img src="{{ STATIC_URL }}community/evolution/orange-card.png"/>
+            </figure>
+        </section>
+    </section>
+</section>
+<section id="resultset-deals">
+
+    <section class="pure-g-r" ng-app="catApp" ng-controller="bizCtrl">
+        <section id="leftside" class="pure-u-1-4">
+            <section class="local" id="localcategory">
+                <h2>Local</h2>
+                <nav>
+                    <ul>
+                        <li ng-repeat="ctg in categories" class="liCat">
+                            <input ng-click="getCat(ctg.id)" type="radio" name="catRadio" class="catRadio" value="[[ ctg.id ]]" id="c[[ ctg.id ]]"/><label class="lblCat" for="c[[ ctg.id ]]">[[ ctg.name ]]</label>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+            <section class="location" id="localcommunity">
+                <h2>Location</h2>
+                <nav>
+                    <ul>
+                        <li ng-repeat="community in communities" class="liCommunity" style="position: relative;">
+                            <input ng-click="getCommunity()" type="checkbox" name="communityRadio" class="communityRadio" value="[[ community.id ]]" id="ck[[ community.id ]]"/><label class="lblCommunity" for="ck[[ community.id ]]"><img src="{{ STATIC_URL }}community/evolution/border-check.png"/>[[ community.name ]]</label>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </section>
+        <section id="rightside" class="pure-u-3-4">
+            <nav id="headerNavDeals">
+                <ul>
+                    <li>
+                        <a ng-click="alldeals()" class="dealActive">All Deals</a>
+                    </li>
+                    <li>
+                        <a ng-click="ten_off()" class="dealInActive">$10 Off</a>
+                    </li>
+                    <li>
+                        <a ng_click="smart_buys()" class="dealInActive">Smart Buys</a>
+                    </li>
+                    <li>
+                        <a ng_click="ten_visits()" class="dealInActive">10 Visits</a>
+                    </li>
+                    <li>
+                        <a ng_click="refer_friends()" class="dealInActive">Refer Friends</a>
+                    </li>
+                </ul>
+            </nav>
+            <section class="wrapBiz">
+                <div ng-show="!business" class="pure-u-1-1" style="text-align: center;">
+                    <img src="{{ STATIC_URL }}community/evolution/load.GIF"/><br/>
+                    Loading ...
+                </div>
+                <section>
+                    <section class="biz-star pure-u-1-1">
+                        <section>
+                            <figure>
+                                <img src="/media/[[ bizrandom.image ]]" alt="[[ bizrandom.name ]]"/>
+                            </figure>
+                            <h3>[[ b.name ]]</h3>
+                            <section class="bizInfo">
+                                <section class="asideLeft">
+                                    <h4>[[ bizrandom.name ]]</h4>
+                                    <div class="local_deals" ng-show="!biz.local_deals.none">
+                                        <h5>[[ bizrandom.local_deals.msg ]] <img src="{{ STATIC_URL }}community/evolution/[[ bizrandom.local_deals.icon ]]"/></h5>
+                                    </div>
+                                    <div class="smart_buys" ng-show="biz.smart_buys">
+                                        <h5>Smart Buys</h5>
+                                    </div>
+                                    <div class="ten_visits" ng-show="biz.ten_visits">
+                                        <h5>Ten Visits</h5>
+                                    </div>
+                                    <div class="refer_friends" ng-show="biz.refer_friends">
+                                        <h5>Refer Friends</h5>
+                                    </div>
+                                </section>
+                                <section class="asideRight">
+                                    <h5><img src="{{ STATIC_URL }}community/evolution/icon-map-evolution.png" style="display: inline-block; vertical-align: middle;"/> [[ bizrandom.community_name ]]</h5>
+                                    <a href="[[ bizrandom.url ]]" class="viewDeal">View Deal</a>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                    <section ng-repeat="biz in business | startFrom:currentPage*pageSize | limitTo:pageSize" class="pure-u-1-2 biz" ng-model="business">
+                        <section>
+                            <figure>
+                                <img src="/media/[[ biz.image ]]" alt="[[ biz.name ]]"/>
+                            </figure>
+                            <h3>[[ biz.name ]]</h3>
+                            <section class="bizInfo">
+                                <section class="asideLeft">
+                                    <h4>[[ biz.name ]]</h4>
+                                    <div class="local_deals" ng-show="!biz.local_deals.none">
+                                        <h5>[[ biz.local_deals.msg ]] <img src="{{ STATIC_URL }}community/evolution/[[ biz.local_deals.icon ]]"/></h5>
+                                    </div>
+                                    <div class="smart_buys" ng-show="biz.smart_buys">
+                                        <h5>Smart Buys</h5>
+                                    </div>
+                                    <div class="ten_visits" ng-show="biz.ten_visits">
+                                        <h5>Ten Visits</h5>
+                                    </div>
+                                    <div class="refer_friends" ng-show="biz.refer_friends">
+                                        <h5>Refer Friends</h5>
+                                    </div>
+                                </section>
+                                <section class="asideRight">
+                                    <h5><img src="{{ STATIC_URL }}community/evolution/icon-map-evolution.png" style="display: inline-block; vertical-align: middle;"/> [[ biz.community_name ]]</h5>
+                                    <a href="[[ biz.url ]]" class="viewDeal">View Deal</a>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+                <button class="retroceso" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                    Previous
+                </button>
+                [[currentPage+1]]/[[numberOfPages()]]
+                <button class="avance" ng-disabled="currentPage >= business.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                    Next
+                </button>
+            </section>
+        </section>
+    </section>
+</section>
+{% endblock %}

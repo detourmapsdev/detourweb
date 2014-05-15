@@ -1,0 +1,29 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detour Maps - Coupon System</title>
+    <style>
+        div#containerImg{
+            position: relative;
+            width: 720px;
+            margin: auto;
+            text-align: center;
+            margin-top: 20px;
+        }
+        div#containerImg button{
+            display: block;
+        }
+        div#containerImg img{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="containerImg">
+    <h1>{{ source.business.name }}</h1>
+    <img src="{% thumbnail source.img 720x400 crop %}"/>
+    <button onclick="window.print(); return false;">Print</button>
+</div>
+</body>
+</html>

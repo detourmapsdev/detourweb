@@ -1,0 +1,250 @@
+{% extends 'base-new.html' %}
+{% block title %}Community maps{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}animation/style.css">
+    <script src="{{ STATIC_URL }}community/angular-1.2.14/angular.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/angular-1.2.14/angular-route.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/js/ng-infinite-scroll.min.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/js/underscore.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}community/apps/controllers.js" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}animation/controllers.js" type="text/javascript"></script>
+    <script src="http://www.youtube.com/player_api"></script>
+    <script type="text/javascript">
+        myApp.config(function($interpolateProvider) {
+          $interpolateProvider.startSymbol('[[');
+          $interpolateProvider.endSymbol(']]');
+        });
+    </script>
+    <script type="text/javascript">
+        if(typeof(AN)==="undefined"){var AN={}}AN.instances={symbols:[],controllers:[]};AN.apiVersion=1;AN.Controller=function(){return{currentScene:false,userData:{},setConfig:function(a){AN.instances.controllers.push(this);this.events=a.events;this.prefix=a.cssPrefix;this.projectActions=a.projectActions;this.basePath=a.basePath?a.basePath:"";this.olElement=document.querySelector("#"+a.parentId+" ol");var d=this.olElement.children;this.useOrmma=a.ormma;this.scenes=[];this.scenesById={};this.sceneByName={};var g;for(var e=0;e<a.scenes.length;e++){g=a.scenes[e];g.element=d[e];g.timelinesById={};g.timelinesByName={};for(var c=0;c<g.timelines.length;c++){g.timelinesById[g.timelines[c].id]=g.timelines[c];g.timelinesByName[g.timelines[c].name]=g.timelines[c]}this.scenesById[g.id]=g;this.scenes.push(g);if(g.name){this.sceneByName[g.name]=g}}this.setupListeners();this.startSceneByName=this.goToSceneByName;this.startSceneById=this.goToSceneById;this.startSceneByID=this.startSceneById;this.symbolInstancesByHtmlId={};this.symbolInstancesById={};this.symbols=[];var h,b,f;for(var e=0;e<a.symbols.length;e++){h=a.symbols[e];this.symbolInstancesById[h.id]=[];b=this.olElement.querySelectorAll(".an-symbol-container-"+h.id);for(var c=0;c<b.length;c++){f=new AN.Symbol();f.setConfig(b[c],h,this);this.symbolInstancesByHtmlId[b[c].id]=f;this.symbolInstancesById[h.id].push(f);this.symbols.push(f)}}this.fireAction(this.projectActions,"init");this.goToScene(this.scenes[0])},setupListeners:function(){var l=this;this.browser="unknown";if(document.body.style.MozAnimationName!==undefined){this.browser="moz"}function h(j){var i;if(l.browser==="moz"){i=j.target;while(i=i.parentNode){if(i===l.currentScene.element){l.onAnimationEnd();return}}}else{l.onAnimationEnd()}}this.olElement.addEventListener("webkitAnimationEnd",h,false);this.olElement.addEventListener("animationend",h,false);function c(i){i.element.addEventListener("mousemove",function(j){i.mousemoveAction.call(l.userData,l,j)},false)}var g;for(var e=0;e<this.scenes.length;e++){g=this.scenes[e];if(g.mousemoveAction){c(g)}}function a(m,j,i){m.addEventListener(j,function(n){i.call(l.userData,l,n)},false)}var f,b,k;for(var e=0;e<this.events.length;e++){b=this.events[e];k=b.type;f=document.getElementById(b.id);for(var d=0;d<k.length;d++){a(f,k[d],b.handler)}}},onAnimationEnd:function(){this.runningAnimationCount--;if(this.runningAnimationCount===0){this.onAllAnimationEnd()}},onAllAnimationEnd:function(){var a=this.currentScene.currentTimeline.endWaitTime;if(a){var b=this;this.sceneTimeout=setTimeout(function(){b.onSceneFinish()},a*1000)}else{this.onSceneFinish()}},forceRefresh:function(a){this.forceRefreshValue=a.element.offsetHeight},fireAction:function(b,a){if(b&&b[a]){b[a].call(this.userData,this)}},getSymbolByHtmlId:function(a){return this.symbolInstancesByHtmlId[a]},getSymbolByInstanceId:function(b){var a=this.olElement.querySelector(".an-symbol-container.an-symbol-"+b);return this.getSymbolByHtmlId(a.id)},getSymbols:function(){return this.symbols},getSymbolsBySymbolMasterId:function(a){return this.symbolInstancesById[a]},getUserData:function(){return this.userData},getTimelineByIndex:function(a){return this.currentScene.timelines[a]},getTimelineById:function(a){return this.currentScene.timelinesById[a]},getTimelineByName:function(a){return this.currentScene.timelinesByName[a]},getCurrentTimeline:function(){return this.currentScene.currentTimeline},getCurrentScene:function(){return this.currentScene},getSceneByIndex:function(a){return this.scenes[a]},getSceneById:function(a){return this.scenesById[a]},getSceneByName:function(a){return this.sceneByName[a]},goToNextTimeline:function(){var b=this.currentScene.timelines.indexOf(this.currentScene.currentTimeline);var a=Math.min(b+1,this.currentScene.timelines.length-1);if(a===b){return}this.goToTimelineByIndex(a)},goToPreviousTimeline:function(){var b=this.currentScene.timelines.indexOf(this.currentScene.currentTimeline);var a=Math.max(b-1,0);if(b===a){return}this.goToTimelineByIndex(a)},goToTimelineById:function(a){this.goToScene(this.currentScene,this.currentScene.timelinesById[a])},goToTimelineByName:function(a){this.goToScene(this.currentScene,this.currentScene.timelinesByName[a])},goToTimelineByIndex:function(a){this.goToScene(this.currentScene,this.currentScene.timelines[a])},goToTimeline:function(a){this.goToScene(this.currentScene,a)},goToNextScene:function(){var b=this.scenes.indexOf(this.currentScene);var a=Math.min(b+1,this.scenes.length-1);if(b===a){return}this.goToSceneByIndex(a)},goToPreviousScene:function(){var a=this.scenes.indexOf(this.currentScene);var b=Math.max(a-1,0);if(a===b){return}this.goToSceneByIndex(b)},goToSceneByIndex:function(a){this.goToScene(this.scenes[a])},goToSceneByName:function(a){this.goToScene(this.sceneByName[a])},goToSceneById:function(a,b){var c=this.scenesById[a];this.goToScene(c,c.timelinesById[b])},goToScene:function(g,f){var d=g;var e=this.currentScene;var a=f;var c=e?e.currentTimeline:false;if(a===undefined){a=d.timelines[0]}var b=false;if(c===a&&e===d){b=true}else{if(e){e.element.setAttribute("class","")}}this.fireAction(c,"exitAction");clearTimeout(this.sceneTimeout);if(e!==d){this.fireAction(e,"exitAction");this.fireAction(d,"initAction")}this.fireAction(a,"initAction");this.runningAnimationCount=a.animationCount;this.currentScene=d;d.currentTimeline=a;var h="t-"+a.id;if(b||this.browser==="moz"){d.element.setAttribute("class","run restart "+h);this.forceRefresh(d)}d.element.setAttribute("class","run "+h);if(!b&&this.useOrmma){this.ormmaNextScene(d)}this.fireAction(a,"startAction");if(a.animationCount===0){this.onAllAnimationEnd()}},replayScene:function(){console.warn("replayScene is deprecated. Use restartScene instead.");this.restartScene()},restartScene:function(){this.goToScene(this.currentScene)},restartTimeline:function(){this.goToScene(this.currentScene,this.currentScene.currentTimeline)},onSceneFinish:function(){this.fireAction(this.currentScene.currentTimeline,"endAction")},goToURL:function(a){document.location.href=a},getElementById:function(a){return document.getElementById(this.getElementIdById(a))},getElementIdById:function(a){return this.prefix+a},getUrlForLocalAsset:function(b){var a="assets/"+b;if(this.basePath){a=this.basePath+"/"+a}return a},ormmaNextScene:function(c){var a=ormma.getState();if(c.dimensions.expanded){var i=ormma.getMaxSize();if(a!=="expanded"){ormma.expand({x:0,y:0,width:i.width,height:i.height})}var b="";var d=c.element.offsetHeight;var g=c.element.offsetWidth;var e=(i.height-d)/2;var h=(i.width-g)/2;b+=" translate3d("+Math.round(h)+"px,"+Math.round(e)+"px,0)";if(c.dimensions.fit){var f=Math.min(i.width/g,i.height/d);b+=" scale3d("+f+","+f+",1)"}c.element.style.webkitTransform=b}else{if(a==="expanded"){ormma.close()}ormma.resize(c.dimensions.width,c.dimensions.height)}}}};window.addEventListener('load',function(){var configData={parentId:'an-anim',cssPrefix:'',ormma:false,mraid:false,layout:{"type":"absolute","width":700,"height":160},scenes:[{id:0,dimensions:{height:100,width:100,expanded:false,fit:false},timelines:[{id:"0",name:'Timeline 1',animationCount:1,duration:4.105,lastKeyframeTime:4.105}]}],symbols:[],projectActions:{},events:[],externalResources:[]};setTimeout(function(){var controller=new AN.Controller;controller.setConfig(configData);},0);},false);
+    </script>
+    <script defer type="text/javascript">
+        var varDetourmaps={
+            {% if user.is_authenticated %}
+            user:{
+                username:'{{user.username}}',
+                login: {{'true'}}
+            }
+            {% else %}
+            user:{
+                username:null,
+                login: {{'false'}}
+            }
+            {% endif %}
+        };
+        window['varDetourmaps'] = varDetourmaps;
+        $(document).ready(function(){
+            $("#fakeQ").keyup(function(e){
+                e.preventDefault();
+                $("#searching").fadeOut();
+                $("#resultset").show();
+            });
+            $("#search-button").click(function(e){
+                e.preventDefault();
+            });
+            var windowHeight = $(window).height();
+            $("div#load-videos-interactiv").css("height", windowHeight);
+            $("a#show-video").click(function(e){
+                e.preventDefault();
+                $("div#load-videos").show();
+                initVideo();
+            });
+        })
+    </script>
+    <style>
+        footer#homeFooter_cnt{
+            position: relative !important;
+            top: 0 !important;
+        }
+        div#load-videos{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+        }
+        #an-anim > ol{list-style:none;margin:0;padding:0;}#an-anim > ol > li{margin:0;padding:0;display:none;}#an-anim > ol > li.run{display:block;}#an-anim .an-stage{overflow:hidden;margin:0;padding:0;}#an-anim .an-stage div{position:absolute;}.an-stage *{margin:0;padding:0;font-smoothing:antialiased;-webkit-font-smoothing:antialiased;}#an-anim .an-stage img{position:absolute;top:0;left:0;}#an-anim .AN-Scene-Description{display:none;}#an-anim iframe{border:none;height:100%;width:100%}#an-anim .an-stage{position:absolute;top:0;left:0;width:100%;height:100%;}#an-anim{height:160px;width:700px;position:relative;}#an-anim{background-color:rgba(255,255,255,0);font-family:"Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;font-size:12px;line-height:1.3;}#an-obj-1{transform:translate3d(20px, 9px, 0px);-webkit-transform:translate3d(20px, 9px, 0px);width:147px;height:141px;top:0;left:0;}#an-obj-2{transform:translate3d(183px, 46px, 0px);-webkit-transform:translate3d(183px, 46px, 0px);width:450px;height:41px;top:0;left:0;color:rgba(237,90,36,1);font-size:46px;}@-webkit-keyframes ani-an-obj-2-0{0%{-webkit-transform:translate3d(183px, 46px, 0px);opacity:1;}50.647%{-webkit-transform:translate3d(183px, 46px, 0px);opacity:0.33;}100%{-webkit-transform:translate3d(183px, 46px, 0px);opacity:1;}}@keyframes ani-an-obj-2-0{0%{transform:translate3d(183px, 46px, 0px);opacity:1;}50.647%{transform:translate3d(183px, 46px, 0px);opacity:0.33;}100%{transform:translate3d(183px, 46px, 0px);opacity:1;}}.run.t-0 #an-obj-2{animation-name:ani-an-obj-2-0;-webkit-animation-name:ani-an-obj-2-0;animation-duration:4.0677s;-webkit-animation-duration:4.0677s;animation-delay:0.0376s;-webkit-animation-delay:0.0376s;animation-fill-mode:both;-webkit-animation-fill-mode:both;}.t-0 #an-obj-2{transform:translate3d(183px, 46px, 0px);-webkit-transform:translate3d(183px, 46px, 0px);opacity:1;}.restart.t-0 #an-obj-2{transform:translate3d(183px, 46px, 0px);-webkit-transform:translate3d(183px, 46px, 0px);opacity:1;}.restart #an-obj-2{animation-name:none !important;-webkit-animation-name:none !important;}
+    </style>
+{% endblock %}
+{% block bar-container %}
+{% endblock %}
+{% block content %}
+<main ng-app="catApp" ng-controller="bizCtrl" id="fabulous">
+    <section id="searching">
+        <section id="bar-search">
+            <section id="center-search">
+                <h1>Keep calm update in progress</h1>
+                <p>
+                    Explore your neighborhood, discover savings,<br/>
+                    and strengthen your community
+                </p>
+                <form id="form-search">
+                    <ul>
+                        <li><input type="text" name="fakeQ" id="fakeQ" ng-model="search" ng-change="matchsearch(search)"></li>
+                        <li><button id="search-btn" style="background: #ED5A24;display: block;border-top-right-radius: 3px;border-bottom-right-radius: 3px;cursor: pointer;width: 100% !important;margin-top: 0 !important;border: none;padding: 7px 5px;"><img src="{{ STATIC_URL }}community/evolution/icos-search.png"/></button></li>
+                    </ul>
+                </form>
+                <h3>we are local <span>evolution</span><div><a href="" id="show-video"><img src="{{ STATIC_URL }}community/evolution/icon-watch.png"/> watch</a></div></h3>
+            </section>
+        </section>
+    </section>
+    <section id="resultset" style="display: none;">
+        <section id="header-form" class="pure-g" ng-show="business">
+            <h1 class="pure-u-1-2">Results for <span ng-model="search">"[[ search ]]"</span></h1>
+            <div class="pure-u-1-2">
+                <p>
+                    Want to look for something else?  Use the search bar:
+                </p>
+                <form>
+                    <ul>
+                        <li style="position: relative;display: inline-block;vertical-align: top;width: 60%;"><input type="text" name="q" ng-model="search" ng-change="matchsearch(search)" value="[[ search ]]"></li>
+                        <li style="position: relative;display: inline-block;vertical-align: top;"><button id="search-btn" style="background: #ed5a24;display: block;border-top-right-radius: 3px;border-bottom-right-radius: 3px;cursor: pointer;width: 100% !important;margin-top: 0 !important;border: none;padding: 5px 8px;"><img style="width: 50%;" src="{{ STATIC_URL }}community/evolution/icos-search.png"/></button></li>
+                    </ul>
+                </form>
+            </div>
+        </section>
+        <section id="animation" ng-show="!business" style="margin: auto; width: 70%;">
+            <div id="an-anim">
+                <ol>
+                    <li id="an-scene-0">
+                        <div class="an-stage">
+                            <div id="an-obj-1">
+                                <div><img height="141" width="147" src="{{ STATIC_URL }}animation/assets/logo-3d.png"></div>
+                            </div>
+                            <div id="an-obj-2"><span>LOADING DATA ..</span></div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+        <section class="pure-g-r">
+            <section class="pure-u-1-4">
+                <section class="location" id="localcommunity">
+                    <h2>Location</h2>
+                    <nav>
+                        <ul>
+                            <li ng-repeat="community in communities" class="liCommunity" style="position: relative;">
+                                <input ng-click="getCommunity()" type="checkbox" name="communityRadio" class="communityRadio" value="[[ community.id ]]" id="ck[[ community.id ]]"/><label class="lblCommunity" for="ck[[ community.id ]]"><img src="{{ STATIC_URL }}community/evolution/border-check.png"/>[[ community.name ]]</label>
+                            </li>
+                        </ul>
+                    </nav>
+                </section>
+                <aside id="spot-orange">
+                    <section>
+                        <figure>
+                            <img src="{{ STATIC_URL }}community/evolution/icon-spot.png"/>
+                        </figure>
+                        <h1>Spot the<br/>Orange</h1>
+                        <p class="span-left">for local deals</p>
+                        <div>
+                            Look for the small orange icon next to a business for great local deals. Sign up today!
+                        </div>
+                        <button id="sign-spot">Sign Up</button>
+                        <i>(oh, and it's free!)</i>
+                    </section>
+                </aside>
+                <div class="line"></div>
+                <section id="houses">
+                    <figure>
+                        <img src="{{ STATIC_URL }}community/evolution/icon-orange-houses.png"/>
+                    </figure>
+                    <p class="demi">
+                        Are you a business owner?
+                    </p>
+                    <p class="nodemi">
+                        Want to offer Orange Deals to your loyal customers?
+                    </p>
+                    <button id="learn">Learn about Orange Deals</button>
+                    <a href="" class="contact-us">or contact us</a>
+                </section>
+            </section>
+            <section class="pure-u-3-4">
+                <section class="biz star pure-u-1-1">
+                    <section class="featured">
+                        <figure>
+                            <img src="/media/[[ bizrandom.image ]]" alt="[[ bizrandom.name ]]"/>
+                        </figure>
+                        <h3>[[ b.name ]]</h3>
+                        <section class="bizInfo">
+                            <section class="asideLeft">
+                                <h4>[[ bizrandom.name ]]</h4>
+                            </section>
+                            <section class="asideRight">
+                                <h5><img src="{{ STATIC_URL }}community/evolution/icon-map-evolution.png" style="display: inline-block; vertical-align: middle;"/> [[ bizrandom.community_name ]]</h5>
+                                <a href="[[ bizrandom.url ]]" class="viewDeal">View Deal</a>
+                            </section>
+                        </section>
+                        <section class="featured-ribbon">
+                            FEATURED DEAL
+                        </section>
+                    </section>
+                </section>
+                <div class="linefeature"></div>
+                <ul style="padding: 0.5em 2.5em;">
+                    <li class="pure-u-1-2 result" ng-repeat="biz in business | startFrom:currentPage*pageSize | limitTo:pageSize">
+                        <section>
+                            <figure>
+                                <img src="/media/[[ biz.image ]]" alt="[[ biz.name ]]"/>
+                            </figure>
+                            <section class="" style="padding: 0;">
+                                <h2>[[ biz.name ]] <div style="float: right;"><img src="{{ STATIC_URL }}community/evolution/icon-map-evolution.png"/> [[ biz.community_name ]]</div></h2>
+                            </section>
+                            <section class="pure-u-1-1" style="padding: 0;">
+                                <div style="color:#f15a29; font-weight: bolder; float: left;width: 50%;"><img src="{{ STATIC_URL }}community/evolution/icon-orange.png"/> Orange Deals</div>
+                                <a href="[[ biz.url ]]" style="color:#f15a29; font-weight: bolder; float: right;width: 50%;text-align: right;font-size: 0.9em;">See more info <i><img src="{{ STATIC_URL }}community/evolution/icon-see-more-info.png"/></i></a>
+                            </section>
+                        </section>
+                    </li>
+                </ul>
+                <section style="float: right;">
+                    <button class="retroceso" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+                        Previous
+                    </button>
+                    [[currentPage+1]]/[[numberOfPages()]]
+                    <button style="background: #F05A29; color: #fff; padding: 5px 10px; border: none; box-shadow: 0 0 4px #000;" class="avance" ng-disabled="currentPage >= business.length/pageSize - 1" ng-click="currentPage=currentPage+1">
+                        Next
+                    </button>
+                </section>
+            </section>
+        </section>
+    </section>
+    <div id="load-videos">
+        <div id="player"></div>
+        <script>
+            // create youtube player
+            var player;
+            var initVideo = function onYouTubePlayerAPIReady() {
+                player = new YT.Player('player', {
+                  height: $(window).height(),
+                  width: '100%',
+                  videoId: 'Ms0Z8DFYHxg',
+                  playerVars: {'controls': 0,'autohide':1,'color': 'white', 'theme': 'light', 'showinfo': 0, 'rel': 0},
+                  events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                  }
+                });
+            }
+
+            // autoplay video
+            function onPlayerReady(event) {
+                event.target.playVideo();
+            }
+
+            // when video ends
+            function onPlayerStateChange(event) {
+                if(event.data === 0) {
+                    $("div#load-videos").hide();
+                }
+            }
+
+        </script>
+    </div>
+</main>
+
+{% endblock %}

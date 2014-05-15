@@ -1,0 +1,9 @@
+<ul class="menu">
+    {% for c in community %}
+        {% if c.landingpage_set.all.0 %}
+            <li><a href="{% url 'landing' c.url_name %}">{{ c.name }}</a></li>
+        {% else %}
+            <li><a href="{% url 'map' c.url_name %}">{{ c.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>

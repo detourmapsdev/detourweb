@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+	<div id="container" class="container" style="background-color: #f5f5f5; width: 600px; margin: auto; padding: 20px 0; position: relative;">
+        <table style="background-color: #fff; padding: 20px;width: 560px; margin: auto;">
+            <tr><td colspan="2"><a href="http://www.detourmaps.com/" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/logo.png"/></a></td></tr>
+            <tr style="vertical-align: bottom; height: 80px;">
+                <td><p class="nrja" style="color:#F07121; font-size: 24px;">Shop. Dine. Save.  </p></td>
+                <td>
+                    <table style="float: right;">
+                        <tr>
+                            <td><a href="https://www.facebook.com/pages/Detour-Maps/201444353199199?ref=hl" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/fb-like.png"/></a></td>
+                            <td><a href="https://twitter.com/detourmaps" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/tweet.png"/></a></td>
+                            <td><a href="http://www.youtube.com/watch?v=iKOl3S8bFdU" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/yotub.png"/></a></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <table style="background-color: #fff; padding: 20px;width: 560px; margin: auto; margin-top: 20px;">
+            <tr>
+                <td>
+                    <div class="nrja" style="color: #F07121; font-size: 24px;">Thanks for choosing local</div>
+                    <div class="nrja-o" style="color: #F07121; font-size: 36px; font-weight: bolder;">Here's Your<br/>Savings Card </div>
+                </td>
+                <td>
+                    <img src="http://www.detourmaps.com/static/community/img/email-savings/card.png" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p style="color: #58595b;">Dear {{ name }},</p>
+
+                    <p style="color: #58595b;">Getting local promotions is one of the best ways to save money, and we want to help you to SAVE time and
+                        support your local area. Don't forget to Like us on Facebook and Follow us on Twitter to find out about social
+                        promotions, small business coupons and more.</p>
+
+                    <p style="color: #58595b; font-weight: bolder;">We've made it easy </p>
+
+                    <p style="color: #58595b;">You now have the option to directly download your savings card and print out it out or present it at the time
+                        of purchase from your mobile device. <span href="#"  style="color: #f07121; text-decoration: none;">Choose an option below</span></p>
+                </td>
+            </tr>
+            <tr style="height: 255px; vertical-align: middle;">
+                <td style="text-align: center;"><a href="http://www.detourmaps.com/communities/print/card?tag={{ biz }}&name={{ name }}&email={{ email }}&phone={{ phone }}" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/printer.png"/></a></td>
+                <td style="text-align: center;"><a href="http://www.detourmaps.com/communities/get/card?tag={{ biz }}&name={{ name }}&email={{ email }}&phone={{ phone }}" target="_blank"><img src="http://www.detourmaps.com/static/community/img/email-savings/cel.png"/></a></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h3 style="color: #58595b; font-weight: bolder;">Where to use your fancy new Savings Card</h3>
+                    <p style="color: #58595b;">Check out these locations and enjoy discovering your neighborhood while supporting local business.<a href="http://www.detourmaps.com/communities/{{ business.community.url_name }}" style="color: #f07121; text-decoration: none;">Browse {{ business.community }}</a></p>
+                    <p style="color: #58595b;">Feel free to <a href="#" style="color: #f07121; text-decoration: none;">share</a> or <a href="#" style="color: #f07121; text-decoration: none;">request</a> another savings card if you would like to send this email to a friend or
+                        family. Choose an option below</p>
+                    <p style="color: #a5a7aa; font-size: 12px;">Savings Card only valid for 30 days, one-time use per participating location.</p>
+                </td>
+            </tr>
+            <tr style="height: 100px; vertical-align: bottom;">
+                <td colspan="2" style="text-align: center;"><img src="http://www.detourmaps.com/static/community/img/email-savings/houses.png" /></td>
+            </tr>
+        </table>
+        <table style="background-color: #2b3032; width: 600px; margin-top: -28px;">
+            <tr style="width: 560px; padding: 0 20px; margin: auto; height: 40px; vertical-align: middle; color: #fff;">
+                <td>GET IN TOUCH</td>
+                <td><a href="https://www.facebook.com/pages/Detour-Maps/201444353199199?ref=hl" target="_blank" style="color: #fff; text-decoration: none; font-size: 11px;vertical-align: middle;"><img src="http://www.detourmaps.com/static/community/img/email-savings/like.png"/>Facebook</a></td>
+                <td><a href="https://twitter.com/detourmaps" target="_blank" style="color: #fff; text-decoration: none; font-size: 11px;"><img src="http://www.detourmaps.com/static/community/img/email-savings/twitter.png"/>Twitter</a></td>
+                <td><a href="http://www.detourmaps.com/free-business-listing" target="_blank" style="color: #fff; text-decoration: none; font-size: 11px;"><img src="http://www.detourmaps.com/static/community/img/email-savings/gift.png"/>Free Business Listing</a></td>
+                <td><a href="http://www.detourmaps.com/contact" target="_blank" style="color: #fff; text-decoration: none; font-size: 11px;"><img src="http://www.detourmaps.com/static/community/img/email-savings/envelope.png"/>Email Us</a></td>
+                <td><a href="http://www.youtube.com/watch?v=iKOl3S8bFdU" target="_blank" style="color: #fff; text-decoration: none; font-size: 11px;"><img src="http://www.detourmaps.com/static/community/img/email-savings/play.png"/>Watch our videos</a></td>
+            </tr>
+        </table>
+        <table style="background-color: #ed9321; width: 600px;">
+            <tr style="padding: 0 10px; width: 580px; margin: auto;">
+                <td>
+                    <h3 style="color: #333;">ABOUT THIS NEWSLETTER</h3>
+                    <p style="color: #fff; font-size: 14px;">Every so ofte, detourmaps enjoys sharing special offers with you; such as Dsiconuts, sponso certificates. Detour Maps is dedicated to
+                        encourage residents to shop locally and business owners to help the community development through a collective advertising platform.</p>
+                    <p style="color: #fff; font-size: 12px;">Copyright@2013, detourmaps ilustrstion and design. all rights reserverd.<a href="http://www.entiremarketinggroup.com/" target="_new"><img src="http://www.detourmaps.com/static/community/img/email-savings/emg.png" align="right"/></a></p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

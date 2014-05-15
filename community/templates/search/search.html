@@ -1,0 +1,81 @@
+{% extends 'base-new.html' %}
+{% block title %}Detour Maps - Search result{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <script defer type="text/javascript">
+        var varDetourmaps={
+            {% if user.is_authenticated %}
+            user:{
+                username:'{{user.username}}',
+                login: {{'true'}}
+            }
+            {% else %}
+            user:{
+                username:null,
+                login: {{'false'}}
+            }
+            {% endif %}
+        };
+        window['varDetourmaps'] = varDetourmaps;
+    </script>
+    <style>
+        footer#homeFooter_cnt{
+            position: relative !important;
+            top: 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block bar-container %}
+{% endblock %}
+{% block content %}
+    <section id="resultset">
+        <section id="header-form">
+            <h1>Results for <span>"{{ search }}"</span></h1>
+            <div>
+                <p>
+                    Want to look for something else?  Use the search bar:
+                </p>
+                <form action="{% url "resultset" %}" method="post">{% csrf_token %}
+                    <ul>
+                        <li style="position: relative;display: inline-block;vertical-align: top;width: 60%;"><input type="text" name="q"></li>
+                        <li style="position: relative;display: inline-block;vertical-align: top;"><button id="search-btn" style="background: #ED5A24;display: block;border-top-right-radius: 3px;border-bottom-right-radius: 3px;cursor: pointer;width: 100% !important;margin-top: 0 !important;border: none;padding: 6px 8px;"><img style="width: 50%;" src="{{ STATIC_URL }}community/evolution/icos-search.png"/></button></li>
+                    </ul>
+                </form>
+            </div>
+        </section>
+        <ul>
+            {% for b in resultset.object_list %}
+                <li class="result">
+                    {% if b.imagebusiness_set.all.0.img %}
+                        {% with b.imagebusiness_set.all|first as image %}
+                            <img src="/media/{{ image.img }}" />
+                        {% endwith %}
+                    {% else %}
+                        <img src="{{ MEDIA_URL }}{{ b.logo }}"/>
+                    {% endif %}
+                    <h2>{{ b.name }}</h2>
+                    <h3>{{ b.category.name }}<div><img src="{{ STATIC_URL }}community/evolution/icon-map-evolution.png"/>{{ b.community.name }}</div></h3>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="pagination">
+            <span class="step-links">
+                {% if resultset.has_previous %}
+                    <a href="?page={{ resultset.previous_page_number }}" class="icon-arrow-left arrow-prev">Prev</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ resultset.number }} of {{ resultset.paginator.num_pages }}.
+                </span>
+
+                {% if resultset.has_next %}
+                    <a href="?page={{ resultset.next_page_number }}" class="icon-arrow-right arrow-next">Next</a>
+                {% endif %}
+            </span>
+        </div>
+    </section>
+{% endblock %}

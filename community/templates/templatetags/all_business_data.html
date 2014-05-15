@@ -1,0 +1,9 @@
+<div id="displayResults">
+    <div class="cat-list">
+        <ul>
+            {% for biz in business %}
+                <li class="allData cat-{{ biz.category.id }}" style="display: none;"><a href="{{ biz.get_absolute_url }}">{{ biz.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

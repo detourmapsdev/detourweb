@@ -1,0 +1,101 @@
+<div style="background-color: #f5f6f7; margin: 0 auto; border: 1px #dadada solid;">
+    <div style="padding: 20px;">
+        <img src="http://{{ request.META.HTTP_HOST }}{{ STATIC_URL }}community/img/detourOrange.png" alt="DetourMaps"/>
+    </div>
+    <div style="font-size: 0.9em;">
+        <div style="background-color: #333; padding: 15px;">
+            <h3 style="font-family: 'lucida grande','tahoma','verdana','arial',sans-serif; font-size: 18px; font-weight: bold; color: #fff !important; margin: 0;">
+                $10 Savings Card Participants.</h3>
+
+            <p style="font-family: 'Tahoma', 'verdana', sans-serif; font-size: 14px; color: #fff; margin: 1em 0; text-align: left; line-height: 1.3em;">
+                Hi {{ name }},
+                getting local promotions is one of the best ways to save money, and we want to help you to SAVE time and
+                support your local area. Don't forget to
+                <a style="color: #0A90C0;" href="http://www.facebook.com/pages/DETOUR-MAPS/368650962935"
+                   target="_blank">Like us on Facebook</a> and
+                <a style="color: #0A90C0;" href="http://twitter.com/detourmaps">Follow us on Twitter</a> to find out
+                about
+                social promotions, small business coupons and more.
+            </p>
+        </div>
+        <div style="padding: 0 20px 20px; background-color: #fff">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td width="40%" style="text-align: center; padding: 20px 5px 5px;">
+                        <img style="max-width: 100%;" src="http://{{ request.META.HTTP_HOST }}{{ CARD_URL }}" alt=""/>
+
+                        <p style="font-family: 'Tahoma', 'verdana', sans-serif; font-size: 14px; color: #444; margin: 1em 0; text-align: left; line-height: 1.3em;">
+                            This is your $10 savings card for {{ commnunity.name }},
+                            <a href="http://{{ request.META.HTTP_HOST }}{{ CARD_URL }}" style="color: #0A90C0;">print
+                                it</a>
+                            or simply show it from your phone in any of these businesses.
+                        </p>
+
+                        <p style="font-family: 'Tahoma', 'verdana', sans-serif; font-size: 14px; color: #0A90C0; margin: 1em 0; text-align: center; line-height: 1.3em;">
+                            Need another?
+                            <a href="#" style="text-decoration: none;">
+                                <button style="width: 132px; padding: 6px 12px; color: white; font-family: sans-serif; background: #FA3; border: 1px #F48131 solid; border-radius: 4px;">
+                                    Request a Card
+                                </button>
+                            </a>
+                        </p>
+                    </td>
+                    <td width="40%">
+                        <ul style="list-style: none; font-family: 'tahoma','verdana','arial',sans-serif; color: #444;">
+                            {% for b in businesses %}
+                                <li style="margin: 10px 0; font-size: 16px">
+                                    {{ b.name }}<br/>
+                                    <span style="font-size: 13px; color: #999;">{{ b.address }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td style="background: url('http://
+                            {{ request.META.HTTP_HOST }}{{ STATIC_URL }}web/img/below_arrow.png') center -20px no-repeat; width: 20%; text-align: center;">
+                        <img style="max-width: 100%; margin-top: 40px;"
+                             src="http://{{ request.META.HTTP_HOST }}{{ STATIC_URL }}web/img/deals-mail-steps.png"
+                             alt=""/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="background-color: #f5f6f7; padding: 15px; border-top: 1px #dadada solid;">
+            <h2 style="font-family: 'lucida grande','tahoma','verdana','arial',sans-serif; font-size: 20px; font-weight: bold; color: #444 !important; margin: 0 0 0.5em;">
+                There is more!</h2>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                    <td width="50%" style="vertical-align: top;">
+                        <p style="font-family: 'Tahoma', 'verdana', sans-serif; font-size: 14px; color: #333; line-height: 1.3em;">
+                            Visit our
+                            <a href="http://{{ request.META.HTTP_HOST }}{% url "map" commnunity.url_name %}"
+                               style="color: #0A90C0;">interactive map of {{ commnunity.name }}</a>,
+                            where you can find all the businesses in your community organized into
+                            categories and tags so you can find what you need quickly. We are currently working on
+                            including more
+                            participating businesses and new promotions for you!
+                        </p>
+
+                        <p style="font-family: 'Tahoma', 'verdana', sans-serif; font-size: 14px; color: #333; line-height: 1.3em;">
+                            Stay tuned to save money while helping your community develop!
+                        </p>
+                    </td>
+                    <td style="width: 45%; text-align: center; vertical-align: top; padding: 0 10px;">
+                        <div style="max-width: 100%; border: 2px #666 solid; border-radius: 6px; overflow: hidden;">
+                            <a href="#" style="text-decoration: none;">
+                                <img style="max-width: 100%;"
+                                     src="http://{{ request.META.HTTP_HOST }}{{ STATIC_URL }}web/img/Panels2.png"
+                                     alt=""/>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- border-bottom: 5px #f48131 solid;" -->

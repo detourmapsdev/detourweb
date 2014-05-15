@@ -1,0 +1,3 @@
+{% for biz in businesses %}
+    <li class="{{ biz.category.categorySlug }} {{ biz.serviceAll }}" services="{{ biz.serviceAll }}"><a href="{{ biz.get_absolute_url }}" data-role="link" rel="external">{{ biz.name }}</a></li>
+{% endfor %}

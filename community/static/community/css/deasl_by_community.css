@@ -1,0 +1,51 @@
+h1{
+	font-family: 'Pathway Gothic One', sans-serif;
+	color: #F38031;
+	font-size: 32px;
+}
+p{
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	color: #6D6E71;
+	font-size: 16px;
+}
+div.threecol.card img{
+	margin-top: 25%;
+}
+hr{
+	width: 60%;
+}
+h2{
+	font-family: 'Pathway Gothic One', sans-serif;
+	font-size: 28px;
+	width: 96%;
+	padding: 5px 2%;		
+}
+h2.yellow{
+	color: #AA9711;
+	background: url(../elementos/10-back-deal.png) #FFDD17 repeat;
+}
+h2.red{
+	color: #F7A4A7;
+	background: url(../elementos/20-back-deal.png) #EC1C24 repeat;
+}
+h2.blue{
+	color: #D3EBF5;
+	background: url(../elementos/30-back-deal.png) #27A9E0 repeat;
+}
+ul.listDeals{
+	list-style: none;
+}
+ul.listDeals li{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 30%;
+	padding-right: 2%;
+}
+ul.listDeals li a{
+	position: relative;
+	display: block;
+	color: #58595B;
+	font-family: 'Conv_MyriadPro-Regular', sans serif;
+	cursor: pointer;
+}

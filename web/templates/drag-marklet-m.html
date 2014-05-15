@@ -1,0 +1,40 @@
+{% extends "base-mobile.html" %}
+<title>{% block title %}DetourMaps - Bookmarklet{% endblock %}</title>
+{% block extrahead %}
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="icon" href="{{ STATIC_URL }}community/elementos/ico-detour.png"/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}web/detourMaps.ico" />
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}community/elementos/ico-detour.png"/>
+    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}community/elementos/ico-detour.png"/>
+    <style>
+        #detourmaps-search form{
+            width: 86% !important;
+            margin-left: -45% !important;
+        }
+    </style>
+{% endblock %}
+{% block body %}
+    <section>
+        <div id="drop">
+            <a data-role="button" id="dragmarklet" href="javascript:(function(){if(window.myBookmarklet!==undefined){myBookmarklet();}else{document.body.appendChild(document.createElement('script')).src='http://detourmaps.com/static/community/js/ddmapslet.js';}})();">Share Your URL</a>
+            <div id="help">←Drag this link to your Bookmarks Bar</div>
+        </div>
+    </section>
+    <section id="chat">
+        <section id="big-orange">
+            <p>
+                Let's Chat.
+                <span>We'd love to hear about your project</span>
+            <ul id="social-links">
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/face-mobile.png"/></a></li>
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/twitter-mobile.png"/></a></li>
+            </ul>
+            <br>
+            <span>Email: <a href="mailto:info@detourmaps.com">info@detourmaps.com</a></span><br>
+            <span>Telephone: <a href="tel:708-484-1119">708-484-1119</a></span><br>
+            <span>Fax: 708-484-1101</span><br>
+            <span>Location: 6900 W Cermak Rd. Berwyn, IL 60402</span>
+            </p>
+        </section>
+    </section>
+{% endblock %}

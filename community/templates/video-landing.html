@@ -1,0 +1,16 @@
+<div data-role="page" id="videoLanding">
+    <div data-role="header">
+        <h1>Video</h1>
+    </div>
+    <div data-role="content">
+        <object width="100%" height="240">
+            <param name="movie"
+                   value="https://www.youtube.com/v/{{ videoId }}?version=3&autoplay=1&rel=0"></param>
+            <param name="allowScriptAccess" value="always"></param>
+            <embed src="https://www.youtube.com/v/{{ videoId }}?version=3&autoplay=1&rel=0"
+                   type="application/x-shockwave-flash"
+                   allowscriptaccess="always"
+                   width="100%" height="240"></embed>
+        </object>
+    </div>
+</div>

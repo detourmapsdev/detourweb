@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% block head %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}Detour Maps - Not Found {% endblock %}</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}community/css/error.css">
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+     <header>
+        <nav id="menu">
+            <a class="link-logo"><img src="{{ STATIC_URL }}community/elementos/detour logo-01.png" alt="DetourMaps"/></a>
+            <ul>
+                <li>
+                    <a href="/">HOME</a>
+                </li>
+                <li>
+                    <a href="{% url render "about-us" %}">ABOUT US</a>
+                </li>
+                <li>
+                    <a href="{% url render "deals" %}">DEALS</a>
+                </li>
+                <li>
+                    <a href="">JOIN US</a>
+                </li>
+                <li>
+                    <a href="{% url render "contact" %}">CONTACT US</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <section id="content">
+        <section id="build">
+            <img src="{{ STATIC_URL }}community/elementos/build.png">
+        </section>
+        <section id="oops">
+            <img src="{{ STATIC_URL }}community/elementos/oops-01.png"/>
+            <div>
+                Looks like you took a wrong turn, don’t worry
+                here’s a detour to get you back on track
+            </div>
+            <ul>
+                <li>
+                    <a href="/">HOME</a>
+                </li>
+                <li>
+                    <a href="{% url render "about-us" %}">ABOUT US</a>
+                </li>
+                <li>
+                    <a href="{% url render "deals" %}">DEALS</a>
+                </li>
+                <li>
+                    <a href="">JOIN US</a>
+                </li>
+                <li>
+                    <a href="{% url render "contact" %}">CONTACT US</a>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <footer>
+        <div>
+            <ul class="terms">
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="{% url privacy %}">Privacy Policy</a></li>
+                <li><a href="{% url terms %}">Terms & Conditions</a></li>
+                <li><a href="{% url faq %}">FAQ's</a></li>
+                <li><a href="{% url media_kit_file %}">Media Kit</a></li>
+                <li>Copyright 2013 Detour Maps powered by Entire Marketing Group LLC</li>
+            </ul>
+        </div>
+    </footer>
+{% endblock %}
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-25412401-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+</body>
+</html>

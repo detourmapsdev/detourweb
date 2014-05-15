@@ -1,0 +1,90 @@
+/*page*/
+#container {
+    width: 100%;
+    height: 1600px;
+    position: relative;
+    margin: 0 auto;
+
+}
+
+#body {
+    width: 1377px;
+    position: relative;
+    left: 300px;
+
+}
+
+#line {
+    width: 670px;
+    height: 1px;
+    background-color: #58595B;
+}
+
+#line2 {
+    width: 670px;
+    height: 1px;
+    background-color: #58595B;
+}
+
+/*classes*/
+p.paragraph1 {
+    width: 650px;
+}
+
+p.key_features1 {
+    width: 670px;
+}
+
+p.key_features2 {
+    width: 670px;
+}
+
+p.interested {
+    width: 690px;
+}
+
+p.interested2 {
+    width: 640px;
+}
+
+#gray_button {
+    width: 247px;
+    position: absolute;
+    left: 50px;
+}
+
+#maps {
+    background-image: url(images/Printed%20Maps/Printed-maps-Page.png);
+    width: 547px;
+    height: 1279px;
+    z-index: 1;
+    Position: absolute;
+    right: 0;
+    bottom: -460px;
+}
+
+/*rules*/
+
+p {
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-size: 20px;
+    color: #58595B;
+}
+
+h1 {
+    font-family: 'Pathway Gothic One', sans-serif;
+    color: #F48031;
+    font-size: 35px;
+}
+
+h3 {
+    font-family: 'Pathway Gothic One', sans-serif;
+    color: #F48031;
+    font-size: 26px;
+}
+
+/*links*/
+a {
+    text-decoration: none;
+}
+

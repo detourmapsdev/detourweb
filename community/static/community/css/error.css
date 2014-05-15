@@ -1,0 +1,179 @@
+header{
+    background: url(../elementos/building1-01.png)no-repeat bottom left;
+    width: 100%;
+    height: 180px;
+}
+header nav#menu{
+    position: relative;
+}
+header nav#menu a.link-logo{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+header nav#menu img{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 1%;
+}
+header nav#menu ul{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 1%;
+    list-style: none;
+    margin-left: 100px;
+}
+header nav#menu ul li{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+header nav#menu ul li a{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color: #BCBEC0;
+    text-decoration: none;
+    padding: 0 3em;
+}
+section#build{
+    background: #58595b;
+    width: 100%;
+    height: 60px;
+    position: relative;
+}
+section#build img{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+section#oops{
+    background: #333;
+    width: 100%;
+    position: relative;
+    min-height: 400px;
+    height: auto;
+}
+section#drag{
+    background: #333;
+    width: 100%;
+    position: relative;
+    min-height: 400px;
+    height: auto;
+}
+section#oops img{
+    position: absolute;
+    top: -59px;
+    left: 50%;
+    margin-left: -460px;
+}
+section#oops div{
+    position: absolute;
+    width: 500px;
+    left: 50%;
+    margin-left: -225px;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    margin-top: 155px;
+}
+section#drag div#drop{
+    position: relative;
+    width: 50%;
+    font-size: 20px !important;
+    margin: auto;
+    padding: 50px 0 0 0;
+    text-align: center;
+}
+section#drag div#drop div#help{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px !important;
+    color: #fff !important;
+}
+section#oops ul{
+    position: absolute;
+    margin-top: 300px;
+    text-align: center;
+    list-style: none;
+    left: 50%;
+    margin-left: -358px;
+}
+section#drag ul{
+    position: absolute;
+    margin-top: 220px;
+    text-align: center;
+    list-style: none;
+    left: 50%;
+    margin-left: -358px;
+}
+section#oops ul li, section#drag ul li{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+section#oops ul li a, section#drag ul li a{
+    color: #F48131;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    padding: 0 2em;
+    text-decoration: none;
+}
+footer{
+    width: 96%;
+    padding: 0.15em 2%;
+    background: #333;
+}
+footer div{
+    border-top: 1px solid #fff;
+}
+footer div ul{
+    position: relative;
+    display: block;
+}
+footer div ul li{
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    color: #fff;
+    font-size: 0.75em;
+    border-right: 1px solid #fff;
+}
+footer div ul li:last-child{
+    float: right;
+    border: none !important;
+}
+footer div ul li a{
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.85em;
+    text-decoration: none;
+    padding: 0 1em;
+    display: block;
+}
+a#dragmarklet{
+    width: 180px;
+    padding: 8px 16px 6px;
+    margin: 2px 0;
+    color: #fff;
+    font-family: 'Istok Web', sans-serif;
+    background: #f48131;
+    background: -moz-linear-gradient(top, #ffaa33 0%, #ff8833 100%);
+    background: -webkit-linear-gradient(top, #ffaa33 0%, #ff8833 100%);
+    background: -o-linear-gradient(top, #ffaa33 0%, #ff8833 100%);
+    background: -ms-linear-gradient(top, #ffaa33 0%, #ff8833 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffaa33', endColorstr='#ff8833', GradientType=0);
+    border: 1px #f48131 solid;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: move;
+    text-decoration: none !important;
+    text-align: center;
+}

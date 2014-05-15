@@ -1,0 +1,250 @@
+{% extends "base-new.html" %}
+{% load thumbnail %}
+{% block title %}About Us{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}animation/style.css">
+    <script>
+        $(document).ready(function () {
+            $('div.launch').click(function(e){
+                e.preventDefault();
+                $("#wrapper-slider").css("transform","translateX("+$(this).index() * -25+"%)");
+                $('div.launch').not($(this)).removeClass('active');
+                $(this).addClass('active');
+                $(".nav-mission a").removeClass("selected");
+                $(this).addClass("selected");
+            });
+            $('a.navHistory').click(function(e){
+                e.preventDefault();
+                $("#wrapper-about").css("transform","translateX("+$(this).index() * -33+"%)");
+                $('a.navHistory').not($(this)).removeClass('active');
+                $(this).addClass('active');
+            });
+        });
+    </script>
+    <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script src="{{ STATIC_URL }}community/js/search-home.js"></script>
+    <style>
+        body {
+            background: #fff !important;
+        }
+
+        footer {
+            position: relative !important;
+            top: 0 !important;
+        }
+
+        .overmenu {
+            z-index: 1000;
+        }
+    </style>
+{% endblock %}
+{% block bar-container %}{% endblock %}
+{% block content %}
+    <div class="pure-g-r">
+        <div class="pure-u-1-1 firstPanel">
+            <div>
+                <h1 class="titleNewDesignAbout">
+                    We are a <span>Local Evolution</span>
+                </h1>
+
+                <p class="textAbout">
+                    Locally owned businesses are the backbone of any community's economy.  Join Detour Maps and other local businesses and organizations to support your community by joining the Local Evolution!
+                </p>
+                <p class="textAbout">
+                    This campaign encourages residents to shop local versus shopping at a corporate or chain store. Resources suggest that for each dollar you spend at an independent business in your community, three or more times goes back into the local economy compared to a dollar spent at retailer owned by a chain. This means better school, security, resources, and an overall better community.
+                </p>
+                <p class="textAbout">
+                    We try to empower individuals to become one with their local communities.  Together we can create a stronger economy, a more vibrant community, and better job opportunities for local residents.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!--<div class="pure-g-r">
+        <div class="">
+            <div class="twelvecol">
+                <h2 class="subTitleAbout">How we do it</h2>
+
+                <p class="text2About">
+                    Detour Maps specializes in custom map making. From print, digital, interactive to mobile, our maps
+                    serve many<br>
+                    purposes at any scale in any media.
+                </p>
+
+                <p class="text2About">
+                    Our maps merge geographic data with effective map design. In combination with strong marketing tools
+                    such<br>
+                    as email blasts, social media, text message campaigns and savings card. Our advertising platforms
+                    cover all<br>
+                    marketing needs.
+                </p>
+            </div>
+        </div>
+    </div>-->
+    <div class="pure-g-r actions">
+        <div class="nav-mission">
+            <div class="pure-u-1-4 launch l1 active">
+
+            </div>
+            <div class="pure-u-1-4 launch l2">
+
+            </div>
+            <div class="pure-u-1-4 launch l3">
+
+            </div>
+            <div class="pure-u-1-4 launch l4">
+
+            </div>
+        </div>
+        <div class="pure-u-1-1" id="wrap-slider">
+            <div id="wrapper-slider">
+                <div class="panel" id="print">
+                    <section>
+                        Detour’s printed map is a way to have everything there is to know about the community in the palm of
+                        your hand. With 2 publications each year for each community and over 40,000 maps distributed you will be
+                        well informed with our printed maps. Inside the printed maps include a map of the community with
+                        different local business advertisements. The map pin points each business giving the user a better idea
+                        of where the business or resource is located in the community. We do not just have business locations on
+                        the map; we also have locations of parks, bus routes, schools, useful phone numbers, events and
+                        basically all public assets in the community. The printed map also is color coded so that residents may
+                        know which business is participating in the $10 Savings Card promotion
+                        <a href="{% url "printed-maps-new" %}"> I want a Printed Map</a>
+                    </section>
+                </div>
+                <div class="panel" id="mobile">
+                    <section>
+                        With Detour Maps, you can browse and explore places within your community. You can:
+                        <ul>
+                            <li>Search for businesses in your community such as, restaurants, hospitals and airports.
+                            </li>
+                            <li>Share the link to your favorite places where your friends can also find the businesses
+                                information and deals.
+                            </li>
+                            <li>Get driving, walking and public transportation directions.</li>
+                            <li>Explore your community’s local deals.</li>
+                            <li>Add your own ratings, and reviews of the places you've been.</li>
+                            <li>View videos of your favorite places.</li>
+                            <li>Can view which businesses are participating in the local $10 Savings Card and pin point
+                                where
+                                they are located.
+                            </li>
+                        </ul>
+                        You don't need to download or install anything to use detourmaps.com.
+                    </section>
+                </div>
+                <div class="panel" id="savings">
+                    <section>
+                        With our color coded Savings Card, you can save $10 on your next purchase (minimum purchase
+                        required of
+                        $30, $40, or $50). Our Free Printed maps have savings cards attached to be redeemed at
+                        participating
+                        businesses or you can fill out the form online to receive a digital card. The form is located on
+                        the
+                        home page and in the deals page.
+                        The savings card is available throughout participating neighborhoods from supermarkets and
+                        restaurants
+                        to public location including libraries. Saving cards comes free with the printed map. You can
+                        also
+                        request a new card online to print out and redeem at the participating location
+                        <a href="{% url "savings-card" %}">I Want a Savings Card</a>
+                    </section>
+                </div>
+                <div class="panel" id="multimedia">
+                    <section>
+                        Besides having many community resources on our website, we are actively involved in promoting on
+                        social
+                        media sites like facebook, twitter, youtube, and more. Our newly launched detourTV division
+                        focuses on
+                        promoting local small
+                        businesses with short video exclusives that give viewers an inside look at how the business
+                        works and
+                        what they have to offer.
+                        With the large number of users on social networks, it is critical that we reach our target
+                        audiences
+                        on various platforms so that our useful community information is seen by residents and those
+                        intertested.
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container detourBack">
+
+    </div>
+    <div class="container mainboard">
+        <div class="pure-u-1-1">
+            <h2 class="subTitleAbout">About Detourmaps</h2>
+        </div>
+        <div class="pure-u-1-1">
+            <div class="navigator">
+                <a href="#" class="navHistory active">History</a>
+                <a href="#" class="navHistory">Vision</a>
+                <a href="#" class="navHistory">Impact</a>
+            </div>
+        </div>
+        <div class="pure-u-1-1" id="wrap-about">
+            <div id="wrapper-about">
+                <div class="panelAbout" id="history">
+                    Detour Community MAPs (a Marketing and Advertising Platform) is a division of Entire Marketing Group LLC
+                    established in 2007. The division was created to help the development of different communities in
+                    Illinois. We strive on connecting resident with local businesses and organizations to better the
+                    community by creating a SHOP LOCAL campaign.
+                </div>
+                <div class="panelAbout" id="vision">
+                    <p>Detour Maps is committed to help neighborhoods and organizations of all Industries, sizes and
+                        locations by personalizing the organization’s branding so their residents can recognize them. When
+                        you partner with us, we help by using a simple and easy advertising platform whether it is print
+                        advertisement or adding your community to our online directory (examples SSA3 “Greater Southwest
+                        Development Corporation”).</p>
+
+                    <p>We help the businesses of the local organization to have the opportunity to advertise collectively
+                        and share the cost. We will work with you so you do not have to worry about “ARTvertising” (branding
+                        your neighborhood with promotions) your community. </p>
+                </div>
+                <div class="panelAbout" id="impact">
+                    As of now the participating communities are Berwyn, Cicero, Archer Heights, Brighton Park, Back of the
+                    Yards, West Lawn, Chicago Lawn, Washington Heights, Morgan Park, and Roseland.
+                    Local organizations called Special Service Areas are also participating such as SSA 3, SSA 10, SSA 39,
+                    and SSA 45. These Special Service Areas also called SSA’s work within the participating communities
+                    helping local businesses with different resources to improve the shopping corridors and community.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pure-u-1-1">
+        <h2 class="subTitleAbout">What our clients say</h2>
+    </div>
+    <div class="pure-u-1-1 testimonial">
+        <div>
+
+            {% for testimonial in testimonials %}
+                <div>
+                    <div class="testimonialPanel">
+                        <div class="client">
+                            <img src="{% thumbnail testimonial.logo 112x65 %}" alt="{{ testimonial.logo }}">
+
+                            <div>
+                                {{ testimonial.text|safe }}
+                                <b>{{ testimonial.name }} - {{ testimonial.position }}</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="pure-u-1-1 contactus">
+        <div>
+            <a href="" id="contact-us">
+                Let’s Talk!<br/>
+                We would love to hear from YOU
+            </a>
+        </div>
+    </div>
+{% endblock %}

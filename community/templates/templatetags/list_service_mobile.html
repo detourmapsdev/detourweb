@@ -1,0 +1,12 @@
+<div data-role="fieldcontain">
+    <fieldset data-role="controlgroup">
+        {% for service in services %}
+            <label for="checkbox-{{ service.pk }}a">{{ service.name }}</label>
+            <input type="checkbox" name="{{ category.categorySlug }}" id="checkbox-{{ service.pk }}a" class="checkFilter" data-theme="a" idb="{{ service.serviceSlug }}" class="{{ category.categorySlug }}"/>
+        {% endfor %}
+    </fieldset>
+</div>
+<div data-role="controlgroup" data-type="horizontal">
+    <a href="#filterPanel-{{ category.pk }}" data-role="button" data-theme="a" onclick="closePop('#filterPanel-{{ category.pk }}'); return false;">Close</a>
+    <a href="" data-role="button" data-theme="a" idc="{{ category.categorySlug }}" onclick="filterCheck('{{ category.categorySlug }}'); return false;">Apply</a>
+</div>

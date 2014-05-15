@@ -1,0 +1,151 @@
+{% extends "base-mobile.html" %}
+<title>{% block title %}DetourMaps - Community maps{% endblock %}</title>
+{% block extrahead %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=geometry"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/richmarker.js"></script>
+{% endblock %}
+{% block body %}
+    <section id="static-map">
+        {% for c in communities %}
+            {% if forloop.first %}
+                <figure class="staticmaps">
+                    <img src="" id="map-{{ forloop.counter0 }}">
+                    <h2>{{ c.name }}</h2>
+                </figure>
+            {% else %}
+                <figure class="staticmaps" style="display: none;">
+                    <img src="" id="map-{{ forloop.counter0 }}">
+                    <h2>{{ c.name }}</h2>
+                </figure>
+            {% endif %}
+        {% endfor %}
+    </section>
+    <script type="text/javascript">
+        $(document).bind("pageinit", function () {
+            var mapConstructorURL = '{% url "map" "replace" %}';
+            var communities = [
+                {% for c in communities %}
+                    {
+                        name: '{{ c.name }}',
+                        url_name: '{{ c.url_name }}',
+                        geojson: {{ c.borders.geojson|safe }}
+                    },
+                {% endfor %}
+            ];
+            for (var com=0; com<communities.length; com++){
+                var path = "";
+                var srcPath = "";
+                var poly = new google.maps.Polyline();
+                var ePath = poly.getPath();
+                for (var cor=0; cor<communities[com].geojson.coordinates[0][0].length; cor++){
+                    var coord = communities[com].geojson.coordinates[0][0][cor];
+                    var lat = coord[1];
+                    var lng = coord[0];
+                    var latlng = new google.maps.LatLng(lat, lng);
+                    ePath.push(latlng);
+                }
+                path = google.maps.geometry.encoding.encodePath(ePath);
+                srcPath += "&path=color:0xf48031ff|fillcolor:0xFFFFCC|weight:2|enc:" + path;
+                var src = "http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=1024x200&maptype=roadmap&sensor=false&scale=2" + srcPath;
+                $("img#map-" + com).attr("src", src);
+            }
+            $("a.actPanel").click(function (e) {
+                var id = $(this).attr("href");
+                var idb = $(this).attr("idb");
+                if(typeof idb !== 'undefined' && idb !== false){
+
+                }else{
+                    $("section#nav-index").hide();
+                    $(id + "-title").show();
+                    $(id).show();
+                }
+
+                e.returnValue = false;
+                return false;
+            });
+            $("a.back").click(function (e) {
+                var id = $(this).attr("href");
+                $(".allTitle").hide();
+                $(".panelList").hide();
+                $(id).show();
+                e.returnValue = false;
+                return false;
+            });
+            var step = 0;
+            var listaFigures = $("figure.staticmaps");
+            var initInterval = setInterval(function(){
+                if (step == listaFigures.length-1){
+                    $(listaFigures[step]).hide();
+                    step = 0;
+                    $(listaFigures[step]).fadeIn();
+                }
+                else{
+                    $(listaFigures[step]).hide();
+                    $(listaFigures[step+1]).fadeIn();
+                    step++;
+                }
+            }, 5000);
+            initInterval;
+        })
+    </script>
+    <section id="nav-index">
+        <section id="explore">
+            <a href="#communities" class="actPanel">
+                Explore Communities<br>
+                <span>Discover the best areas have to offer</span>
+            </a>
+        </section>
+        <section id="about">
+            <a href="{% url "about" %}" class="actPanel" rel="external">
+                About Detourmaps<br>
+                <span>Learn why we're a local evolution</span>
+            </a>
+        </section>
+        <section id="deals">
+            <a href="#deals" class="actPanel" id="swipe" idb="panel">
+                Local Deals<br>
+                <span>Save while shopping local</span>
+            </a>
+        </section>
+        <section id="join">
+            <a href="{% url "m-join-us" %}" class="actPanel" rel="external">
+                Join Us<br>
+                <span>Sign up to see special features</span>
+            </a>
+        </section>
+        <section id="events">
+            <a href="{% url "events-mobile" %}" class="actPanel" rel="external">
+                Events<br>
+                <span>Stay connected to your community</span>
+            </a>
+        </section>
+    </section>
+    <section id="communities-title" class="hideTitle allTitle" style="margin-bottom: 15px;">
+        <a href="#nav-index" class="back"><i class="icon-caret-left"></i>Select a
+            Community</a>
+    </section>
+    <section id="communities" class="panelHide panelList">
+        <ul data-role="listview">
+            {% for c in communities %}
+                <li style="padding: 0 10px;"><a href="{% url "map" c.url_name %}" rel="external">{{ c.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+    <section id="chat">
+        <section id="big-orange">
+            <p>
+                Let's Chat.
+                <span>We'd love to hear about your project</span>
+            <ul id="social-links">
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/face-mobile.png"/></a></li>
+                <li><a href=""><img src="{{ STATIC_URL }}community/elementos/twitter-mobile.png"/></a></li>
+            </ul>
+            <br>
+            <span>Email: <a href="mailto:info@detourmaps.com">info@detourmaps.com</a></span><br>
+            <span>Telephone: <a href="tel:708-484-1119">708-484-1119</a></span><br>
+            <span>Fax: 708-484-1101</span><br>
+            <span>Location: 6900 W Cermak Rd. Berwyn, IL 60402</span>
+            </p>
+        </section>
+    </section>
+{% endblock %}

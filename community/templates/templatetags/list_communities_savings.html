@@ -1,0 +1,3 @@
+{% for community_saving in communities_savings %}
+    <option value="{{ community_saving.pk }}">{{ community_saving.name|capfirst }}</option>
+{% endfor %}
