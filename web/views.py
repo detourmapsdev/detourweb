@@ -1,4 +1,5 @@
-import Image, ImageDraw, ImageFont, time, hashlib, re
+from PIL import Image, ImageDraw, ImageFont
+import time, hashlib, re
 import datetime
 from os import chdir, path
 

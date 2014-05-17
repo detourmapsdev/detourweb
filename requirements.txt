@@ -1,0 +1,12 @@
+django==1.6.5
+django-localflavor>=1.0
+psycopg2
+easy_thumbnails>=2.0
+django_admin_tools
+simplejson
+qrcode
+requests
+reportlab==2.7
+pisa>=3.0
+httplib2
+html5lib
