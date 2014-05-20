@@ -265,7 +265,7 @@ class Category(models.Model):
 
 
 class Business(CommunityParent):
-    url_name = models.SlugField(blank=True, null=True)
+    url_name = models.SlugField(max_length=100, blank=True, null=True)
     community = models.ForeignKey(Community, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     belongs2community = models.BooleanField(default=False, verbose_name='Belongs to the community?')
@@ -363,7 +363,7 @@ class Business(CommunityParent):
 
 
 class Partner(CommunityParent):
-    url_name = models.SlugField(blank=True, null=True)
+    url_name = models.SlugField(max_length=100, blank=True, null=True)
     logo = models.ImageField(upload_to='logopartner', blank=True, null=True)
     community = models.ForeignKey(Community)
     geo = models.MultiLineStringField()
@@ -473,7 +473,7 @@ class HelpingShop(models.Model):
 
 class PromoPartner(models.Model):
     name = models.CharField(max_length=36)
-    url_name = models.SlugField()
+    url_name = models.SlugField(max_length=100)
     description = models.TextField()
     image = models.ImageField(upload_to='promo')
     start_date = models.DateTimeField()
@@ -568,6 +568,10 @@ class LandingEvent(models.Model):
 class ImageBusinessEventsPartner(Image):
     img = models.ImageField(upload_to='businessEvent')
     business_event = models.ForeignKey(BusinessEventPartner)
+
+    class Meta:
+        verbose_name = 'Image Business Events Partner'
+        verbose_name_plural = 'FImage Business Events Partners'
 
 
 class CuponBusiness(Image):

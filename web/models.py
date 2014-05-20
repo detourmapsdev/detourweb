@@ -80,8 +80,8 @@ class CategoryRegisterBusiness(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Category for Register Business'
-        verbose_name_plural = 'Category for Register Businesses'
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -92,8 +92,8 @@ class MarketingTypes(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Marketing Types for Register Business'
-        verbose_name_plural = 'Marketing for Register Businesses'
+        verbose_name = 'Marketing Type'
+        verbose_name_plural = 'Marketing Types'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -104,8 +104,8 @@ class MarketingTactics(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Marketing Tactics for Register Business'
-        verbose_name_plural = 'Marketing Tactics for Register Businesses'
+        verbose_name = 'Marketing Tactic'
+        verbose_name_plural = 'Marketing Tactics'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -116,8 +116,8 @@ class ConductMarketing(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Conduct Marketing for Register Business'
-        verbose_name_plural = 'Conduct Marketing for Register Businesses'
+        verbose_name = 'Conduct Marketing'
+        verbose_name_plural = 'Conducts Marketing'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -128,8 +128,8 @@ class FrecuencyMarketing(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Frecuency Marketing for Register Business'
-        verbose_name_plural = 'Frecuency Marketing for Register Businesses'
+        verbose_name = 'Frequency Marketing'
+        verbose_name_plural = 'Frequency Marketings'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -140,8 +140,8 @@ class MonthMarketing(models.Model):
     register_business = models.ForeignKey(RegisterBusiness, blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Month Marketing for Register Business'
-        verbose_name_plural = 'Month Marketing for Register Businesses'
+        verbose_name = 'Month Marketing'
+        verbose_name_plural = 'Month Marketings'
 
     def __unicode__(self):
         return '%s' % self.name
@@ -168,7 +168,7 @@ class EmailUs(models.Model):
 
     class Meta:
         verbose_name = 'Form Email us'
-        verbose_name_plural = 'Form Email us'
+        verbose_name_plural = 'Forms Email us'
 
     def __unicode__(self):
         return '%s, %s' % (self.get_interested_display(), self.name_is)
@@ -186,7 +186,7 @@ class CouponRequestsForm(models.Model):
 
     class Meta:
         verbose_name = 'Form Coupon Request'
-        verbose_name_plural = 'Form Coupon Request'
+        verbose_name_plural = 'Forms Coupon Request'
 
 
 class Module(models.Model):
@@ -235,11 +235,11 @@ class Page(models.Model):
         ('L', 'Landing Pages'),
     )
     name = models.CharField(max_length=24)
-    url_name = models.SlugField(verbose_name='URL name', blank=True)
+    url_name = models.SlugField(max_length=100, verbose_name='URL name', blank=True)
     is_a_root = models.BooleanField(default=False, help_text='Mark if a page is Page Home')
     published = models.BooleanField(default=False, help_text='Mark to publish')
     is_menu = models.BooleanField(default=False, verbose_name='Is a Menu?', help_text='Mark if is a principal menu')
-    title = models.SlugField(blank=True)
+    title = models.SlugField(max_length=100, blank=True)
     keywords = models.TextField(help_text='Insert words separated by commas', blank=True)
     description = models.TextField(help_text='Insert phrases that describe the page', blank=True)
     template = models.CharField(max_length=1, choices=CHOICES_TEMPLATES)
@@ -526,7 +526,7 @@ class ImagesPrintMaps(models.Model):
 
 class PostCategory(models.Model):
     name = models.CharField(max_length=45)
-    url_name = models.SlugField()
+    url_name = models.SlugField(max_length=100)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -535,7 +535,7 @@ class PostCategory(models.Model):
 class Post(models.Model):
     name = models.CharField(max_length=90)
     sub_title = models.CharField(max_length=120, blank=True, null=True)
-    url_name = models.SlugField()
+    url_name = models.SlugField(max_length=100, )
     principal_image = models.ImageField(upload_to='posts')
     category = models.ForeignKey(PostCategory)
     content = EditorField(verbose_name=u'Content', blank=True, null=True)

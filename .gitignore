@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 
+#Images
+media/business/*_crop.png
+media/cupones/*_crop.png
+
 # C extensions
 *.so
 
@@ -41,6 +45,10 @@ coverage.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
 
 # Rope
 .ropeproject
