@@ -44,7 +44,6 @@ class Facebook:
                 usuario_parent.save()
                 user_facebook[0].expires = expires
                 user_facebook[0].userid = profile['id']
-                user_facebook[0].user_type = 'F'
                 user_facebook[0].usuario = usuario_parent
                 user_facebook[0].save()
                 usuario_parent.tipo_usuario = user_facebook[0].id
@@ -68,7 +67,6 @@ class Facebook:
                 usuario_parent.save()
                 user_facebook[0].expires = expires
                 user_facebook[0].userid = profile['id']
-                user_facebook[0].user_type = 'F'
                 user_facebook[0].usuario = usuario_parent
                 user_facebook[0].save()
                 usuario_parent.tipo_usuario = user_facebook[0].id

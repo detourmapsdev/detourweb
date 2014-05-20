@@ -638,7 +638,7 @@ class Card(models.Model):
         ('E', 'Email'),
         ('P', 'Print')
     )
-    contact_card = models.ForeignKey(ContactCard)
+    contact_card = models.ForeignKey(Usuario)
     business = models.ForeignKey(Business)
     date = models.DateField(auto_now=True)
     until_date = models.DateTimeField(default=datetime.now() + timedelta(days=30))
@@ -703,6 +703,7 @@ class Bookmark(models.Model):
     tab = models.CharField(max_length=12, blank=True, null=True)
     subtab = models.CharField(max_length=12, blank=True, null=True)
     datetime = models.DateTimeField(auto_now=True)
+    coupon = models.ForeignKey(CuponBusiness, blank=True, null=True)
 
     def __unicode__(self):
         return '%s' % self.biz.name
