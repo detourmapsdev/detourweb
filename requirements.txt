@@ -10,3 +10,5 @@ reportlab==2.7
 pisa>=3.0
 httplib2
 html5lib
+gdata>=2.0
+googlemaps>=1.0
