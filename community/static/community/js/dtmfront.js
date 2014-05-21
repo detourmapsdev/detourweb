@@ -221,6 +221,13 @@ $(document).ready(function () {
         }
         flagcontrol = true;
     });
+    $(document).on("click", "a.couponPop", function(event){
+        event.preventDefault();
+        $(this).magnificPopup({
+          type: 'image'
+            // other options
+        });
+    })
     if (varDetourmaps.user.login) {
         bisInfo.addTab(tab_rating_title, relleno());
     } else {
@@ -362,7 +369,7 @@ $(document).ready(function () {
                 var linksave = "<a href='' idb='cup" + business.cupon[cup].id + "'>SAVE TO MY DEALS</a>";
                 var no_purchase = "<p>No purchased required</p>";
                 var valid_through = "<p>Valid through " + business.cupon[cup].start_date + "-" + business.cupon[cup].end_date + "</p>";
-                var img = "<img src='/media/" + business.cupon[cup].small + "'/>"
+                var img = "<a class='couponPop' href='/media/" + business.cupon[cup].medium + "'><img src='/media/" + business.cupon[cup].small + "'/></a>"
                 var div_left = "<div class='lsmart'>" + label + no_purchase + valid_through + "<div class='toolset'>" + idcheck + linksave + "</div></div>";
                 var div_right = "<div class='rsmart'><figure>" + img + "</figure></div>";
                 panel_smart += "<div class='panel_smart'>" + div_left + div_right + "</div>";
@@ -392,6 +399,7 @@ $(document).ready(function () {
             b_left.addClass('float_map');
         });
         b_left.attr('show', 'false');
+
     }
     function translape(index, lista, _this){
         $("#wrapper-slide-deals").css("transform","translateX("+index * -25+"%)");
@@ -447,7 +455,7 @@ $(document).ready(function () {
                 bb.find('h3').html(bis.name + "<span>" + cmData.cat[b.ci].name + "</span>");
                 bb.find("a.show-more").css("color", "red").click(function(event){
                     event.preventDefault();
-                    $("html").animate({
+                    $("html, body").animate({
                         scrollTop: 350
                     }, 400);
                 });
