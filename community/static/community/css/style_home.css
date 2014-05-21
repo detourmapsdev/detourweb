@@ -1103,6 +1103,11 @@ div.rsmart{
     float: left;
     width: 30%;
 }
+div.rsmart a{
+    background: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
 label.namesmart{
     display: block !important;
     color: #0071BC !important;
@@ -1112,7 +1117,7 @@ label.namesmart{
 div.toolset{
     overflow: hidden;
     margin-top: 0.85em;
-    width: 80%;
+    width: 85%;
 }
 div.toolset label, div.toolset a{
     float: left;
@@ -1130,7 +1135,7 @@ div.toolset a{
     font-size: 0.75em !important;
     float: right !important;
     left: 20em !important;
-    padding: 0px 0.2em !important;
+    padding: 0.1em 0.2em !important;
     margin: 0px !important;
     width: auto !important;
 }
