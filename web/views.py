@@ -644,7 +644,7 @@ def mailTestView(request):
 
 
 def userUtils(request):
-    return render_to_response('utils_sys.js', mimetype="text/javascript", context_instance=RequestContext(request))
+    return render_to_response('utils_sys.js', content_type="text/javascript", context_instance=RequestContext(request))
 
 
 @csrf_exempt
@@ -719,7 +719,7 @@ def reSendActivationMail(request):
     except Exception as err:
         result['value'] = True
 
-    return HttpResponse(simplejson.dumps(result), mimetype='application/json')
+    return HttpResponse(simplejson.dumps(result), content_type='application/json')
 
 
 @csrf_exempt
@@ -740,7 +740,7 @@ def shareQRUrl(request):
         }
         return HttpResponse(request.GET["callback"] + "(" + simplejson.dumps(dict_response,
                                                                              cls=simplejson.encoder.JSONEncoderForHTML) + ")   ",
-                            mimetype="application/json")
+                            content_type="application/json")
 
 
 def registerConfirm(request, user_id):
@@ -867,7 +867,7 @@ def reset_email_password(request):
 
 
 def tiny(request):
-    return render_to_response('tiny.js', {'textarea_id': request.GET['textarea_id']}, mimetype="text/javascript",
+    return render_to_response('tiny.js', {'textarea_id': request.GET['textarea_id']}, content_type="text/javascript",
                               context_instance=RequestContext(request))
 
 
@@ -881,7 +881,7 @@ def checkout_email(request):
         __available = False
     obj = {'username': request.GET['value'],
            'available': __available}
-    return HttpResponse(simplejson.dumps(obj), mimetype='application/json')
+    return HttpResponse(simplejson.dumps(obj), context_type='application/json')
 
 
 def faq(request):
@@ -963,7 +963,7 @@ def get_active_posts(request):
         }
         return HttpResponse(request.GET["callback"] + "(" + simplejson.dumps(list_posts,
                                                                              cls=simplejson.encoder.JSONEncoderForHTML) + ")   ",
-                            mimetype="application/json")
+                            context_type="application/json")
 
 
 @csrf_exempt
@@ -979,7 +979,7 @@ def searchBusiness(request):
             list_biz.append(dict_biz)
         return HttpResponse(request.GET["callback"] + "(" + simplejson.dumps(list_biz,
                                                                              cls=simplejson.encoder.JSONEncoderForHTML) + ")   ",
-                            mimetype="application/json")
+                            context_type="application/json")
 
 
 def media_kit(request):
@@ -1108,4 +1108,4 @@ def contact_us(request):
         dict_msg['msg'] = msg
         return HttpResponse(request.GET["callback"] + "(" + simplejson.dumps(dict_msg,
                                                                          cls=simplejson.encoder.JSONEncoderForHTML) + ")   ",
-                        mimetype="application/json")
+                        context_type="application/json")

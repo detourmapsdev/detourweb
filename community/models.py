@@ -361,6 +361,30 @@ class Business(CommunityParent):
                 attr += slugify(services[x].name) + " "
         return attr
 
+    def __menu__(self):
+        return BusinessMenu.objects.filter(business=self)
+    menu = property(__menu__)    
+
+    def __menu_items__(self):
+        return BusinessMenuItem.objects.filter(business=self).count()
+    menu_items = property(__menu_items__)
+
+    def __html_menu__(self):
+        output = ''
+        cats = BusinessMenuCategory.objects.filter(business=self)
+        for cat in cats:
+            output += cat.html
+        return output
+    html_menu = property(__html_menu__)
+
+    def save(self, *args, **kwargs):
+        #TODO
+        #covert the html version of the menu into a categories and items
+        #self.menu
+        super(Business, self).save(*args, **kwargs)
+
+
+
 
 class Partner(CommunityParent):
     url_name = models.SlugField(max_length=100, blank=True, null=True)
@@ -601,7 +625,64 @@ class BusinessMenu(models.Model):
         return u'%s, %s' % (self.business, self.menu)
 
     class Meta:
-        verbose_name_plural = 'Menu for Business'
+        verbose_name = 'Menu for Business'
+        verbose_name_plural = 'Menus for Business'
+
+class BusinessMenuCategory(models.Model):
+    '''
+    This model represents a category/section of the menu of
+    a Business.
+    #name: the category name
+    #order: the position in which the category will be shown
+    '''
+    name = models.CharField(max_length=255, null=False, blank=False)
+    order = models.IntegerField()
+    business = models.ForeignKey(Business)
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.business.name, self.name)
+
+    class Meta:
+        verbose_name = 'Category for Menu'
+        verbose_name_plural = 'Categories for Menu'
+        ordering = ['order', 'name']
+
+    def __items__(self):
+        return BusinessMenuItem.objects.filter(category=self)
+    items = property(__items__)
+
+    def __html__(self):
+        output = '<h4>%s</h4>' % self.name
+        output += u'\r\n<ul>'
+        for item in self.items:
+            output += u'\r\n'+item.html
+        output += u'\r\n</ul>'
+        return output
+    html = property(__html__)
+
+
+class BusinessMenuItem(models.Model):
+    '''
+    This model represents a menu's item of a Business.
+    #name: the item name
+    #order: the position in which the item will be shown (vertically)
+    '''
+    name = models.CharField(max_length=255, null=False, blank=False)
+    order = models.IntegerField()
+    business = models.ForeignKey(Business)
+    category = models.ForeignKey(BusinessMenuCategory)
+
+    def __unicode__(self):
+        return u'%s, %s' % (self.category.name, self.name)
+
+    class Meta:
+        verbose_name = 'Item for Menu'
+        verbose_name_plural = 'Item for Menu'
+        ordering = ['order', 'name']
+
+    def __html__(self):
+        return u'<li>%s</li>' % self.name
+    html = property(__html__)
 
 
 class BusinessSchedule(models.Model):

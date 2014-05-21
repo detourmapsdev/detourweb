@@ -114,9 +114,11 @@ def getReview(request):
 def getMenu(request):
     if request.method == "GET":
         business_object = Business.objects.get(id=int(decode_url(request.GET["tag"])))
-        menu_object = BusinessMenu.objects.filter(business=business_object)
+        #menu_object = BusinessMenu.objects.filter(business=business_object)
+
         dict_votes = {
-            'menu': menu_object[0].menu
+            #'menu': menu_object[0].menu
+            'menu': business_object.html_menu
         }
         return HttpResponse(simplejson.dumps(dict_votes))
 

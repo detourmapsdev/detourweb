@@ -10,7 +10,7 @@ from community.models import Service, Category, Subscription, Community, Busines
     Partner, LandingPartner, LandingSocialPartner, LandingTextPartner, VideoPartner, \
     HeaderPagePartner, BusinessEventPartner, ImageBusinessEventsPartner, NewDiscover, \
     PhoneNumber, CommunitySocial, CommunityText, HeaderCommunity, Video, HelpingShop, PromoPartner, \
-    LandingEvent, PartnerMobile, TenVisitsBusiness
+    LandingEvent, PartnerMobile, TenVisitsBusiness, BusinessMenuItem, BusinessMenuCategory
 
 #forms
 from community.forms import FormBusiness, PartnerForm
@@ -258,6 +258,15 @@ class AdminTenVists(admin.TabularInline):
         else:
           return True
 
+class AdminBusinessMenuCategory(admin.ModelAdmin):
+    model = BusinessMenuCategory
+    fields = ('business', 'name', 'order')
+
+class AdminBusinessMenuItemInline(admin.TabularInline):
+    model = BusinessMenuItem
+    fields = ('category', 'name', 'order')
+    extra = 3
+
 
 class AdminService(admin.ModelAdmin):
     fieldsets = ((None, {'fields': ('name', 'description', 'icon', 'subcat')}), )
@@ -303,7 +312,8 @@ class AdminBusiness(admin.ModelAdmin):
         AdminCuponBusinessInline,
         AdminTenVists,
         AdminMenuBusiness,
-        AdminScheduleBusiness
+        AdminBusinessMenuItemInline,
+        AdminScheduleBusiness,
     ]
     prepopulated_fields = {'url_name': ('name', )}
 
@@ -363,5 +373,6 @@ admin.site.register(Card)
 admin.site.register(NewsletterSuscription, AdminNewsletter)
 admin.site.register(Usuario)
 admin.site.register(PromoPartner, AdminPromo)
+admin.site.register(BusinessMenuCategory, AdminBusinessMenuCategory)
 #unregister sites
 #admin.site.unregister(Site)
