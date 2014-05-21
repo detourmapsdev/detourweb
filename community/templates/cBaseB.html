@@ -17,12 +17,6 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}custom-theme/jquery-ui-1.10.3.custom.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}modal/jquery.modal.css" type="text/css" media="screen"/>
     <style>
-        {% if community.has_css_file %}
-            {{ css|safe }}
-        {% else %}
-            {{ community.discover_css|safe }}
-        {% endif %}
-
         body {
             background: #fff !important;
         }
@@ -58,6 +52,11 @@
             display: inline;
         }
     </style><!--comment//-->
+    <!-- Magnific Popup core CSS file -->
+    <link rel="stylesheet" href="{{ STATIC_URL }}community/magnific-popup.css">
+
+    <!-- Magnific Popup core JS file -->
+    <script src="{{ STATIC_URL }}community/jquery.magnific-popup.js"></script>
     <script src="/user/js/utils_sys" type="text/javascript"></script>
     <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -973,7 +972,6 @@
     };
 
     $(document).ready(function () {
-
         $("#downloadCoupon").click(function (e) {
             e.preventDefault();
             var source = $("#imageCoupon").attr("src");
