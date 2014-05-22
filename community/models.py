@@ -14,7 +14,7 @@ from community.widgets import TextEditorWidget
 from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from web.short_url import encode_url, decode_url
-
+from bs4 import BeautifulSoup
 
 def parseSpecialChar(value):
     value_lower = value.lower()
@@ -362,7 +362,8 @@ class Business(CommunityParent):
         return attr
 
     def __menu__(self):
-        return BusinessMenu.objects.filter(business=self)
+        ret = BusinessMenu.objects.filter(business=self)
+        return ret[0].menu if ret.count() > 0 else None
     menu = property(__menu__)    
 
     def __menu_items__(self):
@@ -379,8 +380,27 @@ class Business(CommunityParent):
 
     def save(self, *args, **kwargs):
         #TODO
-        #covert the html version of the menu into a categories and items
-        #self.menu
+        #try to covert the html version of the menu into categories and items
+        if self.menu:
+            soup = BeautifulSoup(self.menu)
+            cat_c = 0
+            for tag in soup.body:
+                if tag.name == u'h4':
+                    cat = tag.string.strip()
+                    category, c = BusinessMenuCategory.objects.get_or_create(name=cat, 
+                        business=self, order=cat_c)
+                    cat_c += 1
+                    continue
+                if tag.name == u'ul':
+                    item_c = 0
+                    for t in tag:
+                        if t.name == 'li':
+                            item = t.string.strip()
+                            BusinessMenuItem.objects.get_or_create(name=item, 
+                                category=category, business=self, order=item_c)
+                            item_c += 1
+            #[p.extract() for p in soup.findAll(p)]
+            #soup.find(rule['element'].keys()[0], rule['element'].values()[0]).extract()
         super(Business, self).save(*args, **kwargs)
 
 
@@ -640,7 +660,7 @@ class BusinessMenuCategory(models.Model):
     business = models.ForeignKey(Business)
 
     def __unicode__(self):
-        return u'%s, %s' % (self.business.name, self.name)
+        return u'%s, %s' % (self.name, self.business.name)
 
     class Meta:
         verbose_name = 'Category for Menu'

@@ -12,3 +12,4 @@ httplib2
 html5lib
 gdata>=2.0
 googlemaps>=1.0
+beautifulsoup4

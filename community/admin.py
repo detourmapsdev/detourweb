@@ -261,11 +261,13 @@ class AdminTenVists(admin.TabularInline):
 class AdminBusinessMenuCategory(admin.ModelAdmin):
     model = BusinessMenuCategory
     fields = ('business', 'name', 'order')
+    ordering = ('order', 'name')
 
 class AdminBusinessMenuItemInline(admin.TabularInline):
     model = BusinessMenuItem
     fields = ('category', 'name', 'order')
     extra = 3
+    ordering = ('category', 'order', 'name')
 
 
 class AdminService(admin.ModelAdmin):
