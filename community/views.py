@@ -125,7 +125,7 @@ def generateCard(community, name, code):
     basedir = path.dirname(__file__)
     try:
         font = ImageFont.truetype(basedir + '/resources/VERDANAB.TTF', 12)
-        img = Image.open("%s/resources/%s/card.png" % (basedir, str(community.name).capitalize()))
+        img = Image.open("%s/resources/orange-deals.png" % (basedir, str(community.name).capitalize()))
         txt = '%s - %s' % (name, code)
         x, y = (55, 160)
         draw_img = ImageDraw.Draw(img)
@@ -251,12 +251,6 @@ def getDealCard(request):
                     return resp
                 return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
         except ContactCard.DoesNotExist:
-            contact_object = ContactCard(
-                name=request.GET["name"],
-                email=request.GET["email"],
-                phone=request.GET["phone"]
-            )
-            contact_object.save()
             card_object = Card(
                 contact_card=contact_object,
                 business=business_object,
@@ -1499,11 +1493,11 @@ def get_deals(biz):
     """
     if biz.local_deals:
         if biz.local_deals == "N":
-            return False
+            return "N"
         else:
             return biz.local_deals
     else:
-        return False
+        return "N"
 
 
 def get_partner(biz):
@@ -1985,57 +1979,23 @@ def get_session(request):
     dict_response = {}
     uid = None
     if request.method == "GET":
-        if request.session.session_key:
-            session_object = Session.objects.get(session_key=request.session.session_key)
-            uid = session_object.get_decoded().get('_auth_user_id')
-            if uid is not None:
-                print "uid"
-                try:
-                    user_objects = User.objects.get(pk=uid)
-                    dict_response["session"] = True
-                    dict_response["id"] = user_objects.id
-                    dict_response["username"] = user_objects.username
-                    dict_response["email"] = user_objects.email
-                    img_default = "http://www.detourmaps.com/static/web/img/detourIcon.png"
-                    size = 40
-                    gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(
-                        user_objects.email.lower()).hexdigest() + "?"
-                    gravatar_url += urllib.urlencode({'d': img_default, 's': str(size)})
-                    dict_response["gravatar"] = gravatar_url
-                except User.DoesNotExist:
-                    print "sin user"
-                    dict_response["session"] = False
-            else:
-                if 'user' in request.session:
-                    print "usuario"
-                    user_objects = request.session["user"]
-                    dict_response["session"] = True
-                    dict_response["id"] = user_objects.id
-                    dict_response["username"] = user_objects.username
-                    dict_response["email"] = user_objects.email
-                    img_default = "http://www.detourmaps.com/static/web/img/detourIcon.png"
-                    size = 40
-                    gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(
-                        user_objects.email.lower()).hexdigest() + "?"
-                    gravatar_url += urllib.urlencode({'d': img_default, 's': str(size)})
-                    dict_response["gravatar"] = gravatar_url
-                else:
-                    print "sin user"
-                    dict_response["session"] = False
-        elif 'user' in request.session:
-            print "user"
-            user_objects = request.session["user"]
-            dict_response["session"] = True
-            dict_response["id"] = user_objects.id
-            dict_response["username"] = user_objects.username
-            dict_response["email"] = user_objects.email
-            img_default = "http://www.detourmaps.com/static/web/img/detourIcon.png"
-            size = 40
-            gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(user_objects.email.lower()).hexdigest() + "?"
-            gravatar_url += urllib.urlencode({'d': img_default, 's': str(size)})
-            dict_response["gravatar"] = gravatar_url
+        if request.session.get("user"):
+            try:
+                user_objects = User.objects.get(username=request.session["user"])
+                dict_response["session"] = True
+                dict_response["id"] = user_objects.id
+                dict_response["username"] = user_objects.username
+                dict_response["email"] = user_objects.email
+                dict_response["names"] = '%s %s' % (user_objects.first_name, user_objects.last_name)
+                img_default = "http://www.detourmaps.com/static/web/img/detourIcon.png"
+                size = 40
+                gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(
+                    user_objects.email.lower()).hexdigest() + "?"
+                gravatar_url += urllib.urlencode({'d': img_default, 's': str(size)})
+                dict_response["gravatar"] = gravatar_url
+            except User.DoesNotExist:
+                dict_response["session"] = False
         else:
-            print "without"
             dict_response["session"] = False
         return HttpResponse(simplejson.dumps(dict_response))
 
@@ -2369,8 +2329,7 @@ def LoginAccount(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                request.session["user"] = user
-                print request.session["user"]
+                request.session["user"] = user.username
                 Sesion['estado'] = True
                 dict_response['state'] = True
                 return HttpResponse(simplejson.dumps(dict_response))
@@ -2467,41 +2426,45 @@ def RegisterUser(request):
 
 
 @csrf_exempt
-@login_required(login_url='/community/loginUser/')
+#@login_required(login_url='/community/loginUser/')
 def AccountSettings(request):
-    userAccount = request.session['user']
-    email = userAccount.username
-    password = userAccount.password
+    if request.session.get("user"):
+        username = request.session['user']
+        userAccount = User.objects.get(username=username)
+        email = userAccount.username
+        password = userAccount.password
 
-    dictionary = {}
+        dictionary = {}
 
-    if request.POST:
-        oldpassword = request.POST.get('oldPassword')
-        newpassword = request.POST.get('newPassword')
-        newemail = request.POST.get('newEmail')
+        if request.POST:
+            oldpassword = request.POST.get('oldPassword')
+            newpassword = request.POST.get('newPassword')
+            newemail = request.POST.get('newEmail')
 
-        user = User.objects.get(username=email)
+            user = User.objects.get(username=email)
 
-        if newpassword == "":
-            user.email = newemail
-            user.username = newemail
-        else:
-            if user.check_password(oldpassword):
-                if newemail == "":
-                    user.set_password(newpassword)
-                elif newemail != "" and newpassword != "":
-                    user.set_password(newpassword)
-                    user.username = newemail
-                    user.email = newemail
+            if newpassword == "":
+                user.email = newemail
+                user.username = newemail
             else:
-                dictionary['state'] = False
-                dictionary['msg'] = 'The original password is wrong'
-                return HttpResponse(simplejson.dumps(dictionary))
-        user.save()
-        dictionary['state'] = True
-        return HttpResponse(simplejson.dumps(dictionary))
-    return render_to_response("account-settings.html", {'user': userAccount, 'community': Community.objects.all()},
-                              context_instance=RequestContext(request))
+                if user.check_password(oldpassword):
+                    if newemail == "":
+                        user.set_password(newpassword)
+                    elif newemail != "" and newpassword != "":
+                        user.set_password(newpassword)
+                        user.username = newemail
+                        user.email = newemail
+                else:
+                    dictionary['state'] = False
+                    dictionary['msg'] = 'The original password is wrong'
+                    return HttpResponse(simplejson.dumps(dictionary))
+            user.save()
+            dictionary['state'] = True
+            return HttpResponse(simplejson.dumps(dictionary))
+        return render_to_response("account-settings.html", {'user': userAccount, 'community': Community.objects.all()},
+                                  context_instance=RequestContext(request))
+    else:
+        return Http404
 
 
 def join_us(request):

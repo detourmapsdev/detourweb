@@ -71,7 +71,7 @@ class Facebook:
                 user_facebook[0].save()
                 usuario_parent.tipo_usuario = user_facebook[0].id
                 usuario_parent.save()
-        return user_object
+        return user_object.username
 
     def authenticate_only_facebook(self,access_token=None):
         user_facebook = Usuario.objects.get(

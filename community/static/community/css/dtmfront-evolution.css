@@ -1141,14 +1141,14 @@ img {
 .perfiles {
     display: none;
     position: absolute;
-    top: 58px;
+    /* top: 58px; */
     left: 0;
     list-style: none;
     padding: 0;
     margin: 0;
-    border: 1px #bababa solid;
+    /* border: 1px #bababa solid; */
     box-shadow: 0 4px 12px 1px rgba(0, 0, 0, 0.35);
-    background: #f5f6f7 url('../img/fondoDetour.jpg');
+    background: #333;
     z-index: 100000;
     width: 100%;
 }
@@ -1226,6 +1226,7 @@ img {
     display: block;
     text-align: center;
     float: left;
+    position: relative;
 }
 
 .tbar nav ul li a {
@@ -1260,12 +1261,246 @@ span.newLog {
     margin: 4px 2px 0;
     padding: 14px 16px 12px;
     font-family: 'Pathway Gothic One', sans-serif;
-    font-size: 16pt;
+    font-size: 9pt;
     font-weight: lighter !important;
     text-align: center;
-    color: #F26F31;
+    color: #fff;
 }
+div#track{
+    background: none repeat scroll 0% 0% #0071BC;
+    width: 50%;
+    margin: auto auto 0px;
+    text-align: center;
+    color: #FFF;
+    padding: 5px 1em;
+    position: relative;
+    margin-top: -28px;
+}
+div#track a.linky{
+    color: #fff !important;
+}
+div#track a#close_track{
+    position: absolute;
+    top: -30%;
+    right: -1%;
+    display: block;
+}
+a.launchpopdeal{
+    position: relative;
+    display: block;
+    margin-top: 1em;
+    width: 55%;
+    text-decoration: underline;
+}
+div#request_deal{
+    background: #fff;
+    border-radius: 10px;
+    border: 10px solid rgba(0,0,0,0.5);
+    position: absolute;
+    width: 400px;
+    top: 70%;
+    left: 50%;
+    margin-left: -210px;
+    z-index: 1000;
+    -moz-background-clip: border;     /* Firefox 3.6 */
+    -webkit-background-clip: border;  /* Safari 4? Chrome 6? */
+    background-clip: border-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
 
+    -moz-background-clip: padding;     /* Firefox 3.6 */
+    -webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+    background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+
+    -moz-background-clip: content;     /* Firefox 3.6 */
+    -webkit-background-clip: content;  /* Safari 4? Chrome 6? */
+    background-clip: content-box;
+    text-align: center;
+    display: none;
+}
+div#request_deal header{
+    background: #ccc;
+    padding: 0.25em;
+    position: relative;
+    overflow: hidden;
+}
+div#request_deal header a{
+    float: right;
+    color: #4d4d4d;
+    font-family: 'Conv_MyriadPro-Light', sans-serif;
+    font-size: 1.5em;
+    display: block;
+    font-weight: bolder;
+}
+div#request_deal h2{
+    text-align: center;
+    font-size: 2em;
+    color: #0071bc;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+}
+div#request_deal h3{
+    text-align: center;
+    font-size: 1em;
+    color: #0071bc;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-weight: lighter;
+}
+div#request_deal p{
+    color: #666666;
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    text-align: center;
+}
+div#request_deal div.check_deal{
+    width: 80%;
+    margin: auto;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+div#request_deal div.check_deal ul{
+    list-style: none;
+    text-align: center;
+    overflow: hidden;
+}
+div#request_deal div.check_deal ul li{
+    float: left;
+    text-align: center;
+    padding: 0.5em;
+    width: 20%;
+}
+div#request_deal div.check_deal ul li label{
+    display: block;
+    height: 50px;
+}
+div#request_deal button{
+    background: #f7931e;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, #f7931e 0%, #f15a24 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7931e), color-stop(100%,#f15a24));
+    background: -webkit-linear-gradient(top, #f7931e 0%,#f15a24 100%);
+    background: -o-linear-gradient(top, #f7931e 0%,#f15a24 100%);
+    background: -ms-linear-gradient(top, #f7931e 0%,#f15a24 100%);
+    background: linear-gradient(to bottom, #f7931e 0%,#f15a24 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7931e', endColorstr='#f15a24',GradientType=0 );
+    border: 1px solid #F15A24;
+    border-radius: 4px;
+    color: #ffffff;
+    font-family: 'Conv_MyriadPro-Semibold', sans-serif;
+    font-size: 1em;
+    padding: 0.25em 0.75em;
+    text-align: center;
+    margin-bottom: 2em;
+}
+section.nodeal{
+    display: none;
+}
+a.launchdeal{
+    margin: 0 !important;
+    background: #999 !important;
+    color: #fff !important;
+    border-radius: 7px;
+    width: 50% !important;
+    padding: 0 !important;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+a.launchdeal div.admiral{
+    font-family: 'Conv_MyriadPro-Semibold', sans-serif;
+    font-weight: bolder;
+    font-size: 2em;
+    width: 13%;
+    float: left;
+    text-align: center;
+    padding: 0.2em 0;
+}
+a.launchdeal div.linesplit{
+    float: left;
+    width: 6px;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: 13%;
+}
+a.launchdeal div.namelaunchdeal{
+    font-family: 'Conv_MyriadPro-Regular', sans-serif;
+    font-weight: normal;
+    font-size: 0.8em;
+    padding: 0.5em 0;
+    width: 85%;
+    float: left;
+    text-align: center;
+}
+img.imgtenoff{
+    margin-top: 5em;
+    float: left;
+    width: 50%;
+}
+section.infotenoff{
+    margin-top: 3em;
+    float: left;
+    width: 50%;
+}
+section.infotenoff ul{
+    list-style: none;
+    font-size: 0.65em;
+    color: #333333;
+}
+section.infotenoff ul li{
+    display: block;
+    position: relative;
+    padding: 0.5em 0;
+    border-bottom: 1px solid #4D4D4D;
+    overflow: hidden;
+}
+section.infotenoff ul li div.circleinfo.yellow{
+    float: left;
+    width: 24px;
+    border-radius: 50%;
+    background: #FCEE21;
+    height: 24px;
+    margin-right: 10px;
+}
+section.infotenoff ul li div.circleinfo.red{
+    float: left;
+    width: 24px;
+    border-radius: 50%;
+    background: #FF0000;
+    height: 24px;
+    margin-right: 10px;
+}
+section.infotenoff ul li div.circleinfo.blue{
+    float: left;
+    width: 24px;
+    border-radius: 50%;
+    background: #0071BC;
+    height: 24px;
+    margin-right: 10px;
+}
+section.infotenoff ul li div.circleinfo.gray{
+    float: left;
+    width: 24px;
+    border-radius: 50%;
+    background: #B3B3B3;
+    height: 24px;
+    margin-right: 10px;
+}
+section.infotenoff ul li div.textinfo{
+    float: left;
+    width: 80%;
+}
+section.pure-u-1-3.inf{
+    position: relative;
+}
+section.rounded{
+    position: absolute;
+    bottom: 35%;
+    left: -20px;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: none;
+}
 .tbar nav ul li a.hover {
 
 }
@@ -1316,15 +1551,13 @@ span.newLog {
 .overmenuJoin {
     display: inline-block;
     position: absolute;
-    top: 58px;
     list-style: none;
     padding: 0;
     margin: 0;
-    border: 1px #bababa solid;
     box-shadow: 0 4px 12px 1px rgba(0, 0, 0, 0.35);
     background: #333;
     z-index: 10001;
-    width: 140px;
+    width: 100%;
 }
 
 .overmenu li, .perfiles li {

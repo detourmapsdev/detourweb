@@ -973,11 +973,12 @@ div#wrapper-slide-deals div.panel{
     padding:0;
     margin:0;
 }
-div#wrapper-slide-deals div.panel section{
+div#wrapper-slide-deals div.panel section.insidepanel{
     width: 80%;
     margin: auto;
     position: relative;
     display: block;
+    padding: 1em 2em;
 }
 div#formDeals form {
     position: relative;
@@ -2434,18 +2435,7 @@ div.panelAbout{
     font-size: 1.2em;
     color: #5e5e5e;
 }
-div.panel section{
-    padding: 1em 2em;
-}
-div.panel section a{
-    display: block;
-    margin: 1em 0;
-    background: #ed6924;
-    color: #ffffff;
-    font-family: 'Open sans', sans-serif;
-    padding: 0.45em 2em;
-    width: 18%;
-}
+
 div.launch{
     background: url("../evolution/about%20icons.png") no-repeat;
     width: 240px;

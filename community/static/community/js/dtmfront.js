@@ -279,6 +279,14 @@ $(document).ready(function () {
         var panelsFooter = $(".panelBusiness");
         panelsFooter.hide();
         var subFooter = $("#subFooter");
+        $.getJSON('/communities/get/session', function (data) {
+            if(data.session){
+                subFooter.find("#dealsPanelSubFooter #ten-off input#nameBusinessField").val(data.names);
+                subFooter.find("#dealsPanelSubFooter #ten-off input#emailBusinessField").val(data.email);
+                subFooter.find("#dealsPanelSubFooter #smart-buys input#nameUserField").val(data.names);
+                subFooter.find("#dealsPanelSubFooter #smart-buys input#emailUserField").val(data.email)
+            }
+        });
         subFooter.find("#nameSubFooter").html(business.name);
         subFooter.find("#addressSubFooter").html(business.address);
         subFooter.find("#descSubFooter").html(business.desc);
@@ -290,8 +298,34 @@ $(document).ready(function () {
         subFooter.find("#infoSubFooter").attr("getschedule", business.url);
         subFooter.find("#servicesSubFooter ul").html(" ");
         subFooter.find("#infoPanelSubFooter").show();
+        subFooter.find("#hiddenBusiness").val(business.url);
+        $(".thirty, .fourty, .fifty").removeClass("cur").find("span.min").hide();
+        $(".dealBehind").remove();
+        //subFooter.find("#dealsPanelSubFooter").append("<div class='dealBehind'></div>");
+        subFooter.find("#hiddenBusiness").attr("nameBiz", business.name);
         if(business.deals !== 'N'){
             $("#" + business.deals + "deal").addClass("cur").find("span.min").show();
+            subFooter.find("#ten-off form.formDeals").show();
+            subFooter.find("#ten-off ul#list-share").show();
+            subFooter.find("#ten-off .nodeal").hide();
+            if(business.deals === 'T'){
+                $("section.rounded").css("background","#FCEE21").show();
+            }
+            if(business.deals === 'F'){
+                $("section.rounded").css("background","#FF0000").show();
+            }
+            if(business.deals === 'Q'){
+                $("section.rounded").css("background","#0071BC").show();
+            }
+        }
+        else{
+            $(".thirty, .fourty, .fifty").removeClass("cur").find("span.min").hide();
+            subFooter.find("#ten-off form.formDeals").hide();
+            subFooter.find("#ten-off ul#list-share").hide();
+            subFooter.find("#ten-off .nodeal").show();
+            subFooter.find("#ten-off .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + "IS NOT ACCEPTING </b><br>$10 SAVINGS CARD AT THIS TIME</div>");
+            $("#request_deal h3.requestH3").html("There’s Orange Deals available for " + business.name);
+            $("section.rounded").css("background","#B3B3B3").show();
         }
         $("#subFooter").slideDown('slow', function () {
             $.getJSON('/communities/get/schedule', {'tag': business.auth_code}, function (data) {
@@ -346,17 +380,6 @@ $(document).ready(function () {
             $("#videoInfoView").find("h3").html(business.name);
             $("#videoInfoView").find("p").html("");
         }
-        if (business.deals) {
-            subFooter.find("#hiddenBusiness").val(business.url);
-            $(".dealBehind").remove();
-        }
-        else {
-            $(".dealBehind").remove();
-            //subFooter.find("#dealsPanelSubFooter").append("<div class='dealBehind'></div>");
-            subFooter.find("#hiddenBusiness").attr("nameBiz", business.name);
-            //subFooter.find("#dealsPanelSubFooter div#formDeals img").attr("src","0");
-        }
-
         if (business.cupon.length > 0) {
             $("#wrap-vertical-slider").html("");
             $(".controlpanel").remove();
@@ -381,9 +404,15 @@ $(document).ready(function () {
             var stepcontrol = "<label><span class='dynamo'>" + init_page + "</span> of " + end_page + "</label>";
             divpager = "<div id='controlpanel'>" + uparrow + stepcontrol + downarrow + "</div>";
             $("#vertical-slider").append(divpager);
+            subFooter.find("#smart-buys #smartDeals button#printCoupon").css("display", "inline-block");
+            subFooter.find("#smart-buys #smartDeals div.splinter").css("display", "inline-block");
+            subFooter.find("#smart-buys #smartDeals button#emailCoupon").css("display", "inline-block");
         }
         else {
             $("#wrap-vertical-slider").html("");
+            subFooter.find("#smart-buys #smartDeals button#printCoupon").css("display", "none");
+            subFooter.find("#smart-buys #smartDeals div.splinter").css("display", "none");
+            subFooter.find("#smart-buys #smartDeals button#emailCoupon").css("display", "none");
         }
         var node = "";
         for (var iTag = 0; iTag < business.tags.length; iTag++) {
@@ -568,7 +597,7 @@ $(document).ready(function () {
 
                 }
             }
-
+            $("#greatFooter").animate({marginTop: -150}, 800).animate({marginTop: 0}, 2400);
 
         });
         window.setTimeout(function () {
