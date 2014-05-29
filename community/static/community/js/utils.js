@@ -142,7 +142,7 @@ $(document).ready(function () {
             }
         }, 250, this);
     });
-    $(".login").hover(function(){
+    $(".overLogin").hover(function(){
 		submenu = $("ul." + $(this).attr("name"));
 		submenu.show();
 	}, function() {

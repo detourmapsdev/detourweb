@@ -199,9 +199,14 @@ EMAIL_HOST_PASSWORD = '04718802'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-FACEBOOK_APP_ID = "540480642657288"
-FACEBOOK_APP_SECRET = "8b78af3f834230b2a40ad7dd6e981a14"
-FACEBOOK_REDIRECT_URI = "http://detourmaps.com/communities/loginUser/"
+#FACEBOOK_APP_ID = "540480642657288"
+#FACEBOOK_APP_SECRET = "8b78af3f834230b2a40ad7dd6e981a14"
+#FACEBOOK_REDIRECT_URI = "http://detourmaps.com/communities/loginUser/"
+
+#settings facebook localhost
+FACEBOOK_APP_ID = "238417312930434"
+FACEBOOK_APP_SECRET = "ed30953e52e55db8227f0d7e23d37d6d"
+FACEBOOK_REDIRECT_URI = "http://localhost:8000/communities/loginUser/"
 
 #settings Twitter oAuth
 CONSUMER_KEY = 'FgpSGwxZL1eapBqUNMmg'

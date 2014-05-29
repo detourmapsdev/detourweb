@@ -23,7 +23,7 @@
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
     <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}community/js/jquery.validate.min.js.gz"></script>
-    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js.gz"></script>
+    <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
     {#    <script defer type="text/javascript" src="/user/js/utils_sys"></script>#}
     <script src="{{ STATIC_URL }}messi/messi.min.js.gz"></script>
     <script src="{{ STATIC_URL }}community/js/layout.js.gz"></script>
@@ -135,14 +135,6 @@
         </nav>
 
         <div class="user-set" name="perfiles">
-            {% if request.session.user %}
-                <a href="" class="overLogin" name="perfiles"><span
-                        class="newLog">{{ request.session.user.username }}</span></a>
-                <ul class="perfiles" id="">
-                    <li><a href="{% url 'accountSettings' %}">Profile</a></li>
-                    <li><a href="{% url 'goodbye' %}">Log Out</a></li>
-                </ul>
-            {% else %}
                 <ul>
                     <li>
                         <a class="plus-orange"><img src="{{ STATIC_URL }}community/evolution/icon-orange.png"/> <div>Orange Deals</div><i>+</i></a>
@@ -150,14 +142,24 @@
                     <li>
                         <input type="email" placeholder="Enter email and suscribe" class="suscribe-field"/>
                     </li>
-                    <li>
-                        <a href="{% url 'loginUser' %}" class="account">Log in</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'registerUser' %}" class="account">Sign Up</a>
-                    </li>
+                    {% if request.session.user %}
+                        <li>
+                            <a href="" class="overLogin" name="perfiles"><span
+                                    class="newLog">{{ request.session.user }}</span></a>
+                            <ul class="perfiles" id="">
+                                <li><a href="{% url 'accountSettings' %}">Profile</a></li>
+                                <li><a href="{% url 'goodbye' %}">Log Out</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{% url 'loginUser' %}" class="account">Log in</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'registerUser' %}" class="account">Sign Up</a>
+                        </li>
+                    {% endif %}
                 </ul>
-            {% endif %}
         </div>
     </header>
 {% endblock %}
