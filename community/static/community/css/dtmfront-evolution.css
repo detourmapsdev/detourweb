@@ -1546,6 +1546,32 @@ div#show-dish{
     right: 3.5em;
     width: 30%;
 }
+
+div#show-dish img{
+    display: none;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+div#nav-dishes{
+    position: absolute;
+    top: 10em;
+    display: none;
+    right: 3.5em;
+    width: 30%;
+}
+div#nav-dishes a{
+    padding: 0px 4px;
+    background: #f48031;
+}
+div#nav-dishes a.left-nav-dish{
+    float: left;
+    left: 0;
+}
+div#nav-dishes a.right-nav-dish{
+    float: right;
+    right: 0;
+}
 .over.display {
     display: block;
 }

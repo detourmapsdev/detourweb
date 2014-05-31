@@ -232,9 +232,35 @@ $(document).ready(function () {
         $("#textMenu ul li").not($(this)).css("background","#fff  url(/static/community/evolution/icon-view-menu.png) center right no-repeat").css("color","#666");
         $(this).css("background", "#f48031 url(/static/community/evolution/icon-active-view-menu.png) center right no-repeat").css("color", "#fff");
         $("div#show-dish").html("");
-        $(this).find("img.thumb").clone().appendTo("div#show-dish").show();
+        var listImg = $(this).find("img.thumb");
+        if(listImg.length > 1){
+            $("div#nav-dishes").show();
+            for(var j=0; j<listImg.length; j++){
+                if(j==0){
+                    $(listImg[j]).clone().appendTo("div#show-dish").show();
+                }else{
+                    $(listImg[j]).clone().appendTo("div#show-dish").hide();
+                }
+            }
+        }else{
+            $("div#nav-dishes").hide();
+            $(this).find("img.thumb").clone().appendTo("div#show-dish").show();
+        }
+        //$(this).find("img.thumb").clone().appendTo("div#show-dish").show();
         $(this).find("b").clone().appendTo("div#show-dish").show();
         $("div#show-dish").append($(this).contents().first().text());
+    });
+    $(document).on("click", "a.mnav", function(e){
+        e.preventDefault();
+        var x = 1;
+        var listIMG = $("div#show-dish img.thumb");
+        if($(this).hasClass("left-nav-dish")){
+            
+        }else{
+            $(listIMG[x-1]).hide();
+            $(listIMG[x]).fadeIn();
+            x++
+        }
     });
     if (varDetourmaps.user.login) {
         bisInfo.addTab(tab_rating_title, relleno());
