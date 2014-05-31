@@ -250,16 +250,30 @@ $(document).ready(function () {
         $(this).find("b").clone().appendTo("div#show-dish").show();
         $("div#show-dish").append($(this).contents().first().text());
     });
+    var xs = 1;
     $(document).on("click", "a.mnav", function(e){
         e.preventDefault();
-        var x = 1;
         var listIMG = $("div#show-dish img.thumb");
         if($(this).hasClass("left-nav-dish")){
-            
+            if(xs==1){
+                $(listIMG[xs-1]).hide();
+                $(listIMG[listIMG.length -1]).fadeIn();
+                xs=listIMG.length;
+            }else{
+                $(listIMG[xs-1]).hide();
+                --xs;
+                $(listIMG[xs-1]).fadeIn();
+            }
         }else{
-            $(listIMG[x-1]).hide();
-            $(listIMG[x]).fadeIn();
-            x++
+            if(xs==listIMG.length){
+                $(listIMG[xs-1]).hide();
+                $(listIMG[0]).fadeIn();
+                xs=1;
+            }else{
+                $(listIMG[xs-1]).hide();
+                $(listIMG[xs]).fadeIn();
+                xs++
+            }
         }
     });
     if (varDetourmaps.user.login) {
