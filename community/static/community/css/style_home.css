@@ -1418,6 +1418,7 @@ div#textMenu ul li {
     font-size: 14px;
     border-bottom: 1px solid #666666;
     padding: 4px;
+    background: url(../evolution/icon-view-menu.png) center right no-repeat;
 }
 
 div#textMenu h4 {
