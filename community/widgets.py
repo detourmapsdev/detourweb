@@ -37,13 +37,11 @@ class TextEditorWidget(forms.Textarea):
         css = {
             'all': (
                 settings.STATIC_URL + 'web-icon/css/font-awesome.css',
-                settings.STATIC_URL + 'community/css/editor.css'
+                settings.STATIC_URL + 'web/editor/css/editor.css'
             )
         }
         js = (
-            'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js',
-            'http://code.jquery.com/jquery-migrate-1.2.1.js',
-            settings.STATIC_URL + 'community/js/editor.js'
+            settings.STATIC_URL + 'web/editor/js/editor.js'
         )
 
     def __init__(self, language=None, attrs=None):

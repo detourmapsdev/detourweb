@@ -80,18 +80,13 @@ class AdminMenuBusiness(admin.TabularInline):
 
     class Media:
         js = (
-            '%sweb/tinymce/jscripts/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
             'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
-            '%sweb/markitup/jquery.markitup.js' % settings.STATIC_URL,
-            '%sweb/markitup/sets/default/set.js' % settings.STATIC_URL,
-            '%sweb/js/textareas.js' % settings.STATIC_URL,
-            '%sweb/js/cms.js' % settings.STATIC_URL,
+            '%sweb/editor/js/editor.js' % settings.STATIC_URL,
             '%sweb/js/collapsible.js' % settings.STATIC_URL,
         )
         css = {
             'all': (
-                '%sweb/markitup/skins/simple/style.css' % settings.STATIC_URL,
-                '%sweb/markitup/sets/default/style.css' % settings.STATIC_URL,
+                '%sweb/editor/css/editor.css' % settings.STATIC_URL,
                 '%sweb/css/collapsible.css' % settings.STATIC_URL,
             )
         }
@@ -103,18 +98,13 @@ class AdminScheduleBusiness(admin.TabularInline):
 
     class Media:
         js = (
-            '%sweb/tinymce/jscripts/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
             'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
-            '%sweb/markitup/jquery.markitup.js' % settings.STATIC_URL,
-            '%sweb/markitup/sets/default/set.js' % settings.STATIC_URL,
-            '%sweb/js/textareas.js' % settings.STATIC_URL,
-            '%sweb/js/cms.js' % settings.STATIC_URL,
+            '%sweb/editor/js/editor.js' % settings.STATIC_URL,
             '%sweb/js/collapsible.js' % settings.STATIC_URL,
         )
         css = {
             'all': (
-                '%sweb/markitup/skins/simple/style.css' % settings.STATIC_URL,
-                '%sweb/markitup/sets/default/style.css' % settings.STATIC_URL,
+                '%sweb/editor/css/editor.css' % settings.STATIC_URL,
                 '%sweb/css/collapsible.css' % settings.STATIC_URL,
             )
         }

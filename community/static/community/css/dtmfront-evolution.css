@@ -1531,7 +1531,21 @@ section.rounded{
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ccffffff', GradientType=0);
     z-index: 4;
 }
-
+div#textMenu ul li img.thumb, div#textMenu ul li b{
+    display: none;
+}
+div#textMenu ul li b, div#show-dish b{
+    float: right;
+}
+div.icon-view{
+    float: right;
+}
+div#show-dish{
+    position: absolute;
+    top: 6.5em;
+    right: 3.5em;
+    width: 30%;
+}
 .over.display {
     display: block;
 }

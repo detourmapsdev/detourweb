@@ -3145,3 +3145,21 @@ def save_newsletter_suscription(request):
                 news_object.save()
                 dict_response['msg'] = 'Newsletter suscription saved!!!'
         return HttpResponse(simplejson.dumps(dict_response))
+
+
+@csrf_exempt
+def uploadImage(request):
+    if request.method == "POST":
+        #file =  request.META["HTTP_X_FILENAME"]
+        image_object = ImagenEditor(
+            imagen = request.FILES['file']
+        )
+        image_object.save()
+        thumbnailer = get_thumbnailer(image_object.imagen)
+        thumb = thumbnailer.get_thumbnail({'size': (800, 800)})
+        thumb = thumbnailer.get_thumbnail_name({'size': (800, 800)})
+        thumbStr = thumb.replace("\\", "/")
+        thumbnail = "/media/" + thumbStr
+        return HttpResponse(thumbnail)
+    else:
+        return HttpResponse("not save")

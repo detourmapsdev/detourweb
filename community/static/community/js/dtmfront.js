@@ -227,7 +227,15 @@ $(document).ready(function () {
           type: 'image'
             // other options
         });
-    })
+    });
+    $(document).on("click", "#textMenu ul li", function(){
+        $("#textMenu ul li").not($(this)).css("background","#fff  url(/static/community/evolution/icon-view-menu.png) center right no-repeat").css("color","#666");
+        $(this).css("background", "#f48031 url(/static/community/evolution/icon-active-view-menu.png) center right no-repeat").css("color", "#fff");
+        $("div#show-dish").html("");
+        $(this).find("img.thumb").clone().appendTo("div#show-dish").show();
+        $(this).find("b").clone().appendTo("div#show-dish").show();
+        $("div#show-dish").append($(this).contents().first().text());
+    });
     if (varDetourmaps.user.login) {
         bisInfo.addTab(tab_rating_title, relleno());
     } else {
@@ -276,6 +284,10 @@ $(document).ready(function () {
         $.getJSON('/communities/get/menu', {'tag': business.auth_code}, function (data) {
             $("#menuPanelSubFooter div#textMenu").html(data.menu);
         });
+        var listLiMenu = $("#menuPanelSubFooter div#textMenu ul li");
+        for (var i = 0; i < listLiMenu.length; i++){
+            $(listLiMenu[i]).append("<div class='icon-view'><i><img src='/static/community/evolution/icon-view-menu.png'/></i></div>");
+        }
         var panelsFooter = $(".panelBusiness");
         panelsFooter.hide();
         var subFooter = $("#subFooter");

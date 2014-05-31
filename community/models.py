@@ -590,7 +590,7 @@ class ImageBusiness(Image):
 
 
 class BusinessMenu(models.Model):
-    menu = models.TextField()
+    menu = EditorField(verbose_name=u'Menu', blank=True, null=True)
     business = models.ForeignKey(Business)
 
     def __unicode__(self):
@@ -707,3 +707,14 @@ class Bookmark(models.Model):
 
     def __unicode__(self):
         return '%s' % self.biz.name
+
+
+class ImagenEditor(models.Model):
+    imagen = models.ImageField(upload_to='editor')
+
+    def __unicode__(self):
+        return '%s' % self.imagen
+
+    class Meta:
+        verbose_name = 'Menu Image'
+        verbose_name_plural = u'Menu Images'
