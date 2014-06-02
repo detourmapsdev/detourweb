@@ -835,101 +835,143 @@
                 </div>
                 <div id="smart-buys" class="panel">
                     <section class="insidepanel">
-                        <h3></h3>
-                        <p>
-                            What’s a Smart Buy? It’s a unique ofer that can include anything from
-                            a free product or service to half-of your purchase. Deep discounts for
-                            you.
-                            <a href="#how-it-works" class="worked">How it works.</a>
-                        </p>
-                        <div style="clear: both;"></div>
-                        <div>
-                            <ul id="list-share">
-                                <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
-                            </ul>
-                        </div>
-                        <div id="smartDeals">
-                            <form>
-                                <input type="text" name="name" placeholder="Name*" id="nameUserField"/>
-                                <input type="text" name="email" placeholder="Email*" id="emailUserField"/>
-                                <label>
-                                    How would you like to receive your Smart Buys?
-                                </label>
-                                <div id="toolsSmart">
-                                    <button id="printCoupon">Print</button><div class="splinter">-or-</div>
-                                    <button id="emailCoupon">Email</button>
-                                    {% if not request.session.user %}
-                                        <a href="{% url 'registerUser' %}">Need an account? sign up</a>
-                                    {% endif %}
+                        <section class="pure-g">
+                            <section class="pure-u-1-2">
+                                <h3></h3>
+                                <p>
+                                    What’s a Smart Buy? It’s a unique ofer that can include anything from
+                                    a free product or service to half-of your purchase. Deep discounts for
+                                    you.
+                                    <a href="#how-it-works" class="worked">How it works.</a>
+                                </p>
+                                <div style="clear: both;"></div>
+                                <div>
+                                    <ul id="list-share-smart">
+                                        <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
+                                    </ul>
                                 </div>
-                            </form>
-                            <section id="vertical-slider">
-                                <section id="wrap-vertical-slider">
-
+                                <div id="smartDeals">
+                                    <form>
+                                        <input type="text" name="name" placeholder="Name*" id="nameUserField"/>
+                                        <input type="text" name="email" placeholder="Email*" id="emailUserField"/>
+                                        <label>
+                                            How would you like to receive your Smart Buys?
+                                        </label>
+                                        <div id="toolsSmart">
+                                            <button id="printCoupon">Print</button><div class="splinter">-or-</div>
+                                            <button id="emailCoupon">Email</button>
+                                            {% if not request.session.user %}
+                                                <a href="{% url 'registerUser' %}">Need an account? sign up</a>
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                                <section class="nodeal">
+                                    <div class="wrapnodeal">
+                                        <a href="" class="launchdeal"></a>
+                                    </div>
+                                    <a href="" class="launchpopdeal">
+                                       Want to request Smart Buys and other Orange Deals
+                                       for Culver’s?
+                                    </a>
                                 </section>
                             </section>
-                        </div>
+                            <section class="pure-u-1-2">
+                                <section id="vertical-slider">
+                                    <section id="wrap-vertical-slider">
+
+                                    </section>
+                                </section>
+                            </section>
+                        </section>
                     </section>
                 </div>
                 <div id="ten-visits" class="panel">
                     <section class="insidepanel">
-                        <section class="panel-left">
-                            <h3>Loyalty Rewards</h3>
-                            <p>
-                                Are you a loyal customer? Get rewarded for supporting your favorite spot. Every
-                                ten visits, you’ll receive something special as a sign of apprication.
-                                <a href="#how-it-works" class="worked">How it works.</a>
-                            </p>
-                            <div style="clear: both;"></div>
-                            <div>
-                                <ul id="list-share">
-                                    <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
-                                </ul>
-                            </div>
-                            <form style="width: 70%;">
-                                <h4>Enter visit here</h4>
-                                <input type="text" name="name" placeholder="Name of employee (optional)" id="nameemployee"/>
-                                <input type="text" name="email" placeholder="Receipt Number" id="receipt"/>
-                                <input type="text" name="date" placeholder="Date" id="datevist"/>
-                                <div id="toolsSmart">
-                                    <button>Submit</button>
-                                    {% if not request.session.user %}
-                                        <a href="{% url 'registerUser' %}">Need an account? sign up</a>
-                                    {% endif %}
+                        <section class="pure-g">
+                            <section class="pure-u-1-2">
+                                <h3>Loyalty Rewards</h3>
+                                <p>
+                                    Are you a loyal customer? Get rewarded for supporting your favorite spot. Every
+                                    ten visits, you’ll receive something special as a sign of apprication.
+                                    <a href="#how-it-works" class="worked">How it works.</a>
+                                </p>
+                                <div style="clear: both;"></div>
+                                <div>
+                                    <ul id="list-share-ten-visits">
+                                        <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
+                                    </ul>
                                 </div>
-                            </form>
+                                <form style="width: 70%;" id="form-ten-visits">
+                                    <h4>Enter visit here</h4>
+                                    <input type="text" name="name" placeholder="Name of employee (optional)" id="nameemployee"/>
+                                    <input type="text" name="email" placeholder="Receipt Number" id="receipt"/>
+                                    <input type="text" name="date" placeholder="Date" id="datevist"/>
+                                    <div id="toolsSmart">
+                                        <button>Submit</button>
+                                        {% if not request.session.user %}
+                                            <a href="{% url 'registerUser' %}">Need an account? sign up</a>
+                                        {% endif %}
+                                    </div>
+                                </form>
+                                <section class="nodeal">
+                                    <div class="wrapnodeal">
+                                        <a href="" class="launchdeal"></a>
+                                    </div>
+                                    <a href="" class="launchpopdeal">
+                                       Want to request Ten Visits and other Orange Deals
+                                       for Culver’s?
+                                    </a>
+                                </section>
+                            </section>
+                            <section class="pure-u-1-2">
+                                <figure class="panel-right">
+                                    <img src=""/>
+                                </figure>
+                            </section>
                         </section>
-                        <figure class="panel-right">
-                            <img src=""/>
-                        </figure>
+
                     </section>
                 </div>
                 <div id="refer-friends" class="panel">
-                    <section class="insidepanel"    >
-                        <section class="panel-left">
-                            <h3>Earn a $25 Gift Certificate when you refer five friends</h3>
-                            <p>
-                                If they buy a product or service from that business you are that much closer
-                                to getting $25. Enter your friends info and we will send them an email with a
-                                code and your name.
-                            </p>
-                            <form>
-                                <h4>
-                                    Tell your friends
-                                </h4>
-                                <input type="text" name="name" placeholder="Enter friends email" id="emailfriends"/>
-                                <textarea name="quickmessage" id="quickmessage" placeholder="Quick Message"></textarea>
-                                <div id="toolsSmart">
-                                    <button>Send</button>
-                                    {% if not request.session.user %}
-                                        <a href="{% url 'registerUser' %}">Need an account? sign up</a>
-                                    {% endif %}
-                                </div>
-                            </form>
+                    <section class="insidepanel">
+                        <section class="pure-g">
+                            <section class="pure-u-1-2">
+                                <h3>Earn a $25 Gift Certificate when you refer five friends</h3>
+                                <p>
+                                    If they buy a product or service from that business you are that much closer
+                                    to getting $25. Enter your friends info and we will send them an email with a
+                                    code and your name.
+                                </p>
+                                <form id="form-refer-friends">
+                                    <h4>
+                                        Tell your friends
+                                    </h4>
+                                    <input type="text" name="name" placeholder="Enter friends email" id="emailfriends"/>
+                                    <textarea name="quickmessage" id="quickmessage" placeholder="Quick Message"></textarea>
+                                    <div id="toolsSmart">
+                                        <button>Send</button>
+                                        {% if not request.session.user %}
+                                            <a href="{% url 'registerUser' %}">Need an account? sign up</a>
+                                        {% endif %}
+                                    </div>
+                                </form>
+                                <section class="nodeal">
+                                    <div class="wrapnodeal">
+                                        <a href="" class="launchdeal"></a>
+                                    </div>
+                                    <a href="" class="launchpopdeal">
+                                       Want to request Refer Friends and other Orange Deals
+                                       for Culver’s?
+                                    </a>
+                                </section>
+                            </section>
+                            <section class="pure-u-1-2">
+                                <figure class="panel-right">
+                                    <img src="{{ STATIC_URL }}community/evolution/refer-image.png"/>
+                                </figure>
+                            </section>
                         </section>
-                        <figure class="panel-right">
-                            <img src="{{ STATIC_URL }}community/evolution/refer-image.png"/>
-                        </figure>
                     </section>
                 </div>
             </div>

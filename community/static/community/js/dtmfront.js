@@ -375,7 +375,10 @@ $(document).ready(function () {
             subFooter.find("#ten-off form.formDeals").hide();
             subFooter.find("#ten-off ul#list-share").hide();
             subFooter.find("#ten-off .nodeal").show();
-            subFooter.find("#ten-off .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + "IS NOT ACCEPTING </b><br>$10 SAVINGS CARD AT THIS TIME</div>");
+            subFooter.find("#ten-off .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " IS NOT ACCEPTING </b><br>$10 SAVINGS CARD AT THIS TIME</div>");
+            subFooter.find("#smart-buys .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " NOT HAVE SMART BUYS AT THIS TIME</div>");
+            subFooter.find("#ten-visits .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " IS NOT ACCEPTING 10 VISITS AT THIS TIME</div>");
+            subFooter.find("#refer-friends .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " IS NOT ACCEPTING REFER FRIENDS AT THIS TIME</div>");
             $("#request_deal h3.requestH3").html("There’s Orange Deals available for " + business.name);
             $("section.rounded").css("background","#B3B3B3").show();
         }
@@ -396,9 +399,22 @@ $(document).ready(function () {
         subFooter.find("#dealsPanelSubFooter #ten-off h3").html("Want to save $10 at " + business.name + "?");
         subFooter.find("#dealsPanelSubFooter #smart-buys h3").html("Smart Buys at " + business.name);
         if(!business.ten_visit){
-            subFooter.find("#ten-visits .panel-right img").attr("src", "/static/community/evolution/ten-visits-image.png");
+            subFooter.find("#ten-visits .panel-right img").attr("src", "/static/community/evolution/ten-visits-none.png");
+            subFooter.find("#ten-visits #form-ten-visits").hide();
+            subFooter.find("#ten-visits ul#list-share-ten-visits").hide();
+            subFooter.find("#ten-visits section.nodeal").show();
         }else{
             subFooter.find("#ten-visits .panel-right img").attr("src", "/media/" + business.ten_visit);
+            subFooter.find("#ten-visits #form-ten-visits").show();
+            subFooter.find("#ten-visits ul#list-share-ten-visits").show();
+            subFooter.find("#ten-visits section.nodeal").hide();
+        }
+        if(!business.refer_friends){
+            subFooter.find("#refer-friends #form-refer-friends").hide();
+            subFooter.find("#refer-friends section.nodeal").show();
+        }else{
+            subFooter.find("#refer-friends #form-refer-friends").show();
+            subFooter.find("#refer-friends section.nodeal").hide();
         }
         subFooter.find("#menuPanelSubFooter h3").html(business.name + "'s Menu");
         $("#tweetShare").attr("href", "https://twitter.com/share?url=" + "http%3A%2F%2Fdetourmaps.com%2Fcommunities%2F" + business.community + "%2Fmap%2Fbusiness%2F?name=" + business.url_name + "%26auth_code=" + business.auth_code + "&via=detourmaps")
@@ -456,15 +472,15 @@ $(document).ready(function () {
             var stepcontrol = "<label><span class='dynamo'>" + init_page + "</span> of " + end_page + "</label>";
             divpager = "<div id='controlpanel'>" + uparrow + stepcontrol + downarrow + "</div>";
             $("#vertical-slider").append(divpager);
-            subFooter.find("#smart-buys #smartDeals button#printCoupon").css("display", "inline-block");
-            subFooter.find("#smart-buys #smartDeals div.splinter").css("display", "inline-block");
-            subFooter.find("#smart-buys #smartDeals button#emailCoupon").css("display", "inline-block");
+            subFooter.find("#smart-buys #smartDeals").show();
+            subFooter.find("#smart-buys ul#list-share-smart").show();
+            subFooter.find("#smart-buys section.nodeal").hide();
         }
         else {
             $("#wrap-vertical-slider").html("");
-            subFooter.find("#smart-buys #smartDeals button#printCoupon").css("display", "none");
-            subFooter.find("#smart-buys #smartDeals div.splinter").css("display", "none");
-            subFooter.find("#smart-buys #smartDeals button#emailCoupon").css("display", "none");
+            subFooter.find("#smart-buys #smartDeals").hide();
+            subFooter.find("#smart-buys ul#list-share-smart").hide();
+            subFooter.find("#smart-buys section.nodeal").show();
         }
         var node = "";
         for (var iTag = 0; iTag < business.tags.length; iTag++) {
