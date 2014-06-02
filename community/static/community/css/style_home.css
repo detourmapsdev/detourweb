@@ -949,7 +949,7 @@ div#dealsPanelSubFooter h3 {
 div#dealsPanelSubFooter p {
     font-family: 'Conv_MyriadPro-Regular', sans-serif;
     color: #666666;
-    font-size: 24px;
+    font-size: 1em;
     line-height: 1.25em;
     margin-bottom: 7px;
 }
@@ -1073,12 +1073,14 @@ figure.panel-right{
     position: relative !important;
     display: inline-block !important;
     vertical-align: middle !important;
-    width: 33% !important;
+    width: 100% !important;
+    margin-top: 4em;
+    margin-left: 1em;
 }
 div#smartDeals form{
     float: left !important;
     margin: 0px 2.5em 0px 0 !important;
-    width: 35%;
+    width: 90%;
     display: inline-block !important;
 }
 div#smartDeals section#vertical-slider{
@@ -1089,9 +1091,15 @@ div#smartDeals section#vertical-slider{
     overflow: hidden;
     height: 384px;
 }
+section#vertical-slider{
+    position: relative;
+    margin-top: 4em;
+}
 section#vertical-slider section#wrap-vertical-slider{
-    width: 100% !important;
     padding: 0 2em !important;
+}
+section#wrap-vertical-slider{
+    margin-left: 2%;
 }
 div.lsmart{
     float: left;
@@ -1118,7 +1126,7 @@ label.namesmart{
 div.toolset{
     overflow: hidden;
     margin-top: 0.85em;
-    width: 85%;
+    width: 100%;
 }
 div.toolset label, div.toolset a{
     float: left;
@@ -1139,6 +1147,7 @@ div.toolset a{
     padding: 0.1em 0.2em !important;
     margin: 0px !important;
     width: auto !important;
+    color: #fff;
 }
 div.panel_smart{
     padding: 0.65em;
@@ -1159,10 +1168,11 @@ div#controlpanel{
     position: absolute;
     left: 0px;
     text-align: center;
-    top: 30%;
+    top: 50%;
     font-size: 0.95em;
     color: #666;
     font-family: 'Conv_MyriadPro-Semibold', sans-serif;
+    margin-top: -28px;
 }
 a.fup, a.fdown{
     background: none repeat scroll 0% 0% transparent !important;
@@ -2650,20 +2660,20 @@ figure.figureHelp a{
     animation: spin 2s infinite linear;
     color: #f48131 !important;
 }
-ul#list-share{
+ul#list-share, ul#list-share-ten-visits{
     list-style: none;
     overflow: hidden;
 }
-ul#list-share li.share-net{
+ul#list-share li.share-net, ul#list-share-ten-visits li.share-net{
     float: left;
     border-right: 1px solid #f15a29;
     margin-right: 0.5em;
     padding-right: 0.5em;
 }
-ul#list-share li.share-net:last-child{
+ul#list-share li.share-net:last-child, ul#list-share-ten-visits li.share-net:last-child{
     border: none;
 }
-ul#list-share li.share-net a{
+ul#list-share li.share-net a, ul#list-share-ten-visits li.share-net a{
     padding: 0 !important;
     margin: 0 !important;
     display: block !important;

@@ -1576,7 +1576,8 @@ def data(request, name):
                         'community': j.community.url_name,
                         'auth_code': j.getUniqueCode(),
                         'url_name': j.url_name,
-                        'partner': get_partner(j)
+                        'partner': get_partner(j),
+                        'refer_friends': j.refer_friends
                     }
                 else:
                     entryDetails = j.EntryDetails()
@@ -1609,7 +1610,8 @@ def data(request, name):
                         'community': j.community.url_name,
                         'auth_code': j.getUniqueCode(),
                         'url_name': j.url_name,
-                        'partner': get_partner(j)
+                        'partner': get_partner(j),
+                        'refer_friends': j.refer_friends
                     }
                 lista_tag_services = []
                 for tag in j.tag_service.all():
