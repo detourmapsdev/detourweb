@@ -39,7 +39,7 @@ from os import path
 from community.models import Community, Category, Business, ImageBusiness, Service, Review, \
     Subscription, BusinessEvent, ImageBusinessEvents, BusinessMenu, BusinessSchedule, \
     ContactCard, Card, NewsletterSuscription, CuponBusiness, Usuario, Partner, LandingPartner, PhoneNumber as PNumber, \
-    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario
+    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario, FeedbackBusiness
 from community.twitter import Twitter
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -3154,7 +3154,7 @@ def uploadImage(request):
     if request.method == "POST":
         #file =  request.META["HTTP_X_FILENAME"]
         image_object = ImagenEditor(
-            imagen = request.FILES['file']
+            imagen=request.FILES['file']
         )
         image_object.save()
         thumbnailer = get_thumbnailer(image_object.imagen)
@@ -3165,3 +3165,35 @@ def uploadImage(request):
         return HttpResponse(thumbnail)
     else:
         return HttpResponse("not save")
+
+
+@csrf_exempt
+def saveFeedBack(request):
+    if request.method == "POST":
+        msg = {}
+        if "biz" in request.POST and "listValues[]" in request.POST and request.session.get("user"):
+            listvalues = request.POST.getlist("listValues[]")
+            biz_info = request.POST["biz"]
+            biz = biz_info.split("/")
+            biz_object = Business.objects.get(url_name=biz[0], pk=decode_url(biz[1]));
+            user = Usuario.objects.get(user__username=request.session["user"])
+            if len(listvalues) > 0:
+                for a in listvalues:
+                    feedback = FeedbackBusiness(
+                        business=biz_object,
+                        user=user,
+                        deal=a
+                    )
+                    feedback.save()
+            else:
+                feedback = FeedbackBusiness(
+                    business=biz_object,
+                    user=user,
+                    deal=listvalues[0]
+                )
+                feedback.save()
+            msg["response"] = True
+        else:
+            print "out"
+            msg["response"] = False
+        return HttpResponse(simplejson.dumps(msg))

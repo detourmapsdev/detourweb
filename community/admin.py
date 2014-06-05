@@ -10,7 +10,7 @@ from community.models import Service, Category, Subscription, Community, Busines
     Partner, LandingPartner, LandingSocialPartner, LandingTextPartner, VideoPartner, \
     HeaderPagePartner, BusinessEventPartner, ImageBusinessEventsPartner, NewDiscover, \
     PhoneNumber, CommunitySocial, CommunityText, HeaderCommunity, Video, HelpingShop, PromoPartner, \
-    LandingEvent, PartnerMobile, TenVisitsBusiness
+    LandingEvent, PartnerMobile, TenVisitsBusiness, FeedbackBusiness
 
 #forms
 from community.forms import FormBusiness, PartnerForm
@@ -352,6 +352,7 @@ admin.site.register(ContactCard)
 admin.site.register(Card)
 admin.site.register(NewsletterSuscription, AdminNewsletter)
 admin.site.register(Usuario)
+admin.site.register(FeedbackBusiness)
 admin.site.register(PromoPartner, AdminPromo)
 #unregister sites
 #admin.site.unregister(Site)

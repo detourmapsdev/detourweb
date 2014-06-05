@@ -810,22 +810,6 @@
                                             </div>
                                         </li>
                                     </ul>
-                                    {% comment %}<div id="info-deals">
-                                        <div id="Tdeal" class="thirty">
-                                            <div>$30</div>
-                                            <span class="min">minimum purchase</span>
-                                        </div>
-                                        <div id="Fdeal" class="fourty">
-                                            <div>$40</div>
-                                            <span class="min">minimum purchase</span>
-                                        </div>
-                                        <div id="Qdeal" class="fifty">
-                                            <div>$50</div>
-                                            <span class="min">minimum purchase</span>
-                                        </div>
-                                        <div style="clear: both;"></div>
-                                        <p class="caption-info">save 10 when you spend at least $30 </p>
-                                    </div>{% endcomment %}
                                 </section>
                                 <section class="rounded"></section>
                             </section>
@@ -1329,6 +1313,24 @@
             e.preventDefault();
             $(this).parent().parent().hide();
         });
+        $("#btnRequestDeal").click(function(e){
+            e.preventDefault();
+            var listValues = new Array();
+            var biz = $("#hideDeal").val();
+            $("input[name='deal[]']:checked").each(function(){
+                listValues.push($(this).val());
+            });
+            $.post("{% url 'saveFeedBack' %}", {
+                "biz": biz,
+                "listValues": listValues
+            }, function(data){
+                if(data.response){
+                    new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                }else{
+                    new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                }
+            });
+        })
     });
     </script>
 
@@ -1352,29 +1354,30 @@
                         <label>
                             <img src="{{ STATIC_URL }}community/evolution/ten-off-pop.png"/>
                         </label>
-                        <input type="checkbox" name="deal" value="">
+                        <input type="checkbox" name="deal[]" value="T">
                     </li>
                     <li>
                         <label>
                             <img src="{{ STATIC_URL }}community/evolution/smart-pop.png"/>
                         </label>
-                        <input type="checkbox" name="deal" value="">
+                        <input type="checkbox" name="deal[]" value="S">
                     </li>
                     <li>
                         <label>
                             <img src="{{ STATIC_URL }}community/evolution/ten-visits-pop.png"/>
                         </label>
-                        <input type="checkbox" name="deal" value="">
+                        <input type="checkbox" name="deal[]" value="V">
                     </li>
                     <li>
                         <label>
                             <img src="{{ STATIC_URL }}community/evolution/refer-pop.png"/>
                         </label>
-                        <input type="checkbox" name="deal" value="">
+                        <input type="checkbox" name="deal[]" value="R">
                     </li>
                 </ul>
             </div>
-            <button>Request Orange Deals</button>
+            <input type="hidden" value="" id="hideDeal">
+            <button id="btnRequestDeal">Request Orange Deals</button>
         </div>
     </div>
     {% spaceless %}

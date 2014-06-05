@@ -82,5 +82,6 @@ urlpatterns = patterns('community.views',
                        url(r'^all-savings/$', 'all_business_savings_json', name='allsavingsjson'),
                        url(r'^businesses/(?P<page>\d+)/(?P<slice>\d+)$', 'business_json', name='businessjson'),
                        url(r'^newsletter/$', 'save_newsletter_suscription', name='save_newsletter'),
-                       url(r'^upload/$','uploadImage', name='upload'),
+                       url(r'^upload/$', 'uploadImage', name='upload'),
+                       url(r'^save-feedback/$', 'saveFeedBack', name='saveFeedBack'),
 )

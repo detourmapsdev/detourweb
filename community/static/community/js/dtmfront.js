@@ -351,6 +351,7 @@ $(document).ready(function () {
         subFooter.find("#servicesSubFooter ul").html(" ");
         subFooter.find("#infoPanelSubFooter").show();
         subFooter.find("#hiddenBusiness").val(business.url);
+        $("#hideDeal").val(business.url);
         $(".thirty, .fourty, .fifty").removeClass("cur").find("span.min").hide();
         $(".dealBehind").remove();
         //subFooter.find("#dealsPanelSubFooter").append("<div class='dealBehind'></div>");
@@ -379,6 +380,10 @@ $(document).ready(function () {
             subFooter.find("#smart-buys .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " NOT HAVE SMART BUYS AT THIS TIME</div>");
             subFooter.find("#ten-visits .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " IS NOT ACCEPTING 10 VISITS AT THIS TIME</div>");
             subFooter.find("#refer-friends .wrapnodeal a.launchdeal").html("<div class='admiral'>!</div><div class='linesplit'></div><div class='namelaunchdeal'><b>" + business.name + " IS NOT ACCEPTING REFER FRIENDS AT THIS TIME</div>");
+            subFooter.find("#ten-off .nodeal a.launchpopdeal").html("Want to request $10 Savings card and other Orange Deals for " + business.name + "?");
+            subFooter.find("#smart-buys .nodeal a.launchpopdeal").html("Want to request Smart Buys and other Orange Deals for " + business.name + "?");
+            subFooter.find("#ten-visits .nodeal a.launchpopdeal").html("Want to request Ten Visits and other Orange Deals for " + business.name + "?");
+            subFooter.find("#refer-friends .nodeal a.launchpopdeal").html("Want to request Refer Friends and other Orange Deals for " + business.name + "?");
             $("#request_deal h3.requestH3").html("There’s Orange Deals available for " + business.name);
             $("section.rounded").css("background","#B3B3B3").show();
         }
