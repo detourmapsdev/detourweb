@@ -709,6 +709,22 @@ class Bookmark(models.Model):
         return '%s' % self.biz.name
 
 
+class FeedbackBusiness(models.Model):
+    CHOICES_DEAL = (
+        ('T', '$10 Off'),
+        ('S', 'Smart Buys'),
+        ('V', 'Ten Visits'),
+        ('R', 'Refer Friends')
+    )
+    business = models.ForeignKey(Business)
+    user = models.ForeignKey(Usuario)
+    deal = models.CharField(max_length=1, choices=CHOICES_DEAL)
+    date = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return '%s, %s - %s' % (self.business, self.user.user.username, self.get_deal_display())
+
+
 class ImagenEditor(models.Model):
     imagen = models.ImageField(upload_to='editor')
 
