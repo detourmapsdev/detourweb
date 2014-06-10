@@ -19,7 +19,7 @@ import os
 import cStringIO as StringIO
 import cgi
 import urllib2
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse, HttpResponseBadRequest, Http404, HttpResponseRedirect
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
@@ -1289,6 +1289,7 @@ def getBusiness(request, name):
                 tab = {
                     'tab': 'info'
                 }
+
             if match:
                 if 'type' in request.GET:
                     return render_to_response(
@@ -3201,6 +3202,28 @@ def saveFeedBack(request):
                 )
                 feedback.save()
             msg["response"] = True
+        elif "biz" in request.POST and "listValues" in request.POST and request.session.get("user"):
+            listvalues = request.POST["listValues"].split(",")
+            biz_info = request.POST["biz"]
+            biz = biz_info.split("/")
+            biz_object = Business.objects.get(url_name=biz[0], pk=decode_url(biz[1]));
+            user = Usuario.objects.get(user__username=request.session["user"])
+            if len(listvalues) > 0:
+                for a in listvalues:
+                    feedback = FeedbackBusiness(
+                        business=biz_object,
+                        user=user,
+                        deal=a
+                    )
+                    feedback.save()
+            else:
+                feedback = FeedbackBusiness(
+                    business=biz_object,
+                    user=user,
+                    deal=listvalues[0]
+                )
+                feedback.save()
+            msg["response"] = True
         else:
             print "out"
             msg["response"] = False
@@ -3213,9 +3236,10 @@ def fakelogin(request):
         dict_response = {}
         names = request.POST["nameuserdeal"].split(" ")
         gen_password = Randomizer()
+        password_left = gen_password.id_generator()
         user = User.objects.create_user(
             username=request.POST["emailuserdeal"],
-            password=gen_password.id_generator()
+            password=password_left
         )
         user.first_name = names[0]
         user.last_name = names[1]
@@ -3241,26 +3265,37 @@ def fakelogin(request):
         usuario.save()
         username = user.username
         password = user.password
-        user = authenticate(username=username, password=password)
-        dict_response = {}
-        if user is not None:
-            if user.is_active:
-                request.session["user"] = user.username
-                Sesion['estado'] = True
-                dict_response['state'] = True
-                dict_response['session'] = True,
-                dict_response['message'] = 'Your user and password were sent to your email account, please check it.'
-        else:
-            dict_response['state'] = False
-            dict_response['session'] = False,
-            dict_response['message'] = 'Troubles with your information, please try it later!!!'
-        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration.html")
-        context_user = Context({'link': 'www.facebook.com'})
+        request.session["user"] = user.username
+        dict_response['state'] = True
+        dict_response['session'] = True,
+        dict_response['message'] = 'Your user and password were sent to your email account, please check it.'
+        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration-password.html")
+        context_user = Context({'link': '/communities/register/confirm/%s' % encode_url(user.id, 6), 'password': password_left})
         subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', request.POST["emailuserdeal"]
         user_context_html = html_user.render(context_user)
         message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
         message_user.content_subtype = "html"
         message_user.send()
         return HttpResponse(simplejson.dumps(dict_response))
+
+
+@csrf_protect
+def register_confirm_password(request, user_id):
+    if user_id:
+        id_user = decode_url(user_id)
+        if request.POST:
+            user_object = User.objects.get(id=id_user)
+            user = authenticate(username=user_object.username, password=request.POST['old_password'])
+            if user.is_active:
+                user.set_password = request.POST['new_password']
+                user.save()
+                request.session['user'] = user.username
+                return redirect('/')
+        else:
+            return render_to_response(
+                'confirm-user-new-password.html',
+                {},
+                context_instance=RequestContext(request)
+            )
 
 
