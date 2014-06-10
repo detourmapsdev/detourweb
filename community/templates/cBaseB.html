@@ -79,6 +79,8 @@
                 tab['tab'] = '{{ tab.tab }}';
                 $("a#{{ tab.tab }}SubFooter").trigger("click");
             {% endif %}
+        {% else %}
+            $("a#infoSubFooter").trigger("click");
         {% endif %}
         $.getJSON('{% url 'data' community.url_name %}', function (data) {
             cmData = data;
@@ -1311,8 +1313,9 @@
         });
         $(".closerequest_deal").click(function(e){
             e.preventDefault();
-            $(this).parent().parent().hide();
+            $(this).parent().parent().parent().hide();
         });
+        var session = "{{ request.session.user }}";
         $("#btnRequestDeal").click(function(e){
             e.preventDefault();
             var listValues = new Array();
@@ -1320,65 +1323,97 @@
             $("input[name='deal[]']:checked").each(function(){
                 listValues.push($(this).val());
             });
-            $.post("{% url 'saveFeedBack' %}", {
-                "biz": biz,
-                "listValues": listValues
-            }, function(data){
-                if(data.response){
-                    new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
-                }else{
-                    new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
-                }
-            });
-        })
+            if(session){
+                $.post("{% url 'saveFeedBack' %}", {
+                    "biz": biz,
+                    "listValues": listValues
+                }, function(data){
+                    if(data.response){
+                        new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                    }else{
+                        new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                    }
+                });
+            }else{
+                $("#dealer").hide();
+                $("#signer").show();
+                window.localStorage['biz'] = biz;
+                window.localStorage['listValues'] = listValues;
+            }
+        });
+
     });
     </script>
 
     </div>
     </div>
     <div id="request_deal">
-        <header>
-            <a href="" class="closerequest_deal">X</a>
-        </header>
-        <div>
-            <h2 class="requestH2">Good news</h2>
-            <h3 class="requestH3"></h3>
-            <p>
-                Select from the following Orange Deals you would like this
-                business to accept, the more requests each Orange Deal
-                receives the sooner they will become available.
-            </p>
-            <div class="check_deal">
-                <ul>
-                    <li>
-                        <label>
-                            <img src="{{ STATIC_URL }}community/evolution/ten-off-pop.png"/>
-                        </label>
-                        <input type="checkbox" name="deal[]" value="T">
-                    </li>
-                    <li>
-                        <label>
-                            <img src="{{ STATIC_URL }}community/evolution/smart-pop.png"/>
-                        </label>
-                        <input type="checkbox" name="deal[]" value="S">
-                    </li>
-                    <li>
-                        <label>
-                            <img src="{{ STATIC_URL }}community/evolution/ten-visits-pop.png"/>
-                        </label>
-                        <input type="checkbox" name="deal[]" value="V">
-                    </li>
-                    <li>
-                        <label>
-                            <img src="{{ STATIC_URL }}community/evolution/refer-pop.png"/>
-                        </label>
-                        <input type="checkbox" name="deal[]" value="R">
-                    </li>
-                </ul>
+        <section id="dealer">
+            <header>
+                <a href="" class="closerequest_deal">X</a>
+            </header>
+            <div>
+                <h2 class="requestH2">Good news</h2>
+                <h3 class="requestH3"></h3>
+                <p>
+                    Select from the following Orange Deals you would like this
+                    business to accept, the more requests each Orange Deal
+                    receives the sooner they will become available.
+                </p>
+                <div class="check_deal">
+                    <ul>
+                        <li>
+                            <label>
+                                <img src="{{ STATIC_URL }}community/evolution/ten-off-pop.png"/>
+                            </label>
+                            <input type="checkbox" name="deal[]" value="T">
+                        </li>
+                        <li>
+                            <label>
+                                <img src="{{ STATIC_URL }}community/evolution/smart-pop.png"/>
+                            </label>
+                            <input type="checkbox" name="deal[]" value="S">
+                        </li>
+                        <li>
+                            <label>
+                                <img src="{{ STATIC_URL }}community/evolution/ten-visits-pop.png"/>
+                            </label>
+                            <input type="checkbox" name="deal[]" value="V">
+                        </li>
+                        <li>
+                            <label>
+                                <img src="{{ STATIC_URL }}community/evolution/refer-pop.png"/>
+                            </label>
+                            <input type="checkbox" name="deal[]" value="R">
+                        </li>
+                    </ul>
+                </div>
+                <input type="hidden" value="" id="hideDeal">
+                <button id="btnRequestDeal">Request Orange Deals</button>
             </div>
-            <input type="hidden" value="" id="hideDeal">
-            <button id="btnRequestDeal">Request Orange Deals</button>
-        </div>
+        </section>
+        <section id="signer" style="display: none;">
+            <header>
+                <a href="" class="closerequest_deal">X</a>
+            </header>
+            <div>
+                <form id="formfakelogin">{% csrf_token %}
+                    <h2 class="requestH2">Sign up to complete request</h2>
+                    <p>
+                        Thank you for your request, please enter your name and
+                        email address so that we can alert you when Orange Deals
+                        become available.
+                    </p>
+                    <div class="check_deal">
+                        <input type="text" placeholder="Name*" name="nameuserdeal">
+                        <input type="email" placeholder="Email*" name="emailuserdeal">
+                    </div>
+                    <div class="terms"><label><input type="checkbox" name="ckterms" class="ckterms" value="1">I have read the Terms and Conditions</label><a href="">Learn More</a></div>
+                    <button id="btnSignDeal">Sign Up</button>
+                    <p>Already on Detour? <a href="">Sign In</a></p>
+                </form>
+            </div>
+        </section>
     </div>
     {% spaceless %}
         <section id="templates">
@@ -1479,6 +1514,43 @@
                 </div>
                 <script type="text/javascript">
                     $(document).ready(function () {
+                        $("#formfakelogin").validate({
+                            rules: {
+                                nameuserdeal: {
+                                    required: true
+                                },
+                                emailuserdeal: {
+                                    required: true,
+                                    email: true
+                                },
+                                ckterms: {
+                                    required: true
+                                }
+                            },
+                            messages: {
+                                nameuserdeal: {
+                                    required: 'This field is required'
+                                },
+                                emailuserdeal: {
+                                    required: 'This field is required',
+                                    email: 'Please enter a valid email account'
+                                }
+                            }
+                        });
+                        $("#formfakelogin").submit(function (e) {
+                            e.preventDefault();
+                            var form = $("#formfakelogin");
+                            var button = $("#formfakelogin button");
+                            if (button.prop("disabled")) return;
+                            if (form.valid()) {
+                                button.prop("disabled", true).html('<i class="icon-spinner spin"></i>Sending');
+                                $.post('{% url 'fakelogin' %}', form.serialize(), function (data) {
+                                    var evalData = eval('(' + data + ')');
+                                    //$("#response-lista").html(evalData.msg);
+                                    new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
+                                });
+                            }
+                        });
                         $("#formLogin").validate({
                             rules: {
                                 user_email: {
