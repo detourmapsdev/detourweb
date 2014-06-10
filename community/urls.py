@@ -84,5 +84,5 @@ urlpatterns = patterns('community.views',
                        url(r'^newsletter/$', 'save_newsletter_suscription', name='save_newsletter'),
                        url(r'^upload/$', 'uploadImage', name='upload'),
                        url(r'^save-feedback/$', 'saveFeedBack', name='saveFeedBack'),
-                       
+                       url(r'^fake-login/$', 'fakelogin', name='fakelogin'),
 )
