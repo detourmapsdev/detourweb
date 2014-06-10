@@ -1285,6 +1285,10 @@ def getBusiness(request, name):
                     tab = {
                         'tab': tab_split[0]
                     }
+            else:
+                tab = {
+                    'tab': 'info'
+                }
             if match:
                 if 'type' in request.GET:
                     return render_to_response(

@@ -623,8 +623,8 @@ $(document).ready(function () {
 
                     bisInfo.tabs_[0].content = bb[0];
                     bisInfo.open(map, b, function () {
+                        urlChanger(null, bis, tab);
                         if(tab.subtab){
-                            urlChanger(null, bis, tab);
                             var currentTab = $("a#"+ tab.tab +"SubFooter");
                             showPanels(currentTab);
                             var currentSubTab = $("li#" + tab.subtab + "-ctrl");
