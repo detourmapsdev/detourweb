@@ -343,7 +343,7 @@ class Business(CommunityParent):
     def get_absolute_url(self):
         if self.url_name:
             if self.community:
-                return '/communities/%s/map/business/?name=%s&auth_code=%s' % (
+                return '/communities/%s/map/business/?name=%s&auth_code=%s&tab=info' % (
                     self.community.url_name, self.url_name, encode_url(self.id, 8))
             else:
                 return ''
@@ -646,7 +646,7 @@ class Card(models.Model):
     mode = models.CharField(max_length=1, choices=CHOICES_MODE)
 
     def __unicode__(self):
-        return '%s, %s' % (self.contact_card.email, self.used)
+        return '%s, %s' % (self.contact_card.user.email, self.used)
 
     def getCode(self):
         return '%s' % encode_url(self.id)

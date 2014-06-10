@@ -1294,7 +1294,7 @@ a.launchpopdeal{
 }
 div#request_deal{
     background: #fff;
-    border-radius: 10px;
+    border-radius: 15px;
     border: 10px solid rgba(0,0,0,0.5);
     position: absolute;
     width: 400px;
@@ -1332,7 +1332,7 @@ div#request_deal header a{
 }
 div#request_deal h2{
     text-align: center;
-    font-size: 2em;
+    font-size: 1.5em;
     color: #0071bc;
     font-family: 'Conv_MyriadPro-Regular', sans-serif;
 }
@@ -1347,6 +1347,7 @@ div#request_deal p{
     color: #666666;
     font-family: 'Conv_MyriadPro-Regular', sans-serif;
     text-align: center;
+    font-size: 0.85em;
 }
 div#request_deal div.check_deal{
     width: 80%;

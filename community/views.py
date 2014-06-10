@@ -8,7 +8,7 @@ import urllib
 import hashlib
 import urlparse
 import json
-
+import string
 import simplejson
 import qrcode
 import requests
@@ -57,6 +57,11 @@ from web.short_url import encode_url, decode_url
 from community.facebook import Facebook
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
+
+
+class Randomizer:
+    def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))
 
 
 class MyPagination:
@@ -2386,34 +2391,33 @@ def RegisterUser(request):
     if request.POST:
         dictionary = {}
         try:
-            user = Usuario.objects.get(user__username=request.POST.get('user_email'), user_type='N')
+            user = Usuario.objects.get(user__username=request.POST.get('user_email'))
             dictionary['state'] = False
             dictionary['msg'] = "This email is already been used, try with other"
             return HttpResponse(simplejson.dumps(dictionary))
-
         except Usuario.DoesNotExist:
-
             email = request.POST.get('user_email')
             user = User.objects.create_user(email, email, request.POST.get("user_password"))
-
             user.is_active = False
             user.save()
-
             userNativo = Usuario()
             userNativo.user = user
-            userNativo.access_token = email
-            userNativo.userid = email
-            userNativo.user_type = 'N'
             userNativo.save()
-
-            html_user = loader.get_template("/home/adrian/work/detourmaps/community/templates/registration.html")
+            usertipo = TipoUsuario(
+                usuario = userNativo,
+                access_token=email,
+                expires=3600,
+                userid=email,
+                session_key=hashlib.md5(email)
+            )
+            usertipo.save()
+            html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration.html")
             context_user = Context({'link': 'www.facebook.com'})
             subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', user.email
             user_context_html = html_user.render(context_user)
             message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
             message_user.content_subtype = "html"
             message_user.send()
-
             dictionary['state'] = True
             dictionary['msg'] = "Now activate your account, and you're ready to go!!!"
             return HttpResponse(simplejson.dumps(dictionary))
@@ -3197,3 +3201,62 @@ def saveFeedBack(request):
             print "out"
             msg["response"] = False
         return HttpResponse(simplejson.dumps(msg))
+
+
+@csrf_protect
+def fakelogin(request):
+    if request.method == "POST":
+        dict_response = {}
+        names = request.POST["nameuserdeal"].split(" ")
+        gen_password = Randomizer()
+        user = User.objects.create_user(
+            username=request.POST["emailuserdeal"],
+            password=gen_password.id_generator()
+        )
+        user.first_name = names[0]
+        user.last_name = names[1]
+        user.email = request.POST["emailuserdeal"]
+        user.is_active = True
+        user.is_staff = False
+        user.is_superuser = False
+        user.save()
+
+        usuario = Usuario(
+            user=user
+        )
+        usuario.save()
+        usertipo = TipoUsuario(
+            usuario=usuario,
+            access_token=request.POST["emailuserdeal"],
+            expires=3600,
+            userid=request.POST["emailuserdeal"],
+            session_key=hashlib.md5(request.POST["emailuserdeal"])
+        )
+        usertipo.save()
+        usuario.tipo_usuario=usertipo.id
+        usuario.save()
+        username = user.username
+        password = user.password
+        user = authenticate(username=username, password=password)
+        dict_response = {}
+        if user is not None:
+            if user.is_active:
+                request.session["user"] = user.username
+                Sesion['estado'] = True
+                dict_response['state'] = True
+                dict_response['session'] = True,
+                dict_response['message'] = 'Your user and password were sent to your email account, please check it.'
+        else:
+            dict_response['state'] = False
+            dict_response['session'] = False,
+            dict_response['message'] = 'Troubles with your information, please try it later!!!'
+        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration.html")
+        context_user = Context({'link': 'www.facebook.com'})
+        subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', request.POST["emailuserdeal"]
+        user_context_html = html_user.render(context_user)
+        message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+        message_user.content_subtype = "html"
+        message_user.send()
+        return HttpResponse(simplejson.dumps(dict_response))
+
+

@@ -149,16 +149,16 @@ function urlChanger(iden, biz, tab) {
             window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab + "|" + tab.subtab);
         }
         else{
-            window.history.replaceState({biz: iden, url: "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab}, biz.auth_code, "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab);
+            window.history.replaceState({biz: iden, url: "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab}, biz.auth_code, "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=info");
             //window.location.hash = "#!/" + urlPath;
-            window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab);
+            window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=info");
         }
     } else {
         if(tab.subtab){
             window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab + "|" + tab.subtab);
         }
         else{
-            window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=" + tab.tab);
+            window.history.pushState(iden, "Titulo", "/communities/" + biz.community + "/map/business/?name=" + biz.url_name + "&auth_code=" + biz.auth_code + "&tab=info");
         }
 
     }
@@ -527,6 +527,7 @@ $(document).ready(function () {
         $(reference).show();
     }
     function buildInfoBubble(latlong, m) {
+        $("#request_deal").hide();
         try {
             detourmaps.eventBubble.close();
         } catch (e) {
@@ -622,8 +623,8 @@ $(document).ready(function () {
 
                     bisInfo.tabs_[0].content = bb[0];
                     bisInfo.open(map, b, function () {
-                        urlChanger(null, bis, tab);
                         if(tab.subtab){
+                            urlChanger(null, bis, tab);
                             var currentTab = $("a#"+ tab.tab +"SubFooter");
                             showPanels(currentTab);
                             var currentSubTab = $("li#" + tab.subtab + "-ctrl");
