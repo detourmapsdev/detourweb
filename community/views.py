@@ -2338,6 +2338,7 @@ def LoginAccount(request):
         password = request.POST.get('user_password')
         user = authenticate(username=username, password=password)
         dict_response = {}
+        print user
         if user is not None:
             if user.is_active:
                 login(request, user)
@@ -3287,7 +3288,7 @@ def register_confirm_password(request, user_id):
             user_object = User.objects.get(id=id_user)
             user = authenticate(username=user_object.username, password=request.POST['old_password'])
             if user.is_active:
-                user.set_password = request.POST['new_password']
+                user.set_password(request.POST['new_password'])
                 user.save()
                 request.session['user'] = user.username
                 return redirect('/')
