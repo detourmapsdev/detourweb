@@ -1328,7 +1328,8 @@
                     "biz": biz,
                     "listValues": listValues
                 }, function(data){
-                    if(data.response){
+                    var evalData = eval('(' + data + ')');
+                    if(evalData.response){
                         new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
                     }else{
                         new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
@@ -1548,6 +1549,19 @@
                                     var evalData = eval('(' + data + ')');
                                     //$("#response-lista").html(evalData.msg);
                                     new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
+                                    button.prop("disabled", false).html("Sign Up");
+                                    $("#request_deal").hide();
+                                    $.post("{% url 'saveFeedBack' %}", {
+                                        "biz": window.localStorage['biz'],
+                                        "listValues": window.localStorage['listValues']
+                                    }, function(data){
+                                        var evalDataP = eval('(' + data + ')');
+                                        if(evalDataP.response){
+                                            new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                        }else{
+                                            new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                        }
+                                    });
                                 });
                             }
                         });

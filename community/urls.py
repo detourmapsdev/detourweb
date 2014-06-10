@@ -85,4 +85,5 @@ urlpatterns = patterns('community.views',
                        url(r'^upload/$', 'uploadImage', name='upload'),
                        url(r'^save-feedback/$', 'saveFeedBack', name='saveFeedBack'),
                        url(r'^fake-login/$', 'fakelogin', name='fakelogin'),
+                       url(r'^register/confirm/(?P<user_id>\w+)$', 'register_confirm_password', name='oldpassword'),
 )

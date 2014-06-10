@@ -744,6 +744,12 @@ def shareQRUrl(request):
 
 def registerConfirm(request, user_id):
     usr = User.objects.get(id=user_id)
+
+    return redirect("/")
+
+
+def registerConfirmPassword(request, user_id):
+    usr = User.objects.get(id=user_id)
     usr.is_active = True
     usr.save()
     request.session["user"] = usr
