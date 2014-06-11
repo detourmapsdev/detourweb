@@ -405,6 +405,7 @@ $(document).ready(function () {
         subFooter.find("#dealsPanelSubFooter #smart-buys h3").html("Smart Buys at " + business.name);
         subFooter.find("#ten-off a#save-bookmark-deal").attr("idb", business.url);
         subFooter.find("#ten-off a#share-deal-deal").attr("idb", business.url);
+        subFooter.find("#smart-buys a#share-smart").attr("idb", business.url);
         if(!business.ten_visit){
             subFooter.find("#ten-visits .panel-right img").attr("src", "/static/community/evolution/ten-visits-none.png");
             subFooter.find("#ten-visits #form-ten-visits").hide();
@@ -463,8 +464,8 @@ $(document).ready(function () {
             var end_page = Math.round(business.cupon.length/2);
             for(var cup = 0; cup < business.cupon.length; cup++){
                 var label = "<label class='namesmart'>" + business.cupon[cup].name + "</label>";
-                var idcheck = "<label><input type='checkbox' name='cup" + business.cupon[cup].id + "' value='" + business.cupon[cup].id + "'/>SELECT SMART BUY</label>";
-                var linksave = "<a href='' idb='cup" + business.cupon[cup].id + "'>SAVE TO MY DEALS</a>";
+                var idcheck = "<label><input type='checkbox' name='cup" + business.cupon[cup].id + "' value='" + business.cupon[cup].id + "' class='ckCoupon'/>SELECT SMART BUY</label>";
+                var linksave = "<a href='' idb='" + business.cupon[cup].id + "' class='linkCoupon'>SAVE TO MY DEALS</a>";
                 var no_purchase = "<p>No purchased required</p>";
                 var valid_through = "<p>Valid through " + business.cupon[cup].start_date + "-" + business.cupon[cup].end_date + "</p>";
                 var img = "<a class='couponPop' href='/media/" + business.cupon[cup].medium + "'><img src='/media/" + business.cupon[cup].small + "'/></a>"

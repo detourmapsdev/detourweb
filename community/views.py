@@ -3321,3 +3321,25 @@ def save_bookmark(request):
                 dict_response["state"] = True
                 dict_response["message"] = "Success, your saved bookmark!!!"
         return HttpResponse(simplejson.dumps(dict_response))
+
+
+@csrf_exempt
+def save_coupon(request):
+    if request.method == "POST":
+        dict_response = {}
+        if "id_coupon" in request.POST:
+            coupon_object = CuponBusiness.objects.get(id=request.POST["id_coupon"])
+            user_object = Usuario.objects.get(user__username=request.session["user"])
+            try:
+                coupon_object = Bookmark.objects.get(user=user_object, coupon=coupon_object)
+                dict_response["state"] = False
+                dict_response["message"] = "Your bookmark was created!!!"
+            except:
+                coupon_object = Bookmark(
+                    user=user_object,
+                    coupon=coupon_object
+                )
+                coupon_object.save()
+                dict_response["state"] = True
+                dict_response["message"] = "Success, your saved bookmark!!!"
+        return HttpResponse(simplejson.dumps(dict_response))

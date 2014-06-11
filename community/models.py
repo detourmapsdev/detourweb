@@ -706,7 +706,10 @@ class Bookmark(models.Model):
     coupon = models.ForeignKey(CuponBusiness, blank=True, null=True)
 
     def __unicode__(self):
-        return '%s' % self.biz.name
+        if self.biz:
+            return '%s' % self.biz.name
+        if self.coupon:
+            return '%s' % self.coupon.business.name
 
 
 class FeedbackBusiness(models.Model):
