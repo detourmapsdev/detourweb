@@ -789,7 +789,7 @@ def userLoginAjax(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            request.session["user"] = user
+            request.session["user"] = user.username
             dict_response["msg"] = "You are now logged in. Let's Get Started!"
             dict_response["confirm"] = True
             return HttpResponse(simplejson.dumps(dict_response))

@@ -473,6 +473,9 @@
                 $(".launchpopdeal").click(function(e){
                     e.preventDefault();
                     $("#request_deal").show();
+                    $("#dealer").show();
+                    $("#signer").hide();
+                    $("#logger").hide();
                 });
             });
         </script>
@@ -747,8 +750,8 @@
                                 <div style="clear: both;"></div>
                                 <div>
                                     <ul id="list-share">
-                                        <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
-                                        <li class="share-net"><a><i><img src="{{ STATIC_URL }}community/evolution/icon-bookmark-bubble.png"/></i> save to My Deals</a></li>
+                                        <li class="share-net"><a href="" id="share-deal" idb=""><i><img src="{{ STATIC_URL }}community/evolution/icon-share-bubble.png"/></i> share deal with friends</a></li>
+                                        <li class="share-net"><a href="" id="save-bookmark-deal" idb=""><i><img src="{{ STATIC_URL }}community/evolution/icon-bookmark-bubble.png"/></i> save to My Deals</a></li>
                                     </ul>
                                 </div>
                                 <div id="formDeals">
@@ -1338,11 +1341,43 @@
             }else{
                 $("#dealer").hide();
                 $("#signer").show();
+                $("#logger").hide();
                 window.localStorage['biz'] = biz;
                 window.localStorage['listValues'] = listValues;
             }
         });
-
+        $("#btnSignIn").click(function(e){
+            e.preventDefault();
+            $("#dealer").hide();
+            $("#signer").hide();
+            $("#logger").show();
+        });
+        $(document).on("click", "a#share-deal", function(e){
+            e.preventDefault();
+            var biz_url = $(this).attr("idb");
+        });
+        $(document).on("click", "a#save-bookmark-deal", function(e){
+            e.preventDefault();
+            var biz_url = $(this).attr("idb");
+            if(session){
+                $.post('/communities/save-bookmark/', {
+                    'biz_url': biz_url
+                }, function(data){
+                    var evalData = eval('(' + data + ')');
+                    if (evalData.state){
+                        new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
+                    }else{
+                        new Messi(evalData.message, {title: 'Detour Maps - Error', modal: true});
+                    }
+                });
+            }else{
+                window.localStorage["save_bookmark"] = biz_url;
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+            }
+        });
     });
     </script>
 
@@ -1411,7 +1446,27 @@
                     </div>
                     <div class="terms"><label><input type="checkbox" name="ckterms" class="ckterms" value="1">I have read the Terms and Conditions</label><a href="">Learn More</a></div>
                     <button id="btnSignDeal">Sign Up</button>
-                    <p>Already on Detour? <a href="">Sign In</a></p>
+                    <p>Already on Detour? <a href="" id="btnSignIn">Sign In</a></p>
+                </form>
+            </div>
+        </section>
+        <section id="logger" style="display: none;">
+            <header>
+                <a href="" class="closerequest_deal">X</a>
+            </header>
+            <div>
+                <form id="formfakeSign">
+                    <h2 class="requestH2">Sign in to complete request</h2>
+                    <p>
+                        Thank you for your request, please enter your name and
+                        email address so that we can alert you when Orange Deals
+                        become available.
+                    </p>
+                    <div class="check_deal">
+                        <input type="text" placeholder="User Name*" name="user_email">
+                        <input type="password" placeholder="Password*" name="user_password">
+                    </div>
+                    <button id="btnSignInDeal">Sign In</button>
                 </form>
             </div>
         </section>
@@ -1551,21 +1606,38 @@
                                     new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
                                     button.prop("disabled", false).html("Sign Up");
                                     $("#request_deal").hide();
-                                    $.post("{% url 'saveFeedBack' %}", {
-                                        "biz": window.localStorage['biz'],
-                                        "listValues": window.localStorage['listValues']
-                                    }, function(data){
-                                        var evalDataP = eval('(' + data + ')');
-                                        if(evalDataP.response){
-                                            new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
-                                        }else{
-                                            new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
-                                        }
-                                    });
+                                    if(window.localStorage["biz"] && window.localStorage["listValues"]){
+                                        $.post("{% url 'saveFeedBack' %}", {
+                                            "biz": window.localStorage['biz'],
+                                            "listValues": window.localStorage['listValues']
+                                        }, function(data){
+                                            var evalDataP = eval('(' + data + ')');
+                                            if(evalDataP.response){
+                                                new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                                window.localStorage.removeItem("biz");
+                                                window.localStorage.removeItem("listValues");
+                                            }else{
+                                                new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                            }
+                                        });
+                                    }
+                                    if(window.localStorage["save_bookmark"]){
+                                        $.post('/communities/save-bookmark/', {
+                                            'biz_url': window.localStorage["save_bookmark"]
+                                        }, function(data){
+                                            var evalData = eval('(' + data + ')');
+                                            if (evalData.state){
+                                                new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
+                                                window.localStorage.removeItem("save_bookmark");
+                                            }else{
+                                                new Messi(evalData.message, {title: 'Detour Maps - Error', modal: true});
+                                            }
+                                        })
+                                    }
                                 });
                             }
                         });
-                        $("#formLogin").validate({
+                        $("#formfakeSign").validate({
                             rules: {
                                 user_email: {
                                     required: true,
@@ -1587,15 +1659,10 @@
                                 }
                             }
                         });
-                        $("#formLogin").submit(function (e) {
+                        $("#formfakeSign").submit(function (e) {
                             e.preventDefault();
-                            var form = $("#formLogin");
-                            var button = $("#formLogin button");
-                            var getVal = $("#codeBiz").val();
-                            var getValSplit = getVal.split("/");
-                            var tag = getValSplit[1];
-                            var rateBiz = $("#rateBiz").val();
-                            var commentBiz = $("#commentReview").val();
+                            var form = $("#formfakeSign");
+                            var button = $("#formfakeSign button");
                             if (button.prop("disabled")) return;
                             if (form.valid()) {
                                 button.prop("disabled", true).html('<i class="icon-spinner spin"></i>Sending');
@@ -1605,23 +1672,33 @@
                                     new Messi(evalData.msg, {title: 'Detour Maps - Response', modal: true});
                                     if (evalData.confirm) {
                                         $.modal.close();
-                                        button.prop("disabled", false).html("Sign in");
-                                        $("#reviewSubFooter").trigger("click");
-                                        $(".reviewBehind").hide();
-                                        if (rateBiz) {
-                                            $.getJSON('{% url 'save_review' %}', {'tag': tag, 'commentBiz': commentBiz, 'rateBiz': rateBiz}, function (data) {
-                                                new Messi(data.msg, {title: 'DetourMaps - Rate System', modal: true});
-                                                $("#reviewSubFooter").trigger("click");
-                                                $("#rateBiz").val("");
-                                                $("#commentReview").val("");
+                                        button.prop("disabled", false).html("Sign In");
+                                        if(window.localStorage["biz"] && window.localStorage["listValues"]){
+                                            $.post("{% url 'saveFeedBack' %}", {
+                                                "biz": window.localStorage['biz'],
+                                                "listValues": window.localStorage['listValues']
+                                            }, function(data){
+                                                var evalDataP = eval('(' + data + ')');
+                                                if(evalDataP.response){
+                                                    new Messi("Thanks for your feedback!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                                }else{
+                                                    new Messi("Error in your feedback, try later!", {title: 'DetourMaps - Feedback Orange Deals', modal: true});
+                                                }
                                             });
                                         }
-                                        else {
-                                            new Messi('Please rate your experience', {title: 'Detour Maps - Response', modal: true});
+                                        if(window.localStorage["save_bookmark"]){
+                                            $.post('/communities/save-bookmark/', {
+                                                'biz_url': window.localStorage["save_bookmark"]
+                                            }, function(data){
+                                                var evalData = eval('(' + data + ')');
+                                                if (evalData.state){
+                                                    new Messi(evalData.message, {title: 'Detour Maps - Response', modal: true});
+                                                    window.localStorage.removeItem("save_bookmark");
+                                                }else{
+                                                    new Messi(evalData.message, {title: 'Detour Maps - Error', modal: true});
+                                                }
+                                            })
                                         }
-                                    }
-                                    else {
-
                                     }
                                 });
                             }

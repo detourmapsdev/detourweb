@@ -39,7 +39,7 @@ from os import path
 from community.models import Community, Category, Business, ImageBusiness, Service, Review, \
     Subscription, BusinessEvent, ImageBusinessEvents, BusinessMenu, BusinessSchedule, \
     ContactCard, Card, NewsletterSuscription, CuponBusiness, Usuario, Partner, LandingPartner, PhoneNumber as PNumber, \
-    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario, FeedbackBusiness
+    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario, FeedbackBusiness, Bookmark
 from community.twitter import Twitter
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -3300,3 +3300,24 @@ def register_confirm_password(request, user_id):
             )
 
 
+@csrf_exempt
+def save_bookmark(request):
+    if request.method == "POST":
+        dict_response = {}
+        if "biz_url" in request.POST:
+            biz = request.POST.get("biz_url").split("/")
+            biz_object = Business.objects.get(url_name=biz[0], pk=decode_url(biz[1]))
+            user_object = Usuario.objects.get(user__username=request.session["user"])
+            try:
+                bookmark_object = Bookmark.objects.get(biz=biz_object, user=user_object)
+                dict_response["state"] = False
+                dict_response["message"] = "Your bookmark was created!!!"
+            except:
+                bookmark_object = Bookmark(
+                    biz=biz_object,
+                    user=user_object
+                )
+                bookmark_object.save()
+                dict_response["state"] = True
+                dict_response["message"] = "Success, your saved bookmark!!!"
+        return HttpResponse(simplejson.dumps(dict_response))
