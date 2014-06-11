@@ -1,11 +1,12 @@
-{% extends "communityHomeB.html" %}
+{% extends 'base-new.html' %}
 {% block title %}Settings{% endblock %}
 {% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Dinamicos-->
     <meta name="robots" content="index, follow">
-    <link rel="stylesheet" type="text/css"
-          href="http://fonts.googleapis.com/css?family=Arvo:400,700|Istok+Web:400,700|Metrophobic!Open+Sans|Open+Sans+Condensed:300">
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/dtmfront-evolution.css">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}community/css/style_home.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ STATIC_URL }}animation/style.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}web/js/jquery.validate.min.js"></script>
     <script defer type="text/javascript" src="{{ STATIC_URL }}community/js/utils.js"></script>
@@ -104,19 +105,18 @@
         }
     </style>
 {% endblock %}
-{% block bodyname %}account-settings-page{% endblock %}
 {% block bar-container %}
 {% endblock %}
 {% block content %}
-    <div id="aSettings" class="row details content">
+    <div id="aSettings" class="pure-g details content">
         <h2 id="title-account">Account Settings</h2>
         <hr width=%100 align="center">
 
-        <div class="fourcol" style="text-align: left;margin-top:3% ">
+        <div class="pure-u-1-4" style="text-align: left;margin-top:3% ">
             </br>
             <img src="/static/community/img/icons/account_user.png">
         </div>
-        <div id="settingsUsers" class="elevencol">
+        <div id="settingsUsers" class="pure-u-3-4">
             <div style="display: block; line-height: 12pt;">
                 <div style="display: block">
                     <h1 id="title-settings">Email</h1>
@@ -184,7 +184,7 @@
                     <p style="font-size: 9pt">It is recommended that you create a unique password.</p>
                 </div>
             </div>
-            <div style="text-align: right; margin-right: 75px; line-height: 10pt;">
+            <div style="text-align: left; margin-right: 75px; line-height: 10pt;">
                 <input id="Bsave" class="buttonSet" value="Save" type="submit"
                        style="background-color: #f48131; border: 1px #f48131 solid; color: #ffffff"/>
                 <input class="buttonSet" value="Cancel" type="submit"/>
