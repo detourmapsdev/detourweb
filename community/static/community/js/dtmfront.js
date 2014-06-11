@@ -403,6 +403,8 @@ $(document).ready(function () {
         subFooter.find("#directionPanelSubFooter input#realTo").val(business.address);
         subFooter.find("#dealsPanelSubFooter #ten-off h3").html("Want to save $10 at " + business.name + "?");
         subFooter.find("#dealsPanelSubFooter #smart-buys h3").html("Smart Buys at " + business.name);
+        subFooter.find("#ten-off a#save-bookmark-deal").attr("idb", business.url);
+        subFooter.find("#ten-off a#share-deal-deal").attr("idb", business.url);
         if(!business.ten_visit){
             subFooter.find("#ten-visits .panel-right img").attr("src", "/static/community/evolution/ten-visits-none.png");
             subFooter.find("#ten-visits #form-ten-visits").hide();
