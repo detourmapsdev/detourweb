@@ -2660,20 +2660,20 @@ figure.figureHelp a{
     animation: spin 2s infinite linear;
     color: #f48131 !important;
 }
-ul#list-share, ul#list-share-ten-visits{
+ul#list-share, ul#list-share-ten-visits, ul#list-share-smart{
     list-style: none;
     overflow: hidden;
 }
-ul#list-share li.share-net, ul#list-share-ten-visits li.share-net{
+ul#list-share li.share-net, ul#list-share-ten-visits li.share-net, ul#list-share-smart li.share-net{
     float: left;
     border-right: 1px solid #f15a29;
     margin-right: 0.5em;
     padding-right: 0.5em;
 }
-ul#list-share li.share-net:last-child, ul#list-share-ten-visits li.share-net:last-child{
+ul#list-share li.share-net:last-child, ul#list-share-ten-visits li.share-net:last-child, ul#list-share-smart li.share-net:last-child{
     border: none;
 }
-ul#list-share li.share-net a, ul#list-share-ten-visits li.share-net a{
+ul#list-share li.share-net a, ul#list-share-ten-visits li.share-net a, ul#list-share-smart li.share-net a{
     padding: 0 !important;
     margin: 0 !important;
     display: block !important;
