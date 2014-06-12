@@ -88,4 +88,5 @@ urlpatterns = patterns('community.views',
                        url(r'^register/confirm/(?P<user_id>\w+)$', 'register_confirm_password', name='oldpassword'),
                        url(r'^save-bookmark/$', 'save_bookmark', name='save_bookmark'),
                        url(r'^save-coupon/$', 'save_coupon', name='save_coupon'),
+                       url(r'^save-ten-visits/$', 'save_ten_visits', name='save_ten_visits'),
 )

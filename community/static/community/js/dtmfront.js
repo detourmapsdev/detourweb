@@ -435,6 +435,7 @@ $(document).ready(function () {
         $("#emailShareIt").attr("href", business.url);
         $("#hideBizEvents").val(business.url);
         $("#codeBiz").val(business.url);
+        $("#visitshide").val(business.url);
         $("#hiddenCoupon").val(business.auth_code);
         $("#bizAuth").val(business.auth_code);
         $("#faceCoupon").attr("name", business.name).attr("caption", business.desc).attr("description", business.description);

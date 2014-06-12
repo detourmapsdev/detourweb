@@ -39,7 +39,8 @@ from os import path
 from community.models import Community, Category, Business, ImageBusiness, Service, Review, \
     Subscription, BusinessEvent, ImageBusinessEvents, BusinessMenu, BusinessSchedule, \
     ContactCard, Card, NewsletterSuscription, CuponBusiness, Usuario, Partner, LandingPartner, PhoneNumber as PNumber, \
-    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario, FeedbackBusiness, Bookmark
+    CommunitySocial, CommunityText, HeaderCommunity, Video, TipoUsuario, FeedbackBusiness, Bookmark, TenVisitsRecord, TenVisitsManage, ReferFriendsRecord, \
+    ReferFriendsManage
 from community.twitter import Twitter
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -3342,4 +3343,131 @@ def save_coupon(request):
                 coupon_object.save()
                 dict_response["state"] = True
                 dict_response["message"] = "Success, your saved bookmark!!!"
+        return HttpResponse(simplejson.dumps(dict_response))
+
+
+@csrf_exempt
+def save_ten_visits(request):
+    if "receipt" in request.POST and "date" in request.POST:
+        dict_response = {}
+        biz = request.POST.get("biz_url").split("/")
+        biz_object = Business.objects.get(url_name=biz[0], pk=decode_url(biz[1]))
+        user_object = User.objects.get(username=request.session["user"])
+        if "name" in request.POST:
+            try:
+                ten_visits_objects = TenVisitsRecord.objects.filter(user__username=request.session.get("user")).filter(business=biz_object)
+                last = ten_visits_objects.count() - 1
+                if ten_visits_objects[last].state:
+                    ten_visits_new = TenVisitsRecord(
+                        user=user_object,
+                        business=biz_object
+                    )
+                    ten_visits_new.save()
+                    ten_manage = TenVisitsManage(
+                        ten=ten_visits_new,
+                        receipt_number=request.POST["receipt"],
+                        date=request.POST["date"],
+                        employee=request.POST["name"],
+                        number=1
+                    )
+                    ten_manage.save()
+                    dict_response["state"] = True
+                    dict_response["message"] = 'Start new Ten Visits Program!!'
+                else:
+                    ten_manager = TenVisitsManage.objects.filter(ten=ten_visits_objects[last])
+                    ten_manage = TenVisitsManage(
+                        ten=ten_visits_objects[last],
+                        receipt_number=request.POST["receipt"],
+                        date=request.POST["date"],
+                        employee=request.POST["name"],
+                        number=ten_manager.count() + 1
+                    )
+                    ten_manage.save()
+                    ten_manager = TenVisitsManage.objects.filter(ten=ten_visits_objects[last])
+                    if ten_manager.count() == 10:
+                        ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
+                        ten_object.state = 1
+                        ten_object.save()
+                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
+                        subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
+                        user_context_html = html_user.render(context_user)
+                        message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+                        message_user.content_subtype = "html"
+                        message_user.send()
+                    dict_response["state"] = True
+                    dict_response["message"] = 'This is your %s visit' % ten_manager.count()
+            except:
+                ten_visits_new = TenVisitsRecord(
+                    user=user_object,
+                    business=biz_object
+                )
+                ten_visits_new.save()
+                ten_manage = TenVisitsManage(
+                    ten=ten_visits_new,
+                    receipt_number=request.POST["receipt"],
+                    date=request.POST["date"],
+                    employee=request.POST["name"],
+                    number=1
+                )
+                ten_manage.save()
+                dict_response["state"] = True
+                dict_response["message"] = 'This is your first visit'
+        else:
+            try:
+                ten_visits_objects = TenVisitsRecord.objects.filter(user__username=request.session.get("user")).filter(business=biz_object)
+                last = ten_visits_objects.count() - 1
+                if ten_visits_objects[last].state:
+                    ten_visits_new = TenVisitsRecord(
+                        user=user_object,
+                        business=biz_object
+                    )
+                    ten_visits_new.save()
+                    ten_manage = TenVisitsManage(
+                        ten=ten_visits_new,
+                        receipt_number=request.POST["receipt"],
+                        date=request.POST["date"],
+                        number=1
+                    )
+                    ten_manage.save()
+                    dict_response["state"] = True
+                    dict_response["message"] = 'This is your %s visit' % ten_manage.count()
+                else:
+                    ten_manager = TenVisitsManage.objects.filter(ten=ten_visits_objects[last])
+                    ten_manage = TenVisitsManage(
+                        ten=ten_visits_objects[last],
+                        receipt_number=request.POST["receipt"],
+                        date=request.POST["date"],
+                        number=ten_manager.count() + 1
+                    )
+                    ten_manage.save()
+                    ten_manager = TenVisitsManage.objects.filter(ten=ten_visits_objects[last])
+                    if ten_manager.count() == 10:
+                        ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
+                        ten_object.state = 1
+                        ten_object.save()
+                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
+                        subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
+                        user_context_html = html_user.render(context_user)
+                        message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+                        message_user.content_subtype = "html"
+                        message_user.send()
+                    dict_response["state"] = True
+                    dict_response["message"] = 'This is your %s visit' % ten_manager.count()
+            except:
+                ten_visits_new = TenVisitsRecord(
+                    user=user_object,
+                    business=biz_object
+                )
+                ten_visits_new.save()
+                ten_manage = TenVisitsManage(
+                    ten=ten_visits_new,
+                    receipt_number=request.POST["receipt"],
+                    date=request.POST["date"],
+                    number=1
+                )
+                ten_manage.save()
+                dict_response["state"] = True
+                dict_response["message"] = 'This is your first visit'
         return HttpResponse(simplejson.dumps(dict_response))
