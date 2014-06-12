@@ -154,6 +154,9 @@
                         });
                     }
                 });
+                $("#datevist").datepicker({
+                    dateFormat: "yy-mm-dd"
+                });
             });
             $("#pop-partners").modal(
                     {
@@ -894,10 +897,11 @@
                                 <form style="width: 70%;" id="form-ten-visits">
                                     <h4>Enter visit here</h4>
                                     <input type="text" name="name" placeholder="Name of employee (optional)" id="nameemployee"/>
-                                    <input type="text" name="email" placeholder="Receipt Number" id="receipt"/>
+                                    <input type="text" name="receipt" placeholder="Receipt Number" id="receipt"/>
                                     <input type="text" name="date" placeholder="Date" id="datevist"/>
+                                    <input type="hidden" name="visitshide" id="visitshide">
                                     <div id="toolsSmart">
-                                        <button>Submit</button>
+                                        <button id="btn10Visits">Submit</button>
                                         {% if not request.session.user %}
                                             <a href="{% url 'registerUser' %}">Need an account? sign up</a>
                                         {% endif %}
@@ -1346,6 +1350,32 @@
                 window.localStorage['listValues'] = listValues;
             }
         });
+        $("#btn10Visits").click(function(e){
+            e.preventDefault();
+            if(session){
+                $.post("{% url 'save_ten_visits' %}", {
+                    "name": $("#form-ten-visits input[name='name']").val(),
+                    "receipt": $("#form-ten-visits input[name='receipt']").val(),
+                    "date": $("#form-ten-visits input[name='date']").val(),
+                    "biz_url": $("#form-ten-visits input[type='hidden']").val()
+                }, function(data){
+                    var evalData = eval('(' + data + ')');
+                    if(evalData.state){
+                        new Messi(evalData.message, {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
+                    }else{
+                        new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
+                    }
+                });
+            }else{
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage['employee'] = $("#form-ten-visits input[name='name']").val();
+                window.localStorage['date'] = $("#form-ten-visits input[name='date']").val();
+                window.localStorage['receipt'] = $("#form-ten-visits input[name='receipt']").val();
+                window.localStorage['biz_url'] = $("#form-ten-visits input[type='hidden']").val();
+            }
+        });
         $("#btnSignIn").click(function(e){
             e.preventDefault();
             $("#dealer").hide();
@@ -1678,6 +1708,25 @@
                                             }
                                         });
                                     }
+                                    if(window.localStorage["receipt"]){
+                                        $.post("{% url 'save_ten_visits' %}", {
+                                            "name": window.localStorage["employee"],
+                                            "receipt": window.localStorage["receipt"],
+                                            "date": window.localStorage["date"],
+                                            "biz_url": window.localStorage['biz_url']
+                                        }, function(data){
+                                            var evalData = eval('(' + data + ')');
+                                            if(evalData.state){
+                                                new Messi(evalData.message, {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
+                                                window.localStorage.removeItem("employee");
+                                                window.localStorage.removeItem("receipt");
+                                                window.localStorage.removeItem("date");
+                                                window.localStorage.removeItem("biz_url");
+                                            }else{
+                                                new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
+                                            }
+                                        });
+                                    }
                                 });
                             }
                         });
@@ -1753,6 +1802,25 @@
                                                     window.localStorage.removeItem("save_coupon");
                                                 }else{
                                                     new Messi(evalData.message, {title: 'Detour Maps - Error', modal: true});
+                                                }
+                                            });
+                                        }
+                                        if(window.localStorage["receipt"]){
+                                            $.post("{% url 'save_ten_visits' %}", {
+                                                "name": window.localStorage["employee"],
+                                                "receipt": window.localStorage["receipt"],
+                                                "date": window.localStorage["date"],
+                                                "biz_url": window.localStorage['biz_url']
+                                            }, function(data){
+                                                var evalData = eval('(' + data + ')');
+                                                if(evalData.state){
+                                                    new Messi(evalData.message, {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
+                                                    window.localStorage.removeItem("employee");
+                                                    window.localStorage.removeItem("receipt");
+                                                    window.localStorage.removeItem("date");
+                                                    window.localStorage.removeItem("biz_url");
+                                                }else{
+                                                    new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
                                                 }
                                             });
                                         }
@@ -1930,5 +1998,5 @@
                 $('div#left_bar div.show_hide > div:first-child').trigger('click');
             }, 5000)
         });
-    </script>
 {% endblock %}
+</script>

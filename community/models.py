@@ -728,6 +728,54 @@ class FeedbackBusiness(models.Model):
         return '%s, %s - %s' % (self.business, self.user.user.username, self.get_deal_display())
 
 
+class TenVisitsRecord(models.Model):
+    user = models.ForeignKey(User)
+    business = models.ForeignKey(Business)
+    state = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.user, self.business)
+
+    class Meta:
+        order_with_respect_to = 'user'
+
+
+class TenVisitsManage(models.Model):
+    ten = models.ForeignKey(TenVisitsRecord)
+    receipt_number = models.CharField(max_length=16)
+    date = models.DateField()
+    employee = models.CharField(max_length=200, blank=True, null=True)
+    number = models.IntegerField()
+
+    class Meta:
+        order_with_respect_to = 'ten'
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.ten, self.number)
+
+class ReferFriendsRecord(models.Model):
+    user = models.ForeignKey(User)
+    business = models.ForeignKey(Business)
+    state = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.user, self.business)
+
+    class Meta:
+        order_with_respect_to = 'user'
+
+
+class ReferFriendsManage(models.Model):
+    refer = models.ForeignKey(ReferFriendsRecord)
+    email_friend = models.EmailField()
+    date = models.DateField()
+    message = models.TextField(blank=True, null=True)
+    number = models.IntegerField()
+
+    class Meta:
+        order_with_respect_to = 'refer'
+
+
 class ImagenEditor(models.Model):
     imagen = models.ImageField(upload_to='editor')
 
