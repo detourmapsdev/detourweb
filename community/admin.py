@@ -80,7 +80,8 @@ class AdminMenuBusiness(admin.TabularInline):
 
     class Media:
         js = (
-            'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
+            '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
+            'http://code.jquery.com/jquery-migrate-1.2.1.min.js',
             '%sweb/editor/js/editor.js' % settings.STATIC_URL,
             '%sweb/js/collapsible.js' % settings.STATIC_URL,
         )
@@ -98,7 +99,8 @@ class AdminScheduleBusiness(admin.TabularInline):
 
     class Media:
         js = (
-            'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js',
+            '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
+            'http://code.jquery.com/jquery-migrate-1.2.1.min.js',
             '%sweb/editor/js/editor.js' % settings.STATIC_URL,
             '%sweb/js/collapsible.js' % settings.STATIC_URL,
         )
@@ -149,7 +151,8 @@ class AdminCommunity(admin.OSMGeoAdmin):
 
     class Media:
         js = [
-            'http://code.jquery.com/jquery-1.7.2.min.js',
+            '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
+            'http://code.jquery.com/jquery-migrate-1.2.1.min.js',
             '%scommunity/js/urlizer.js' % settings.STATIC_URL,
             '%stinymce/jscripts/tiny_mce/tiny_mce.js' % settings.STATIC_URL,
             '%scommunity/js/cms.js' % settings.STATIC_URL,

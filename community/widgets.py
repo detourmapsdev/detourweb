@@ -41,6 +41,8 @@ class TextEditorWidget(forms.Textarea):
             )
         }
         js = (
+            '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js',
+            'http://code.jquery.com/jquery-migrate-1.2.1.min.js',
             settings.STATIC_URL + 'web/editor/js/editor.js'
         )
 
