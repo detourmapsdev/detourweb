@@ -3271,7 +3271,7 @@ def fakelogin(request):
         dict_response['state'] = True
         dict_response['session'] = True,
         dict_response['message'] = 'Your user and password were sent to your email account, please check it.'
-        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration-password.html")
+        html_user = loader.get_template("/home/detourmaps/community/templates/registration-password.html")
         context_user = Context({'link': '/communities/register/confirm/%s' % encode_url(user.id, 6), 'password': password_left})
         subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', request.POST["emailuserdeal"]
         user_context_html = html_user.render(context_user)
@@ -3388,7 +3388,7 @@ def save_ten_visits(request):
                         ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
                         ten_object.state = 1
                         ten_object.save()
-                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
                         context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
@@ -3446,7 +3446,7 @@ def save_ten_visits(request):
                         ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
                         ten_object.state = 1
                         ten_object.save()
-                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
                         context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
