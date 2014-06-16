@@ -10,7 +10,8 @@ from community.models import Service, Category, Subscription, Community, Busines
     Partner, LandingPartner, LandingSocialPartner, LandingTextPartner, VideoPartner, \
     HeaderPagePartner, BusinessEventPartner, ImageBusinessEventsPartner, NewDiscover, \
     PhoneNumber, CommunitySocial, CommunityText, HeaderCommunity, Video, HelpingShop, PromoPartner, \
-    LandingEvent, PartnerMobile, TenVisitsBusiness, FeedbackBusiness, Bookmark, TenVisitsManage, TenVisitsRecord
+    LandingEvent, PartnerMobile, TenVisitsBusiness, FeedbackBusiness, Bookmark, TenVisitsManage, TenVisitsRecord, \
+    ReferFriendsManage, ReferFriendsRecord
 
 #forms
 from community.forms import FormBusiness, PartnerForm
@@ -359,6 +360,8 @@ admin.site.register(FeedbackBusiness)
 admin.site.register(Bookmark)
 admin.site.register(TenVisitsRecord)
 admin.site.register(TenVisitsManage)
+admin.site.register(ReferFriendsRecord)
+admin.site.register(ReferFriendsManage)
 admin.site.register(PromoPartner, AdminPromo)
 #unregister sites
 #admin.site.unregister(Site)

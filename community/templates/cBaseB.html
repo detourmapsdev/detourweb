@@ -70,6 +70,7 @@
         var map = null;
         var cmData = false;
         var tab = {};
+        var session = "{{ request.session.user }}";
         {% if tab %}
             {% if tab.subtab %}
                 tab['tab'] = '{{ tab.tab }}';
@@ -843,9 +844,10 @@
                                     </ul>
                                 </div>
                                 <div id="smartDeals">
-                                    <form>
+                                    <form id="formcoupon">
                                         <input type="text" name="name" placeholder="Name*" id="nameUserField"/>
                                         <input type="text" name="email" placeholder="Email*" id="emailUserField"/>
+                                        <input id="hiddenCoupon" value="" type="hidden"/>
                                         <label>
                                             How would you like to receive your Smart Buys?
                                         </label>
@@ -940,10 +942,11 @@
                                     <h4>
                                         Tell your friends
                                     </h4>
-                                    <input type="text" name="name" placeholder="Enter friends email" id="emailfriends"/>
+                                    <input type="text" name="email" placeholder="Enter friends email" id="emailfriends"/>
                                     <textarea name="quickmessage" id="quickmessage" placeholder="Quick Message"></textarea>
+                                    <input type="hidden" name="referhide" id="referhide">
                                     <div id="toolsSmart">
-                                        <button>Send</button>
+                                        <button id="sendrefer">Send</button>
                                         {% if not request.session.user %}
                                             <a href="{% url 'registerUser' %}">Need an account? sign up</a>
                                         {% endif %}
@@ -982,21 +985,6 @@
         <div id="nav-dishes">
             <a href="#" class="mnav left-nav-dish"><img src="{{ STATIC_URL }}community/evolution/icon-arrow-left.png"/></a>
             <a href="#" class="mnav right-nav-dish"><img src="{{ STATIC_URL }}community/evolution/icon-arrow-right.png"/></a>
-        </div>
-    </div>
-    <div id="couponPanelSubFooter" class="panelBusiness">
-        <div>
-            <img src="" id="imageCoupon"/>
-            <iframe name="frameCoupon" id="frameCoupon" src="" style="display: none;"></iframe>
-            <div id="toolsCoupon">
-                <div id="shareCoupon">
-                    share: <a href="" id="faceCoupon" name="" caption="" description=""><i class="icon-hand-right"></i>like</a><a
-                        href="" id="twitterCoupon"><i class="icon-retweet"></i>retweet</a>
-                </div>
-                <input id="hiddenCoupon" value="" type="hidden"/>
-                <button id="printCoupon">Print</button>
-                <button id="downloadCoupon">Download</button>
-            </div>
         </div>
     </div>
     <div id="videoPanelSubFooter" class="panelBusiness">
@@ -1084,17 +1072,42 @@
     };
 
     $(document).ready(function () {
-        $("#downloadCoupon").click(function (e) {
+        $("button#emailCoupon").click(function (e) {
             e.preventDefault();
-            var source = $("#imageCoupon").attr("src");
-            pwin = window.open(source, "_blank");
+            if(session){
+                var link = "/communities/email/coupon?source=" + $("#hiddenCoupon").val() + "&coupon=" + window.localStorage["coupon"];
+                $.getJSON(link, function(data){
+                    if(data.state){
+                        new Messi(data.message, {title: 'DetourMaps - Email Coupon', modal: true});
+                    }else{
+                        new Messi("Please try it later!!!", {title: 'DetourMaps - Email Coupon', modal: true});
+                    }
+                });
+            }else{
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage["emailcoupon"] = true;
+                window.localStorage["couponbiz"] = $("#hiddenCoupon").val();
+            }
         });
-        $("#printCoupon").click(function (e) {
+        $("button#printCoupon").click(function (e) {
             e.preventDefault();
-            window.open(
-                    'http://{{ request.META.HTTP_HOST }}/communities/print/coupon?source=' + $("#hiddenCoupon").val(),
+            if(session){
+                window.open(
+                    'http://localhost:8000/communities/print/coupon?source=' + $("#hiddenCoupon").val() + '&coupon=' + window.localStorage["coupon"],
                     '_blank'
-            );
+                );
+            }else{
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage["printcoupon"] = true;
+                window.localStorage["couponbiz"] = $("#hiddenCoupon").val();
+            }
+
         });
         $("#shareDirection").click(function (e) {
             $("#dialog-form").slideToggle();
@@ -1215,21 +1228,38 @@
                 $("#dynamicPanel").hide();
             });
         });
-        $("#emailDeal").click(function (e) {
+        $("#emaildeal").click(function (e) {
             e.preventDefault();
             var getVal = $("#hiddenBusiness").val();
             var getValSplit = getVal.split("/");
             var tag = getValSplit[1];
-            $.getJSON('{% url 'card_email' %}', {'tag': tag, 'name': $("#nameBusinessField").val(), 'email': $("#emailBusinessField").val(), 'phone': $("#phoneBusinessField").val()}, function (data) {
-                new Messi(data.msg, {title: 'DetourMaps - Deals System', modal: true});
-            });
+            if(session){
+                $.getJSON('{% url 'card_email' %}', {'tag': tag}, function (data) {
+                    new Messi(data.msg, {title: 'DetourMaps - Deals System', modal: true});
+                });
+            }else{
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage["tag"] = tag;
+            }
+
         });
         $("#downloaddeal").click(function (e) {
             e.preventDefault();
             var getVal = $("#hiddenBusiness").val();
             var getValSplit = getVal.split("/");
             var tag = getValSplit[1];
-            window.location.href = '/communities/get/card?tag=' + tag + '&name=' + $("#nameBusinessField").val() + '&email=' + $("#emailBusinessField").val() + '&phone=' + $("#phoneBusinessField").val()
+            if(session){
+                window.open('http://localhost:8000/communities/get/card?tag=' + tag, '_blank');
+            }else{
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage["tag"] = tag;
+            }
         });
         $("#btnReviewBusiness").click(function (e) {
             e.preventDefault();
@@ -1322,7 +1352,6 @@
             e.preventDefault();
             $(this).parent().parent().parent().hide();
         });
-        var session = "{{ request.session.user }}";
         $("#btnRequestDeal").click(function(e){
             e.preventDefault();
             var listValues = new Array();
@@ -1367,6 +1396,7 @@
                     }
                 });
             }else{
+                $("#request_deal").show();
                 $("#dealer").hide();
                 $("#signer").show();
                 $("#logger").hide();
@@ -1374,6 +1404,33 @@
                 window.localStorage['date'] = $("#form-ten-visits input[name='date']").val();
                 window.localStorage['receipt'] = $("#form-ten-visits input[name='receipt']").val();
                 window.localStorage['biz_url'] = $("#form-ten-visits input[type='hidden']").val();
+            }
+        });
+        $("#sendrefer").click(function(e){
+            e.preventDefault();
+            console.log("asdasd");
+            if(session){
+                $.post("{% url 'save_refer_friends' %}", {
+                    "email": $("#form-refer-friends input[name='email']").val(),
+                    "quickmessage": $("#form-refer-friends textarea[name='quickmessage']").val(),
+                    "biz_url": $("#form-refer-friends input[type='hidden']").val()
+                }, function(data){
+                    var evalData = eval('(' + data + ')');
+                    if(evalData.state){
+                        new Messi(evalData.message, {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                    }else{
+                        new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                    }
+                });
+            }else{
+                $("#request_deal").show();
+                $("#dealer").hide();
+                $("#signer").show();
+                $("#logger").hide();
+                window.localStorage['email'] = $("#form-refer-friends input[name='email']").val();
+                window.localStorage['quickmessage'] = $("#form-refer-friends textarea[name='quickmessage']").val();
+                window.localStorage['biz_url'] = $("#form-refer-friends input[type='hidden']").val();
+                window.localStorage['refer'] = true;
             }
         });
         $("#btnSignIn").click(function(e){
@@ -1412,9 +1469,11 @@
             if($(this).prop("checked")){
                 $("button#printCoupon").removeAttr("disabled");
                 $("button#emailCoupon").removeAttr("disabled");
+                window.localStorage["coupon"] = $(this).val();
             }else{
                 $("button#printCoupon").prop("disabled", true);
                 $("button#emailCoupon").prop("disabled", true);
+                window.localStorage["coupon"] = $(this).val();
             }
         });
         $(document).on("click", "a#save-bookmark-deal", function(e){
@@ -1727,14 +1786,34 @@
                                             }
                                         });
                                     }
+                                    if(window.localStorage['refer']){
+                                        $.post("{% url 'save_refer_friends' %}", {
+                                                "email": window.localStorage["email"],
+                                                "quickmessage": window.localStorage["quickmessage"],
+                                                "biz_url": window.localStorage["biz_url"]
+                                            }, function(data){
+                                                var evalData = eval('(' + data + ')');
+                                                if(evalData.state){
+                                                    new Messi(evalData.message, {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                                                    window.localStorage.removeItem("email");
+                                                    window.localStorage.removeItem("quickmessage");
+                                                    window.localStorage.removeItem("refer");
+                                                    window.localStorage.removeItem("biz_url");
+                                                }else{
+                                                    new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                                                }
+                                            });
+                                    }
+                                    if(window.localStorage["tag"]){
+                                        window.open('http://localhost:8000/communities/get/card?tag=' + window.localStorage["tag"], '_blank');
+                                    }
                                 });
                             }
                         });
                         $("#formfakeSign").validate({
                             rules: {
                                 user_email: {
-                                    required: true,
-                                    email: true
+                                    required: true
                                 },
                                 user_password: {
                                     required: true,
@@ -1743,8 +1822,7 @@
                             },
                             messages: {
                                 user_email: {
-                                    required: "Please enter your email",
-                                    email: "Please enter a valid email"
+                                    required: "Please enter your username or your email"
                                 },
                                 user_password: {
                                     required: "Please enter your password",
@@ -1823,6 +1901,27 @@
                                                     new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Ten Visits Orange Deals', modal: true});
                                                 }
                                             });
+                                        }
+                                        if(window.localStorage['refer']){
+                                            $.post("{% url 'save_refer_friends' %}", {
+                                                    "email": window.localStorage["email"],
+                                                    "quickmessage": window.localStorage["quickmessage"],
+                                                    "biz_url": window.localStorage["biz_url"]
+                                                }, function(data){
+                                                    var evalData = eval('(' + data + ')');
+                                                    if(evalData.state){
+                                                        new Messi(evalData.message, {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                                                        window.localStorage.removeItem("email");
+                                                        window.localStorage.removeItem("quickmessage");
+                                                        window.localStorage.removeItem("refer");
+                                                        window.localStorage.removeItem("biz_url");
+                                                    }else{
+                                                        new Messi("Error in your transaction, try later!", {title: 'DetourMaps - Refer Friends Orange Deals', modal: true});
+                                                    }
+                                                });
+                                        }
+                                        if(window.localStorage["tag"]){
+                                            window.open('http://localhost:8000/communities/get/card?tag=' + window.localStorage["tag"], '_blank');
                                         }
                                     }
                                 });
