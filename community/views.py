@@ -443,7 +443,7 @@ def emailCoupon(request):
     if "source" in request.GET:
         business_object = Business.objects.get(id=int(decode_url(request.GET["source"])))
         coupon_object = CuponBusiness.objects.get(pk=request.GET["coupon"])
-        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+        html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
         context_user = Context({'link': '/communities/print/coupon?source=%s&coupon=%s' % (request.GET["source"], request.GET["coupon"]), 'message': 'Your Download coupon link!!', 'program': 'Smart Buys'})
         subject_user, from_user, to_user = 'Download your Coupon - %s' % business_object.name, 'Detour Maps <info@detourmaps.com>', request.session.get("user")
         user_context_html = html_user.render(context_user)
@@ -481,7 +481,7 @@ def generateShareMenu(request):
             'url': 'http://www.detourmaps.com/media/%s-menu.pdf' % business_object.url_name,
             'name': "%s's Menu" % business_object.name,
             'description': business_object.description,
-            'redirect': 'http://localhost:8000/community/%s/map/business/?name=%s&auth_code%s' % (
+            'redirect': 'http://detourmaps.com/community/%s/map/business/?name=%s&auth_code%s' % (
                 business_object.community.url_name, business_object.url_name, business_object.getUniqueCode())
         }
         return HttpResponse(simplejson.dumps(dict_response))
@@ -493,7 +493,7 @@ def sendCardEmail(request):
         business_object = Business.objects.get(id=int(decode_url(request.GET["tag"])))
         user_object = User.objects.get(username=request.session.get("user"))
         usuario_object = Usuario.objects.get(user=user_object)
-        user_template_html = '/media/mauricio/Archivos/detourweb/community/templates/savings-template.html'
+        user_template_html = '/home/detourmaps/community/templates/savings-template.html'
         html_user = get_template(user_template_html)
         context_user = Context(
             {
@@ -2563,7 +2563,7 @@ def RegisterUser(request):
                 session_key=hashlib.md5(email)
             )
             usertipo.save()
-            html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration.html")
+            html_user = loader.get_template("/home/detourmaps/community/templates/registration.html")
             context_user = Context({'link': 'www.facebook.com'})
             subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', user.email
             user_context_html = html_user.render(context_user)
@@ -3416,7 +3416,7 @@ def fakelogin(request):
         dict_response['state'] = True
         dict_response['session'] = True,
         dict_response['message'] = 'Your user and password were sent to your email account, please check it.'
-        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/registration-password.html")
+        html_user = loader.get_template("/home/detourmaps/community/templates/registration-password.html")
         context_user = Context({'link': '/communities/register/confirm/%s' % encode_url(user.id, 6), 'password': password_left})
         subject_user, from_user, to_user = 'Registration DetourMaps', 'Detour Maps <info@detourmaps.com>', request.POST["emailuserdeal"]
         user_context_html = html_user.render(context_user)
@@ -3533,7 +3533,7 @@ def save_ten_visits(request):
                         ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
                         ten_object.state = 1
                         ten_object.save()
-                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
                         context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!', 'program': 'Ten Visits'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
@@ -3591,7 +3591,7 @@ def save_ten_visits(request):
                         ten_object = TenVisitsRecord.objects.get(pk=ten_visits_objects[last].pk)
                         ten_object.state = 1
                         ten_object.save()
-                        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                        html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
                         context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!', 'program': 'Ten Visits'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
@@ -3659,7 +3659,7 @@ def save_refer_friends(request):
                     refer_object = ReferFriendsRecord.objects.get(pk=refer_objects[last].pk)
                     refer_object.state = 1
                     refer_object.save()
-                    html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                    html_user = loader.get_template("/home/detourmaps/community/templates/ten_visits.html")
                     context_user = Context({'link': '', 'message': 'Your Refer Friends is complete!!', 'program': 'Refer Friends'})
                     subject_user, from_user, to_user = 'Refer Friends Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                     user_context_html = html_user.render(context_user)
