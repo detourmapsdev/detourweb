@@ -17,12 +17,18 @@
         div#containerImg img{
             display: block;
         }
+        button{
+            margin: auto;
+        }
     </style>
 </head>
 <body>
 <div id="containerImg">
     <h1>{{ source.business.name }}</h1>
-    <img src="{% thumbnail source.img 720x400 crop %}"/>
+    <img src="{% thumbnail source.coupon 720x400 crop %}"/>
+    <div>
+        <h2>{{ user }} - <span>{{ source.name }}</span></h2>
+    </div>
     <button onclick="window.print(); return false;">Print</button>
 </div>
 </body>

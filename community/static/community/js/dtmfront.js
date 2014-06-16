@@ -436,6 +436,7 @@ $(document).ready(function () {
         $("#hideBizEvents").val(business.url);
         $("#codeBiz").val(business.url);
         $("#visitshide").val(business.url);
+        $("#referhide").val(business.url);
         $("#hiddenCoupon").val(business.auth_code);
         $("#bizAuth").val(business.auth_code);
         $("#faceCoupon").attr("name", business.name).attr("caption", business.desc).attr("description", business.description);
@@ -917,6 +918,7 @@ $(document).ready(function () {
             $('#categories .cat').click(function () {
                 $("#left_bar").css("overflow", "visible");
                 $("#left_bar .cat-content").css("overflow", "visible");
+                $('#left_bar .cat-title').show();
                 if ($(this).hasClass('selected')) {
                     $('#left_bar').find('.cat-list').css('top', '0');
                     $(this).removeClass('selected');
@@ -931,7 +933,7 @@ $(document).ready(function () {
                     $(this).addClass('selected');
                     $('#left_bar .cat-title').html($(this).find('.cat-title').clone().html());
                     $('#left_bar .cat-content').html($(this).find('.cat-content').clone().html());
-
+                    $('#left_bar .cat-title').show();
                     //setCatListHeight();
                     var __h = $('div#left_bar').find('div.cat-filter').height() + 15;
                     var __t = $('div#left_bar').find('div.cat-title').height();

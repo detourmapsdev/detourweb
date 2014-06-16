@@ -131,7 +131,7 @@ def generateCard(community, name, code):
     basedir = path.dirname(__file__)
     try:
         font = ImageFont.truetype(basedir + '/resources/VERDANAB.TTF', 12)
-        img = Image.open("%s/resources/orange-deals.png" % (basedir, str(community.name).capitalize()))
+        img = Image.open("%s/resources/orange-deals.png" % basedir)
         txt = '%s - %s' % (name, code)
         x, y = (55, 160)
         draw_img = ImageDraw.Draw(img)
@@ -175,20 +175,23 @@ def generateQR(url, code, host):
 def getDealCard(request):
     if request.method == "GET":
         business_object = Business.objects.get(id=int(decode_url(request.GET["tag"])))
+        user_object = User.objects.get(username=request.session.get("user"))
+        usuario_object = Usuario.objects.get(user=user_object)
         contact_object = None
         try:
-            contact_object = ContactCard.objects.get(email=request.GET["email"])
-            card_object = Card.objects.filter(contact_card=contact_object).filter(business=business_object)
+            contact_object = ContactCard.objects.get(user__user__username=request.session.get("user"), business=business_object)
+            card_object = Card.objects.filter(contact_card=contact_object)
             if card_object.count() > 0:
                 card_last = card_object[card_object.count() - 1]
                 if card_last.used:
                     card_object = Card(
                         contact_card=contact_object,
-                        business=business_object,
+                        name=user_object.first_name + " " + user_object.last_name,
+                        email=user_object.email,
                         mode='D'
                     )
                     card_object.save()
-                    card = generateCard(business_object.community, request.GET["name"], encode_url(card_object.id))
+                    card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
                     qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
                         business_object.community.url_name, encode_url(card_object.id)),
                                          encode_url(card_object.id), request.META["HTTP_HOST"])
@@ -211,7 +214,7 @@ def getDealCard(request):
                         return resp
                     return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
                 else:
-                    card = generateCard(business_object.community, request.GET["name"], encode_url(card_last.id))
+                    card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_last.id))
                     qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
                         business_object.community.url_name, encode_url(card_last.id)),
                                          encode_url(card_last.id), request.META["HTTP_HOST"])
@@ -230,11 +233,11 @@ def getDealCard(request):
                                             encoding='UTF-8')
                     if not pdf.err:
                         resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
-                        resp['Content-Disposition'] = 'attachment; filename=%s.pdf' % request.GET["name"]
+                        resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
                         return resp
                     return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
             else:
-                card = generateCard(business_object.community, request.GET["name"], encode_url(card_object.id))
+                card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
                 qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
                     business_object.community.url_name, encode_url(card_object.id)),
                                      encode_url(card_object.id), request.META["HTTP_HOST"])
@@ -253,17 +256,23 @@ def getDealCard(request):
                                         encoding='UTF-8')
                 if not pdf.err:
                     resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
-                    resp['Content-Disposition'] = 'attachment; filename=%s.pdf' % request.GET["name"]
+                    resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
                     return resp
                 return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
         except ContactCard.DoesNotExist:
+            contact_card_object = ContactCard(
+                user=usuario_object,
+                business=business_object
+            )
+            contact_card_object.save()
             card_object = Card(
-                contact_card=contact_object,
-                business=business_object,
+                contact_card=contact_card_object,
+                name=user_object.first_name + " " + user_object.last_name,
+                email=user_object.email,
                 mode='D'
             )
             card_object.save()
-            card = generateCard(business_object.community, request.GET["name"], encode_url(card_object.id))
+            card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
             qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
                 business_object.community.url_name, encode_url(card_object.id)),
                                  encode_url(card_object.id), request.META["HTTP_HOST"])
@@ -281,7 +290,132 @@ def getDealCard(request):
                                     encoding='UTF-8')
             if not pdf.err:
                 resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
-                resp['Content-Disposition'] = 'attachment; filename=%s.pdf' % request.GET["name"]
+                resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
+                return resp
+            return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
+            #return html
+
+
+@csrf_exempt
+def getEmailDealCard(request):
+    if request.method == "GET":
+        business_object = Business.objects.get(id=int(decode_url(request.GET["tag"])))
+        user_object = User.objects.get(username=request.session.get("user"))
+        usuario_object = Usuario.objects.get(user=user_object)
+        contact_object = None
+        try:
+            contact_object = ContactCard.objects.get(user__user__username=request.session.get("user"), business=business_object)
+            card_object = Card.objects.filter(contact_card=contact_object)
+            if card_object.count() > 0:
+                card_last = card_object[card_object.count() - 1]
+                if card_last.used:
+                    card_object = Card(
+                        contact_card=contact_object,
+                        name=user_object.first_name + " " + user_object.last_name,
+                        email=user_object.email,
+                        mode='E'
+                    )
+                    card_object.save()
+                    card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
+                    qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
+                        business_object.community.url_name, encode_url(card_object.id)),
+                                         encode_url(card_object.id), request.META["HTTP_HOST"])
+                    html = render_to_string(
+                        'pdf_deals.html',
+                        {
+                            'pagesize': 'A4',
+                            'card': card,
+                            'qr_code': qr_code
+                        },
+                        context_instance=RequestContext(request)
+                    )
+                    result = StringIO.StringIO()
+                    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), dest=result,
+                                            link_callback=fetch_resources,
+                                            encoding='UTF-8')
+                    if not pdf.err:
+                        resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
+                        resp['Content-Disposition'] = 'attachment; filename=%s.pdf' % request.GET["name"]
+                        return resp
+                    return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
+                else:
+                    card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_last.id))
+                    qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
+                        business_object.community.url_name, encode_url(card_last.id)),
+                                         encode_url(card_last.id), request.META["HTTP_HOST"])
+                    html = render_to_string(
+                        'pdf_deals.html',
+                        {
+                            'pagesize': 'A4',
+                            'card': card,
+                            'qr_code': qr_code
+                        },
+                        context_instance=RequestContext(request)
+                    )
+                    result = StringIO.StringIO()
+                    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), dest=result,
+                                            link_callback=fetch_resources,
+                                            encoding='UTF-8')
+                    if not pdf.err:
+                        resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
+                        resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
+                        return resp
+                    return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
+            else:
+                card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
+                qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
+                    business_object.community.url_name, encode_url(card_object.id)),
+                                     encode_url(card_object.id), request.META["HTTP_HOST"])
+                html = render_to_string(
+                    'pdf_deals.html',
+                    {
+                        'pagesize': 'A4',
+                        'card': card,
+                        'qr_code': qr_code
+                    },
+                    context_instance=RequestContext(request)
+                )
+                result = StringIO.StringIO()
+                pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), dest=result,
+                                        link_callback=fetch_resources,
+                                        encoding='UTF-8')
+                if not pdf.err:
+                    resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
+                    resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
+                    return resp
+                return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
+        except ContactCard.DoesNotExist:
+            contact_card_object = ContactCard(
+                user=usuario_object,
+                business=business_object
+            )
+            contact_card_object.save()
+            card_object = Card(
+                contact_card=contact_card_object,
+                name=user_object.first_name + " " + user_object.last_name,
+                email=user_object.email,
+                mode='D'
+            )
+            card_object.save()
+            card = generateCard(business_object.community, user_object.first_name + " " + user_object.last_name, encode_url(card_object.id))
+            qr_code = generateQR('%s/map/business/panel?auth_code=%s' % (
+                business_object.community.url_name, encode_url(card_object.id)),
+                                 encode_url(card_object.id), request.META["HTTP_HOST"])
+            html = render_to_string(
+                'pdf_deals.html',
+                {
+                    'pagesize': 'A4',
+                    'card': card,
+                    'qr_code': qr_code
+                },
+                context_instance=RequestContext(request)
+            )
+            result = StringIO.StringIO()
+            pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), dest=result, link_callback=fetch_resources,
+                                    encoding='UTF-8')
+            if not pdf.err:
+                resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
+                resp['Content-Disposition'] = 'attachment; filename=%s-%s.pdf' % (user_object.first_name ,user_object.last_name)
                 return resp
             return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
             #return html
@@ -292,25 +426,35 @@ def printCoupon(request):
     if request.method == "GET":
         if "source" in request.GET:
             business_object = Business.objects.get(id=int(decode_url(request.GET["source"])))
-            coupon_object = CuponBusiness.objects.filter(business=business_object)
+            coupon_object = CuponBusiness.objects.get(pk=request.GET["coupon"])
             html = render_to_response(
                 'coupon.html',
                 {
                     'pagesize': 'A4',
-                    'source': coupon_object[0]
+                    'source': coupon_object,
+                    'user': request.session.get("user")
                 },
                 context_instance=RequestContext(request)
             )
-            #result = StringIO.StringIO()
-            #pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("UTF-8")), dest=result, link_callback=fetch_resources,
-            #                        encoding='UTF-8')
-            #if not pdf.err:
-            #    resp = HttpResponse(result.getvalue(), mimetype='application/pdf')
-            #    resp['Content-Disposition'] = 'attachment; filename=%s.pdf' % business_object.url_name
-            #    return resp
-            #return HttpResponse('Gremlins ate your pdf! %s' % cgi.escape(html))
             return html
 
+
+def emailCoupon(request):
+    if "source" in request.GET:
+        business_object = Business.objects.get(id=int(decode_url(request.GET["source"])))
+        coupon_object = CuponBusiness.objects.get(pk=request.GET["coupon"])
+        html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+        context_user = Context({'link': '/communities/print/coupon?source=%s&coupon=%s' % (request.GET["source"], request.GET["coupon"]), 'message': 'Your Download coupon link!!', 'program': 'Smart Buys'})
+        subject_user, from_user, to_user = 'Download your Coupon - %s' % business_object.name, 'Detour Maps <info@detourmaps.com>', request.session.get("user")
+        user_context_html = html_user.render(context_user)
+        message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+        message_user.content_subtype = "html"
+        message_user.send()
+        dict_response = {
+            'state': True,
+            'message': 'Please check your inbox email account!!'
+        }
+        return HttpResponse(simplejson.dumps(dict_response))
 
 @csrf_exempt
 def generateShareMenu(request):
@@ -347,27 +491,28 @@ def generateShareMenu(request):
 def sendCardEmail(request):
     if request.method == "GET":
         business_object = Business.objects.get(id=int(decode_url(request.GET["tag"])))
-        user_template_html = '/home/mauricio/Documentos/backup_detourmaps/detourmaps/community/templates/savings-template.html'
+        user_object = User.objects.get(username=request.session.get("user"))
+        usuario_object = Usuario.objects.get(user=user_object)
+        user_template_html = '/media/mauricio/Archivos/detourweb/community/templates/savings-template.html'
         html_user = get_template(user_template_html)
         context_user = Context(
             {
-                'name': request.GET["name"],
+                'name': user_object.first_name,
                 'biz': business_object.getUniqueCode(),
-                'email': request.GET["email"],
-                'phone': request.GET["phone"],
-                'business': business_object
+                'email': user_object.email,
+                'business': business_object,
+                'tag': request.GET["tag"]
             }
         )
-        subject_user, from_user, to_user = 'Detour Maps - Get your deal card', 'Detour Maps <info@detourmaps.com>',
-        request.GET["email"]
-    user_context_html = html_user.render(context_user)
-    message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
-    message_user.content_subtype = "html"
-    message_user.send()
-    dict_response = {
-        'msg': 'Congratulations. Check your email and follow the instructions!'
-    }
-    return HttpResponse(simplejson.dumps(dict_response))
+        subject_user, from_user, to_user = 'Detour Maps - Get your deal card', 'Detour Maps <info@detourmaps.com>', user_object.email
+        user_context_html = html_user.render(context_user)
+        message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+        message_user.content_subtype = "html"
+        message_user.send()
+        dict_response = {
+            'msg': 'Congratulations. Check your email and follow the instructions!'
+        }
+        return HttpResponse(simplejson.dumps(dict_response))
 
 
 @csrf_exempt
@@ -3389,7 +3534,7 @@ def save_ten_visits(request):
                         ten_object.state = 1
                         ten_object.save()
                         html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
-                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
+                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!', 'program': 'Ten Visits'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
                         message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
@@ -3447,7 +3592,7 @@ def save_ten_visits(request):
                         ten_object.state = 1
                         ten_object.save()
                         html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
-                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!'})
+                        context_user = Context({'link': '', 'message': 'Your Ten Visits is complete!!', 'program': 'Ten Visits'})
                         subject_user, from_user, to_user = 'Ten Visits Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
                         user_context_html = html_user.render(context_user)
                         message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
@@ -3470,4 +3615,73 @@ def save_ten_visits(request):
                 ten_manage.save()
                 dict_response["state"] = True
                 dict_response["message"] = 'This is your first visit'
+        return HttpResponse(simplejson.dumps(dict_response))
+
+
+@csrf_exempt
+def save_refer_friends(request):
+    if "biz_url" in request.POST:
+        dict_response = {}
+        biz = request.POST.get("biz_url").split("/")
+        biz_object = Business.objects.get(url_name=biz[0], pk=decode_url(biz[1]))
+        user_object = User.objects.get(username=request.session["user"])
+        try:
+            refer_objects = ReferFriendsRecord.objects.filter(user__username=request.session.get("user")).filter(business=biz_object)
+            last = refer_objects.count() - 1
+            if refer_objects[last].state:
+                refer_new = ReferFriendsRecord(
+                    user=user_object,
+                    business=biz_object
+                )
+                refer_new.save()
+                refer_manage = ReferFriendsManage(
+                    refer=refer_new,
+                    email_friend=request.POST["email"],
+                    date=datetime.datetime.now().strftime("%Y-%m-%d"),
+                    message=request.POST["quickmessage"],
+                    number=1
+                )
+                refer_manage.save()
+                dict_response["state"] = True
+                dict_response["message"] = 'Start new Refer Friends Program!!'
+            else:
+                refer_manager = ReferFriendsManage.objects.filter(refer=refer_objects[last])
+                refer_manage = ReferFriendsManage(
+                    refer=refer_objects[last],
+                    email_friend=request.POST["email"],
+                    date=datetime.datetime.now().strftime("%Y-%m-%d"),
+                    message=request.POST["quickmessage"],
+                    number=refer_manager.count() + 1
+                )
+                refer_manage.save()
+                refer_manager = ReferFriendsManage.objects.filter(refer=refer_objects[last])
+                if refer_manager.count() == 5:
+                    refer_object = ReferFriendsRecord.objects.get(pk=refer_objects[last].pk)
+                    refer_object.state = 1
+                    refer_object.save()
+                    html_user = loader.get_template("/media/mauricio/Archivos/detourweb/community/templates/ten_visits.html")
+                    context_user = Context({'link': '', 'message': 'Your Refer Friends is complete!!', 'program': 'Refer Friends'})
+                    subject_user, from_user, to_user = 'Refer Friends Complete %s' % biz_object.name, 'Detour Maps <info@detourmaps.com>', user_object.email
+                    user_context_html = html_user.render(context_user)
+                    message_user = EmailMessage(subject_user, user_context_html, from_user, [to_user])
+                    message_user.content_subtype = "html"
+                    message_user.send()
+                dict_response["state"] = True
+                dict_response["message"] = 'This is your %s refer friend' % refer_manager.count()
+        except:
+            refer_new = ReferFriendsRecord(
+                user=user_object,
+                business=biz_object
+            )
+            refer_new.save()
+            refer_manage = ReferFriendsManage(
+                refer=refer_new,
+                email_friend=request.POST["email"],
+                date=datetime.datetime.now().strftime("%Y-%m-%d"),
+                message=request.POST["quickmessage"],
+                number=1
+            )
+            refer_manage.save()
+            dict_response["state"] = True
+            dict_response["message"] = 'This is your first refer friend'
         return HttpResponse(simplejson.dumps(dict_response))

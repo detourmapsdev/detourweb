@@ -624,12 +624,11 @@ class Subscription(models.Model):
 
 
 class ContactCard(models.Model):
-    name = models.CharField(max_length=120)
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=24)
+    user = models.ForeignKey(Usuario)
+    business = models.ForeignKey(Business)
 
     def __unicode__(self):
-        return '%s' % self.email
+        return '%s' % self.user.user.email
 
 
 class Card(models.Model):
@@ -638,15 +637,16 @@ class Card(models.Model):
         ('E', 'Email'),
         ('P', 'Print')
     )
-    contact_card = models.ForeignKey(Usuario)
-    business = models.ForeignKey(Business)
+    contact_card = models.ForeignKey(ContactCard)
+    name = models.CharField(max_length=120)
+    email = models.EmailField(unique=True)
     date = models.DateField(auto_now=True)
     until_date = models.DateTimeField(default=datetime.now() + timedelta(days=30))
     used = models.BooleanField(default=False)
     mode = models.CharField(max_length=1, choices=CHOICES_MODE)
 
     def __unicode__(self):
-        return '%s, %s' % (self.contact_card.user.email, self.used)
+        return '%s, %s' % (self.contact_card.user.user.email, self.used)
 
     def getCode(self):
         return '%s' % encode_url(self.id)
@@ -753,6 +753,7 @@ class TenVisitsManage(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.ten, self.number)
 
+
 class ReferFriendsRecord(models.Model):
     user = models.ForeignKey(User)
     business = models.ForeignKey(Business)
@@ -774,6 +775,9 @@ class ReferFriendsManage(models.Model):
 
     class Meta:
         order_with_respect_to = 'refer'
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.refer, self.number)
 
 
 class ImagenEditor(models.Model):
