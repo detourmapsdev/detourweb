@@ -149,6 +149,18 @@ class ImageCommunity(Image):
     community = models.ForeignKey(Community)
 
 
+class CommunitySnapshot(models.Model):
+    rich_text = EditorField()
+    community = models.ForeignKey(Community)
+
+    def __unicode__(self):
+        return 'Ssnaphot for: %s' % self.community.name
+
+    class Meta:
+        verbose_name = 'Community Snapshot'
+        verbose_name_plural = 'Communities Snapshot'
+
+
 class NewDiscover(Image):
     caption = models.TextField(blank=True, null=True)
     img = models.ImageField(upload_to='community')
@@ -428,7 +440,7 @@ class LandingSocialPartner(models.Model):
 class LandingTextPartner(models.Model):
     image = models.ImageField(upload_to='ImageLanding')
     title = models.CharField(max_length=45)
-    text = models.TextField()
+    text = EditorField()
     landing_page = models.ForeignKey(LandingPartner, blank=True)
 
     def __unicode__(self):
@@ -580,8 +592,14 @@ class CuponBusiness(Image):
 
 
 class TenVisitsBusiness(models.Model):
+    name = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='ten_visits')
     business = models.ForeignKey(Business)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Ten Visits'
+        verbose_name_plural = 'Ten Visits'
 
 
 class ImageBusiness(Image):
@@ -789,3 +807,4 @@ class ImagenEditor(models.Model):
     class Meta:
         verbose_name = 'Menu Image'
         verbose_name_plural = u'Menu Images'
+

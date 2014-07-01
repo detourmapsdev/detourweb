@@ -54,6 +54,11 @@
                 $("div#load-videos").show();
                 initVideo();
             });
+            $("a#show-video-qr").click(function(e){
+                e.preventDefault();
+                $("div#load-videos-qr").show();
+                initVideoQr();
+            });
         })
     </script>
     <style>
@@ -61,7 +66,7 @@
             position: relative !important;
             top: 0 !important;
         }
-        div#load-videos{
+        div#load-videos, div#load-videos-qr{
             position: absolute;
             top: 0;
             left: 0;
@@ -85,11 +90,19 @@
                 </p>
                 <form id="form-search">
                     <ul>
-                        <li><input type="text" name="fakeQ" id="fakeQ" ng-model="search" ng-change="matchsearch(search)"></li>
+                        <li><input type="text" name="fakeQ" id="fakeQ" ng-model="search" ng-change="matchsearch(search)" placeholder="Search pizza, hair salons "></li>
                         <li><button id="search-btn" style="background: #ED5A24;display: block;border-top-right-radius: 3px;border-bottom-right-radius: 3px;cursor: pointer;width: 100% !important;margin-top: 0 !important;border: none;padding: 7px 5px;"><img src="{{ STATIC_URL }}community/evolution/icos-search.png"/></button></li>
                     </ul>
                 </form>
-                <h3>we are local <span>evolution</span><div><a href="" id="show-video"><img src="{{ STATIC_URL }}community/evolution/icon-watch.png"/> watch</a></div></h3>
+                <h3>watch videos</h3>
+                <ul>
+                    <li>
+                        <a href="" id="show-video"><div>we are local </div><span>evolution</span><img src="{{ STATIC_URL }}community/evolution/icon-watch.png"/></a>
+                    </li>
+                    <li>
+                        <a href="" id="show-video-qr"><div>connect with </div><span>QR codes</span><img src="{{ STATIC_URL }}community/evolution/icon-watch.png"/></a>
+                    </li>
+                </ul>
             </section>
         </section>
     </section>
@@ -240,6 +253,38 @@
             function onPlayerStateChange(event) {
                 if(event.data === 0) {
                     $("div#load-videos").hide();
+                }
+            }
+
+        </script>
+    </div>
+    <div id="load-videos-qr">
+        <div id="playerqr"></div>
+        <script>
+            // create youtube player
+            var player;
+            var initVideoQr = function onYouTubePlayerAPIReady() {
+                player = new YT.Player('playerqr', {
+                  height: $(window).height(),
+                  width: '100%',
+                  videoId: '875tsO9Krcc',
+                  playerVars: {'controls': 0,'autohide':1,'color': 'white', 'theme': 'light', 'showinfo': 0, 'rel': 0},
+                  events: {
+                    'onReady': onPlayerReadyQr,
+                    'onStateChange': onPlayerStateChangeQr
+                  }
+                });
+            }
+
+            // autoplay video
+            function onPlayerReadyQr(event) {
+                event.target.playVideo();
+            }
+
+            // when video ends
+            function onPlayerStateChangeQr(event) {
+                if(event.data === 0) {
+                    $("div#load-videos-qr").hide();
                 }
             }
 

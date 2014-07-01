@@ -127,21 +127,16 @@
         </div>
         <nav>
             <ul>
-                <li><a href="{% url 'render' "deals" %}">Deals</a></li>
+                <li><a href="{% url 'render' "deals" %}" class="orange">Orange Deals</a></li>
                 <li><a href="{% url 'events' %}">Events</a></li>
                 <li><a href="http://blog.detourmaps.com" target="_blank">Blog</a></li>
-                <li><a href="{% url 'render' "about-us" %}">About Detour Maps</a></li>
+                <li><a href="{% url 'render' "about-us" %}">About</a></li>
+                <li class="itworks"><a href="">How it works</a></li>
             </ul>
         </nav>
 
         <div class="user-set" name="perfiles">
                 <ul>
-                    <li>
-                        <a class="plus-orange"><img src="{{ STATIC_URL }}community/evolution/icon-orange.png"/> <div>Orange Deals</div><i>+</i></a>
-                    </li>
-                    <li>
-                        <input type="email" placeholder="Enter email and suscribe" class="suscribe-field"/>
-                    </li>
                     {% if request.session.user %}
                         <li>
                             <a href="" class="overLogin" name="perfiles"><span
@@ -153,10 +148,10 @@
                         </li>
                     {% else %}
                         <li>
-                            <a href="{% url 'loginUser' %}" class="account">Log in</a>
+                            <label><input type="email" placeholder="Enter email address" class="suscribe-field"/><button id="btnsignup">Sign Up</button></label>
                         </li>
                         <li>
-                            <a href="{% url 'registerUser' %}" class="account">Sign Up</a>
+                            <a href="{% url 'loginUser' %}" class="account">Log in</a>
                         </li>
                     {% endif %}
                 </ul>

@@ -3,24 +3,23 @@
 <html>
 <head>
     <title>DetourMaps - {{ business.name }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords"
           content="shop local, maps, map, explore your community, neighborhood, select your community, Berwyn, Cicero, archer heights, west lawn"/>
     <meta name="description="
           content="DetourMaps brings you closer to your neighborhood with the latest business promotions, events, and savings. Support your community while staying connected">
-    <link href='http://fonts.googleapis.com/css?family=Rambla|Text+Me+One|Roboto|Julius+Sans+One|Open+Sans|Open+Sans+Condensed:300'
+    <link href='http://fonts.googleapis.com/css?family=Rambla|Text+Me+One|Roboto|Julius+Sans+One|Open+Sans|Open+Sans+Condensed:300|Source+Sans+Pro'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ STATIC_URL }}community/css/styles-mobile.css">
-    <link rel="stylesheet" href="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.css"/>
-    <link rel="stylesheet" href="{{ STATIC_URL }}web-icon/css/font-awesome.min.css">
-    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/demos/js/jquery.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}foundation/css/foundation.css"/>
+    <link rel="stylesheet" href="{{ STATIC_URL }}foundation/css/foundation-icons.css"/>
     <link rel="stylesheet" href="{{ STATIC_URL }}messi/messi.min.css"/>
-    <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
-    <script src="{{ STATIC_URL }}jquery.mobile-1.2.1/jquery.mobile-1.2.1.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script src="{{ STATIC_URL }}messi/messi.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}community/js/jquery.validate.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}community/js/css3-mediaqueries.js"></script>
+    <script src="{{ STATIC_URL }}foundation/js/vendor/modernizr.js"></script>
     <script type="text/javascript">
         var initialLocation;
         var siberia = new google.maps.LatLng(60, 105);
@@ -29,6 +28,7 @@
         var browserSupportFlag = new Boolean();
         var map;
         var directionsDisplay;
+        var session_user = "{{ user }}";
         function initialize() {
             var myOptions = {
                 zoom: 14,
@@ -121,15 +121,71 @@
                 }
             });
         }
-        $(document).on("pageinit", function () {
+        $(document).ready(function () {
             initialize();
+            var scrollflag;
+            $("button#request-deal").click(function(e){
+                e.preventDefault();
+                if(session_user != "False"){
+
+                }else{
+                    $("section#panel-sign").css("transform","translateX(0%)");
+                    scrollflag = document.documentElement.scrollTop || document.body.scrollTop;
+                    $("html, body").animate(
+                            {
+                                "scrollTop": 0
+                            }
+                    );
+                }
+            });
+            $("button#request-loyalty").click(function(e){
+                e.preventDefault();
+                if(session_user != "False"){
+
+                }else{
+                    $("section#panel-sign").css("transform","translateX(0%)");
+                    scrollflag = document.documentElement.scrollTop || document.body.scrollTop;
+                    $("html, body").animate(
+                            {
+                                "scrollTop": 0
+                            }
+                    );
+                }
+            });
+            $("button#request-friends").click(function(e){
+                e.preventDefault();
+                if(session_user != "False"){
+
+                }else{
+                    $("section#panel-sign").css("transform","translateX(0%)");
+                    scrollflag = document.documentElement.scrollTop || document.body.scrollTop;
+                    $("html, body").animate(
+                            {
+                                "scrollTop": 0
+                            }
+                    );
+                }
+            });
+            $("a.close-sign").click(function(e){
+                e.preventDefault();
+                $("section#panel-sign").css("transform","translateX(-100%)");
+                $("html, body").animate(
+                        {
+                            "scrollTop": scrollflag
+                        }
+                );
+                scrollflag = 0;
+            });
             $("a.actPanel").click(function (e) {
+                e.preventDefault();
                 var id = $(this).attr("href");
+                var name = $(this).attr("idname");
                 $("#pre-options").hide();
                 $("#options").hide();
                 $(".hidePanel").hide();
                 $(".hideOptions").hide();
-                $(id + "-title").show();
+                //$(id + "-title").show();
+                $("h2.h2pre").html('<a href="" class="back"><i class="fi-arrow-left size-16"></i></a> ' + name);
                 $(id).show();
                 if ($(this).hasClass('dir')) {
                     initialize();
@@ -151,16 +207,14 @@
                     });
                 }
                 //google.maps.event.trigger(map, "resize");
-                e.returnValue = false;
-                return false;
             });
-            $("a.back").click(function (e) {
+            $(document).on("click", "a.back", function (e) {
+                e.preventDefault();
                 $(".hidePanel").hide();
-                $("#pre-options").show();
                 $(".hideOptions").hide();
+                $("section.hide-deal").hide();
                 $("#options").show();
-                e.returnValue = false;
-                return false;
+                $("h2.h2pre").html("All Access");
             });
             $("a.back-more").click(function (e) {
                 $(".hidePanel").hide();
@@ -191,10 +245,35 @@
                         '_blank'
                 );
             });
+            $("section.dealer").click(function(){
+                var imgdeal = $("section.dealer").find("img");
+                for(var x=0; x<imgdeal.length; x++){
+                    $(imgdeal[x]).attr("src", $(imgdeal[x]).attr("idinactive"));
+                }
+                $(this).find("img").attr("src", $(this).find("img").attr("idactive"));
+            });
+            $("a#show-menu").click(function(e){
+                e.preventDefault();
+                $("section#panel-menu").css("transform","translateX(0)");
+            });
+            $("a#close-menu").click(function(e){
+                e.preventDefault();
+                $("section#panel-menu").css("transform","translateX(-100%)");
+            });
+            $("section.dealer").click(function(){
+                var id = $(this).attr("idb");
+                var name = $(this).attr("idname");
+                $("#pre-options").hide();
+                $("#options").hide();
+                $(".hidePanel").hide();
+                //$(id + "-title").show();
+                $("h2.h2pre").html('<a href="" class="back"><i class="fi-arrow-left size-16"></i></a> ' + name);
+                $("section.hide-deal").hide();
+                $("#"+id).show();
+            });
         });
     </script>
 </head>
-<body>
 <div id="fb-root"></div>
 <script>(function (d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -205,51 +284,66 @@
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 <body>
-<section data-role="page" data-fullscreen="true">
-<section data-role="header" id="header">
-    <section id="logo">
-        <h1 id="titleM"><img src="{{ STATIC_URL }}community/elementos/new-logo-mobile.png"/></h1>
-        <!--<input id="busqueda" type="search" value="" placeholder="e.g. famous dave's bbq" data-theme="d"/>-->
+<section id="header" class="row">
+    <section id="logo" class="small-6 large-6 columns">
+        <a style="float: left;padding: 0.5em;">
+            <img src="{{ STATIC_URL }}community/mobile-deals/logo.png"/>
+        </a>
     </section>
-    <!--<section id="searchBar">
-        <input type="text" placeholder="e.g. famous dave's bbq" id="searcher"/>
-    </section>-->
+    <section id="menu" class="small-6 large-6 columns">
+        <a style="float: right;padding: 1.2em 0.5em;" id="show-menu">
+            <img src="{{ STATIC_URL }}community/mobile-deals/icon-menu.png"/>
+        </a>
+    </section>
 </section>
-<section id="body">
-    <section id="info-qr-biz">
-        <figure>
-            <img src="{{ MEDIA_URL }}{{ business.imagebusiness_set.all.0.img }}"/>
+<section class="row">
+    {% if business.logo %}
+        <figure class="small-12 column logoheader">
+            <img src="{{ MEDIA_URL }}{{ business.imagebusiness_set.all.0.img }}" class="backimg"/>
+            <img src="{{ MEDIA_URL }}{{ business.logo }}" class="logoimg"/>
         </figure>
-        <section>
-            <article>
-                <h2>{{ business.name }}</h2>
-                <p>{{ business.description|safe }}</p>
-            </article>
-        </section>
+    {% else %}
+        <figure class="small-12 column imgheader">
+            <img src="{{ MEDIA_URL }}{{ business.imagebusiness_set.all.0.img }}" class="backimg"/>
+        </figure>
+    {% endif %}
+
+</section>
+<section class="row">
+    <section class="small-5 columns border">
+        <h2 class="h2">{{ business.name }}</h2>
+        <h3 class="h3">
+            Address:<br>
+            {{ business.address }}
+        </h3>
+    </section>
+    <section class="small-7 columns">
+        <p class="pdesc">{{ business.description|safe }}</p>
     </section>
 </section>
-<section id="pre-options" class="headPanel">
-    <section>
-        <h2><img src="{{ STATIC_URL }}community/elementos/qrcode.png"/> Select an option:</h2>
+<section class="row pre">
+    <section class="small-12 column">
+        <h2 class="h2pre">All Access</h2>
+        <div class="liner"></div>
     </section>
 </section>
 <section id="options" class="options">
     <ul id="first-options">
-        <li><a href="#call" class="actPanel"><img src="{{ STATIC_URL }}community/qr/call.png"/>Call</a></li>
-        <li><a href="#share" class="actPanel"><img src="{{ STATIC_URL }}community/qr/share.png"/>Share</a></li>
-        <li><a href="#email" class="actPanel"><img src="{{ STATIC_URL }}community/qr/email.png"/>Email</a></li>
-        <li><a href="#coupons" class="actPanel"><img src="{{ STATIC_URL }}community/qr/website.png"/>Website</a>
+        <li><a href="#call" idname="Call" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-call.png"/>Call</a></li>
+        <li><a href="#deals" idname="Orange Deals" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-deals.png"/>Deals</a></li>
+        <li><a href="#email" idname="Email" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-email.png"/>Email</a></li>
+        <li><a href="#website" idname="Website" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-web.png"/>Website</a>
         </li>
     </ul>
     <div class="split"></div>
     <ul id="second-options">
-        <li><a href="#directions" class="actPanel dir"><img src="{{ STATIC_URL }}community/qr/direction.png"/>Visit Me</a>
+        <li><a href="#directions" idname="Visit Me" class="actPanel dir"><img src="{{ STATIC_URL }}community/mobile-deals/icon-location.png"/>Visit Me</a>
         </li>
-        <li><a href="#social" class="actPanel"><img src="{{ STATIC_URL }}community/qr/social-media.png"/>Social Media</a>
+        <li><a href="#social" idname="Follow Us" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-follow.png"/>Follow Us</a>
         </li>
-        <li><a href="#video" class="actPanel"><img src="{{ STATIC_URL }}community/qr/video.png"/>Video</a>
+        <li><a href="#video" idname="Video" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-video.png"/>Video</a>
         </li>
-        <li><a href="#more" class="actPanel"><img src="{{ STATIC_URL }}community/qr/download.png"/>Download</a></li>
+        <li><a href="#more" idname="Share" class="actPanel"><img src="{{ STATIC_URL }}community/mobile-deals/icon-share.png"/>Share</a></li>
     </ul>
 </section>
 <section id="call-title" class="headPanel hidePanel">
@@ -261,6 +355,293 @@
                 src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
     </ul>
 </section>
+<section id="deals-title" class="headPanel hidePanel">
+    <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Call</a></h2>
+</section>
+<section id="deals" class="content-qr hideOptions">
+    <section class="row deals">
+        <section class="small-3 columns dealer" idb="savings-card" idname="Savings Card">
+            <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png" idactive="{{ STATIC_URL }}community/mobile-deals/icon-ten-off-active.png" idinactive="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png"/>
+            <label>Savings Card</label>
+        </section>
+        <section class="small-3 columns dealer" idb="smart-buys" idname="Smart Buys">
+            <img src="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png" idactive="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys-active.png" idinactive="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png"/>
+            <label>Smart Buys</label>
+        </section>
+        <section class="small-3 columns dealer" idb="loyalty-rewards" idname="Loyalty Rewards">
+            <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png" idactive="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits-active.png" idinactive="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png"/>
+            <label>Loyalty Rewards</label>
+        </section>
+        <section class="small-3 columns dealer" idb="refer-friends" idname="Refer Friends">
+            <img src="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png" idactive="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends-active.png" idinactive="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png"/>
+            <label>Refer Friends</label>
+        </section>
+    </section>
+</section>
+<!-- smart buys panel -->
+<section>
+    <section class="row hide-deal" id="savings-card">
+        <section class="small-12 columns panel-deal">
+            {% if business.local_deals %}
+                <h1>10 Of Savings Cards</h1>
+                <figure>
+                    <img src="{{ STATIC_URL }}community/mobile-deals/saving-card.png"/>
+                </figure>
+                <h2>Want to Save $10 at {{ business.name }}?</h2>
+                <p>
+                    Use our free savings card to save $10 on your
+                    next visit, saving locally made easy.
+                </p>
+                <a href="" class="learn-more">
+                    Learn more
+                </a>
+                <button id="request-deal" class="button-mobile">
+                    Request Card
+                </button>
+            {% else %}
+                <h1>10 Of Savings Cards</h1>
+                <section class="row">
+                    <a href="" class="feedback-deal">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-feedback.png"/>
+                        <div>
+                             <b>$10 {{ business.name }} SAVINGS IS CARD NOT ACCEPTING</b>
+                             AT THIS TIME
+                        </div>
+                    </a>
+                </section>
+                <h2>Good News</h2>
+                <h3>There’s Orange Deals available for {{ business.name }}</h3>
+                <p>
+                    Select from the following Orange Deals you would like this
+                    business to accept, the more requests each Orange Deal
+                    receives the sooner they will become available.
+                </p>
+                <ul class="row list-input">
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                </ul>
+                <button class="button-mobile" id="request-orange">
+                    Request Orange Deals
+                </button>
+            {% endif %}
+        </section>
+    </section>
+</section>
+<!-- smart buys panel -->
+<section>
+    <section class="row hide-deal" id="smart-buys">
+        <section class="small-12 columns panel-deal">
+            {% if business.cuponbusiness_set.all %}
+                <h1>Smart Buys</h1>
+                <figure>
+                    <img src="{{ STATIC_URL }}community/mobile-deals/smart-buys.png"/>
+                </figure>
+                <h2>Not your ordinary coupons</h2>
+                <p>
+                    Smart Buys are exclusive offers, created by
+                    local businesses to offer you the best deals
+                    and discounts
+                </p>
+                <a href="" class="learn-more">
+                    Learn more
+                </a>
+            {% else %}
+                <h1>Smart Buys</h1>
+                <section class="row">
+                    <a href="" class="feedback-deal">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-feedback.png"/>
+                        <div>
+                             <b>{{ business.name }} IS NOT ACCEPTING</b>
+                             THIS DEAL AT THIS TIME
+                        </div>
+                    </a>
+                </section>
+                <h2>Good News</h2>
+                <h3>There’s Orange Deals available for {{ business.name }}</h3>
+                <p>
+                    Select from the following Orange Deals you would like this
+                    business to accept, the more requests each Orange Deal
+                    receives the sooner they will become available.
+                </p>
+                <ul class="row list-input">
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                </ul>
+                <button class="button-mobile" id="request-orange">
+                    Request Orange Deals
+                </button>
+            {% endif %}
+        </section>
+    </section>
+</section>
+<!-- Loyalty Reward -->
+<section>
+    <section class="row hide-deal" id="loyalty-rewards">
+        <section class="small-12 columns panel-deal">
+            {% if business.ten_visits %}
+                <h1>Loyalty Rewards</h1>
+                <h2>Are you a local customer?</h2>
+                <p>
+                    Get rewarded for supporting your favorites.
+                </p>
+                <figure>
+                    <img src="/media/{{ ten_visits.image }}"/>
+                </figure>
+                <h2>
+                    Earn a {{ ten_visits.name }}
+                    After your 10th Visit!
+                </h2>
+                <p>
+                    Start earning visits now by entering
+                    your latest purchase
+                </p>
+                <a href="" class="learn-more">
+                    Learn more
+                </a>
+                <button id="request-loyalty" class="button-mobile" idvisits="{{ ten_visits.pk }}">
+                    Enter Purchase
+                </button>
+            {% else %}
+                <h1>Loyalty Rewards</h1>
+                <section class="row">
+                    <a href="" class="feedback-deal">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-feedback.png"/>
+                        <div>
+                             <b>{{ business.name }} IS NOT ACCEPTING</b>
+                             THIS DEAL AT THIS TIME
+                        </div>
+                    </a>
+                </section>
+                <h2>Good News</h2>
+                <h3>There’s Orange Deals available for {{ business.name }}</h3>
+                <p>
+                    Select from the following Orange Deals you would like this
+                    business to accept, the more requests each Orange Deal
+                    receives the sooner they will become available.
+                </p>
+                <ul class="row list-input">
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                </ul>
+                <button class="button-mobile" id="request-orange">
+                    Request Orange Deals
+                </button>
+            {% endif %}
+        </section>
+    </section>
+</section>
+
+<!-- REFER FRIENDS -->
+<section>
+    <section class="row hide-deal" id="refer-friends">
+        <section class="small-12 columns panel-deal">
+            {% if business.ten_visits %}
+                <h1>Refer Friends</h1>
+                <h2>
+                    Earn a $25 Gift Certificate when you refer
+                    five friends
+                </h2>
+                <figure>
+                    <img src="{{ STATIC_URL }}community/mobile-deals/refer-friends.png"/>
+                </figure>
+                <hr>
+                <p>
+                    If they buy a product or service from that business you are
+                    that much closer to getting $25. Enter your friends info and
+                    we will send them an email with a code and your name.
+                </p>
+                <a href="" class="learn-more">
+                    Learn more
+                </a>
+                <button id="request-friends" class="button-mobile">
+                    Enter Purchase
+                </button>
+            {% else %}
+                <h1>Refer Friends</h1>
+                <section class="row">
+                    <a href="" class="feedback-deal">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-feedback.png"/>
+                        <div>
+                             <b>{{ business.name }} IS NOT ACCEPTING</b>
+                             THIS DEAL AT THIS TIME
+                        </div>
+                    </a>
+                </section>
+                <h2>Good News</h2>
+                <h3>There’s Orange Deals available for {{ business.name }}</h3>
+                <p>
+                    Select from the following Orange Deals you would like this
+                    business to accept, the more requests each Orange Deal
+                    receives the sooner they will become available.
+                </p>
+                <ul class="row list-input">
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-off.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-smart-buys.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-ten-visits.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                    <li class="small-3 columns">
+                        <img src="{{ STATIC_URL }}community/mobile-deals/icon-refer-friends.png"/>
+                        <input type="checkbox" name="deal" value="1">
+                    </li>
+                </ul>
+                <button class="button-mobile" id="request-orange">
+                    Request Orange Deals
+                </button>
+            {% endif %}
+        </section>
+    </section>
+</section>
+
 <section id="directions-title" class="headPanel hidePanel">
     <h2><a href="" class="back"><img src="{{ STATIC_URL }}community/elementos/left-call.png"/> Directions</a></h2>
 </section>
@@ -373,8 +754,7 @@
 <section id="services" class="content-qr hideOptions">
     <ul>
         {% for serv in business.tag_service.all %}
-            <li><a style="background: url('
-                    {{ MEDIA_URL }}{{ serv.icon }}') no-repeat; height: 14px; padding-left: 30px; padding-top: 14px;">{{ serv.name }}
+            <li><a style="background: url('{{ MEDIA_URL }}{{ serv.icon }}') no-repeat; height: 14px; padding-left: 30px; padding-top: 14px;">{{ serv.name }}
                 <img src="{{ STATIC_URL }}community/elementos/call-right.png"/></a></li>
         {% endfor %}
     </ul>
@@ -654,13 +1034,127 @@
         {% endfor %}
     </ul>
 </section>
-<section data-theme="c" id="footer">
+<section class="row more">
     <ul>
-        <li><a href="">Terms</a></li>
-        <li><a href="">Contact</a></li>
-        <li><a href="">Receive Promotions</a></li>
+        <li class="small-12 column"><a href="">What’s Popular</a></li>
+        <li class="small-12 column"><a href="">Services / Menu</a></li>
+        <li class="small-12 column"><a href="">Gallery</a></li>
+        <li class="small-12 column"><a href="">Events</a></li>
+        <li class="small-12 column"><a href="">Rank</a></li>
     </ul>
-    <p>&copy; 2013 powered by Entire Marketing LLC, all rights reserved</p>
 </section>
+<section class="row" id="footer">
+    <ul>
+        <li class="small-4 columns"><a href="">Terms</a></li>
+        <li class="small-4 columns"><a href="">Contact</a></li>
+        <li class="small-4 columns"><a href="">Promotions</a></li>
+    </ul>
+</section>
+<section class="row">
+    <p class="small-12 column pcopy">&copy; 2013 powered by Entire Marketing LLC, all rights reserved</p>
+</section>
+
+<!-- panel sign -->
+<section id="panel-sign">
+    <section id="signin" class="row">
+        <h1 class="small-12 column">
+            Create your account to start
+            saving with Orange Deals
+        </h1>
+        <section class="small-12 columns groupsign">
+            <a href="" class="facebook-sign">
+                <img src="{{ STATIC_URL }}community/mobile-evolution/icon-sign-facebook.png"/>
+                <div>
+                    Sign in with Facebook
+                </div>
+            </a>
+            <a href="" class="google-sign">
+                <img src="{{ STATIC_URL }}community/mobile-evolution/icon-sign-google.png"/>
+                <div>
+                    Sign in with Google+
+                </div>
+            </a>
+        </section>
+        <section class="small-12 columns">
+            <section class="cline">
+                <div class="line"></div>
+                <div class="or">or</div>
+            </section>
+        </section>
+        <section class="small-12 columns">
+            <section class="formsign">
+                <form>
+                    <input type="text" name="emailuser" placeholder="Email"/>
+                    <input type="password" name="passuser" placeholder="Password"/>
+                    <button class="btnsign">
+                        Sign In
+                    </button>
+                </form>
+                <a href="" class="forgot">
+                    Forgot Password?
+                </a>
+                <h3>
+                    Don't have an account? <a href="" class="linksign">Sign Up!</a> or <a href="" class="close-sign">Close</a>
+                </h3>
+            </section>
+        </section>
+    </section>
+    <section id="signup" class="row">
+
+    </section>
+</section>
+<!-- menu panel -->
+<section id="panel-menu">
+    <nav class="row">
+        <ul id="panel-list-menu">
+            <li>
+                <a href="" class="small-12 columns">
+                    Neighborhoods
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns">
+                    Orange Deals
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns">
+                    Sign In
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns">
+                    Events
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns">
+                    About
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns">
+                    Emergency Numbers
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-list-menu.png"/></i>
+                </a>
+            </li>
+            <li>
+                <a href="" class="small-12 columns" id="close-menu">
+                    Close
+                    <i><img src="{{ STATIC_URL }}community/mobile-deals/icon-close-menu.png"/></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</section>
+  <script src="{{ STATIC_URL }}foundation/js/foundation.min.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
 </body>
 </html>

@@ -3,7 +3,6 @@
 {% load queryset %}
 {% block title %} {{ community.name|capfirst }} | Discover{% endblock %}
 {% block head %}
-    <!--Dinamicos-->
     <meta name="Description" content="{{ community.description }}">
     <meta name="Keywords" content="{{ community.keywords }}">
     <meta name="robots" content="index, follow">
@@ -81,6 +80,9 @@
             var srcPath = "&path=color:0xf48031ff|fillcolor:0xFFFFCC|weight:2|enc:" + path;
             var src = "http://maps.googleapis.com/maps/api/staticmap?zoom=12&size=1024x200&maptype=roadmap&sensor=false&scale=2" + srcPath;
             $("img.onlyMap").attr("src", src);
+            var title = $("li.firstcat a").text();
+            var h2 = "<h2>" + title + "</h2>";
+            $(h2).insertBefore(".bshow:first-child");
         });
     </script>
 {% endblock %}
@@ -220,9 +222,80 @@
                     <img src="" class="onlyMap"/>
                 </figure>
             </section>
-            <section class="pure-u-1-1 getting-around"></section>
-            <section class="pure-u-1-1" id="snapshot"></section>
-            <section class="pure-u-1-1" id="best-in-town"></section>
+            <section class="pure-u-1-1 getting-around">
+                <section class="content-around">
+                    <h2>Getting Around</h2>
+                    <figure>
+                        <img src="{{ STATIC_URL }}community/evolution/figure-around.png" alt="Getting Around"/>
+                    </figure>
+                    <p class="paround">
+                        For the quickest way to travel around Chicago, the CTA Orange Line
+                        Trains provide commuter trains from Midway Airport to the downtown
+                        Loop and connects to all other CTA Train Routes.
+                    </p>
+                </section>
+            </section>
+            <section class="pure-u-1-1" id="snapshot">
+                <section class="snap-container">
+                    <img src="{{ STATIC_URL }}community/evolution/discover/snapshot-page.png"/>
+                    <h2>Community Snapshot</h2>
+                    {{ community.communitysnapshot_set.all.0.rich_text|safe }}
+                </section>
+            </section>
+            <section class="pure-u-1-1" id="best-in-town">
+                <section class="best-container">
+                    <img src="{{ STATIC_URL }}community/evolution/discover/bets-town-page.png"/>
+                    <h2>Best of {{ community.name }}</h2>
+                    <p>Here are just a few of the best things to do, eat, drink, and buy in West Lawn.
+The Best of West Lawn is decided by local residents and you!</p>
+                    <section>
+                        <section class="pure-u-1-4">
+                            <nav>
+                                <ul>
+                                    {% for cat in categories %}
+                                        {% if forloop.first %}
+                                            <li class="firstcat cats">
+                                                <a href="" id="{{ cat.id }}">{{ cat.name|upper }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="cats">
+                                                <a href="" id="{{ cat.id }}">{{ cat.name|upper }}</a>
+                                            </li>
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </ul>
+                            </nav>
+                        </section>
+                        <section class="pure-u-2-3 listbiz">
+                            {% for biz in businesses %}
+                                {% if forloop.counter < 6 %}
+                                    <section idb="{{ biz.category.id }}" class="bshow">
+                                        <section class="bleft">
+                                            <b>{{ forloop.counter }}. {{ biz.name }}</b><br>
+                                            <span>{{ biz.address }}</span>
+                                        </section>
+                                        <section class="bright">
+                                            <a href="{{ biz.get_absolute_url }}" class="btnview">view</a>
+                                        </section>
+                                    </section>
+                                {% else %}
+                                    <section idb="{{ biz.category.id }}" class="bhide">
+                                        <section class="bleft">
+                                            <b>{{ forloop.counter }}. {{ biz.name }}</b><br>
+                                            <span>{{ biz.address }}</span>
+                                        </section>
+                                        <section class="bright">
+                                            <a href="{{ biz.get_absolute_url }}" class="btnview">view</a>
+                                        </section>
+                                    </section>
+                                {% endif %}
+                            {% endfor %}
+                            <a href="" id="moreresults">More</a>
+                        </section>
+                    </section>
+                </section>
+            </section>
             <section class="pure-u-1-1" id="who-help-us">
                 <section class="content-discover">
                     <img src="{{ STATIC_URL }}community/evolution/discover/partners-page.png"/>

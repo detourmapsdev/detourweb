@@ -110,7 +110,6 @@ section#center-search h3{
     text-align: center;
     font-weight: lighter;
     font-size: 1.45em;
-    margin-top: 4em;
 }
 section#center-search h3 span{
     color: #F29231;
@@ -394,16 +393,32 @@ a.plus-orange i{
     padding: 0 0.25em;
     border-left: 2px solid #414042;
 }
+
+.user-set label {
+    border: 1px solid #f3f3f3;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+}
 input.suscribe-field{
-    outline: none;
-    border: 1px solid #ffffff;
+    background: none repeat scroll 0 0 #414042;
+    border: medium none;
     color: #cacaca;
-    background: #414042;
+    display: inline-block;
+    font-family: 'Source Sans Pro',sans-serif;
+    font-weight: lighter;
+    outline: medium none;
     padding: 0.1em 0.75em;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 400;
-    min-width: 145px;
-    margin-left: 0.75em;
+    vertical-align: middle
+}
+button#btnsignup{
+    border: medium none;
+    display: inline-block;
+    font-size: 0.85em;
+    padding: 0.4em 0.1em;
+    vertical-align: middle;
 }
 section.biz-star figure img{
     max-height: 180px;
@@ -1137,7 +1152,25 @@ img {
     border: 7px transparent solid;
     border-top-color: #ffffff;
 }
-
+li.itworks:after{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #ffffff transparent transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 7px;
+    content: "";
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 28px;
+    width: 0;
+}
+a.orange{
+    color: #f29231 !important;
+}
 .perfiles {
     display: none;
     position: absolute;
@@ -1393,6 +1426,40 @@ div#request_deal button{
 }
 section.nodeal{
     display: none;
+}
+#center-search > ul {
+    list-style: none outside none;
+    text-align: center;
+}
+
+#center-search li {
+    display: inline-block;
+    list-style: none outside none;
+    vertical-align: middle;
+}
+
+#center-search a {
+    color: #fff;
+    padding: 0 1em;
+    vertical-align: middle;
+}
+
+#center-search a > div {
+    color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#center-search a > span {
+    color: #f29231;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#center-search a > img {
+    display: inline-block;
+    margin-left: 0.25em;
+    vertical-align: middle;
 }
 a.launchdeal{
     margin: 0 !important;

@@ -11,7 +11,7 @@ from community.models import Service, Category, Subscription, Community, Busines
     HeaderPagePartner, BusinessEventPartner, ImageBusinessEventsPartner, NewDiscover, \
     PhoneNumber, CommunitySocial, CommunityText, HeaderCommunity, Video, HelpingShop, PromoPartner, \
     LandingEvent, PartnerMobile, TenVisitsBusiness, FeedbackBusiness, Bookmark, TenVisitsManage, TenVisitsRecord, \
-    ReferFriendsManage, ReferFriendsRecord
+    ReferFriendsManage, ReferFriendsRecord, CommunitySnapshot
 
 #forms
 from community.forms import FormBusiness, PartnerForm
@@ -42,6 +42,11 @@ export_as_csv.short_description = "Export to Excel Sheet"
 
 class AdminImageCommunityInline(admin.TabularInline):
     model = ImageCommunity
+    extra = 1
+
+
+class AdminSnapshot(admin.ModelAdmin):
+    model = CommunitySnapshot,
     extra = 1
 
 
@@ -125,7 +130,7 @@ class AdminCommunity(admin.OSMGeoAdmin):
         AdminSocialCommunityInline,
         AdminTextCommunityInline,
         AdminHeaderCommunityInline,
-        AdminVideoCommunityInline
+        AdminVideoCommunityInline,
     ]
     fieldsets = (
         (
@@ -363,5 +368,6 @@ admin.site.register(TenVisitsManage)
 admin.site.register(ReferFriendsRecord)
 admin.site.register(ReferFriendsManage)
 admin.site.register(PromoPartner, AdminPromo)
+admin.site.register(CommunitySnapshot, AdminSnapshot)
 #unregister sites
 #admin.site.unregister(Site)
